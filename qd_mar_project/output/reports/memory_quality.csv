@@ -1,0 +1,38 @@
+feature,exists,missing_rate,outlier_rate,expected_range
+mar_abs_score_q_staleaware_ewm_6_30m,True,0.0013083835291794214,0.0,"[0, 100]"
+mar_active_force_aligned_staleaware_ewm_6_30m,True,2.468648168263059e-05,0.0,"[-1, 1]"
+mar_active_force_price_staleaware_ewm_6_30m,True,2.468648168263059e-05,0.0,"[-1, 1]"
+mar_directional_core_freshness_30m,True,2.468648168263059e-05,0.0,"[0, 1]"
+mar_directional_core_age_hours_30m,True,0.0013083835291794214,0.0,>=0
+mar_directional_quality_ewm_6_30m,True,2.468648168263059e-05,0.0,"[0, 1]"
+mar_takeover_count_12_30m,True,2.468648168263059e-05,0.0,>=0
+mar_amplification_persistence_6_30m,True,2.468648168263059e-05,0.0,"[0, 1]"
+mar_absorption_persistence_6_30m,True,2.468648168263059e-05,0.0,"[0, 1]"
+mar_curve_label_last,True,0.0013083835291794214,,categorical
+mar_curve_label_mode_6,True,0.0013083835291794214,,categorical
+mar_neutral_active_strength_evidence_ewm_6_30m,True,2.468648168263059e-05,0.0,"[0, 100]"
+mar_neutral_context_persistence_12_30m,True,2.468648168263059e-05,0.0,"[0, 1]"
+mar_response_conflict_score,True,0.0013083835291794214,0.0,"[0, 1]"
+mar_episode_abs_score_12h,True,0.002641453540041473,0.0,"[0, 100]"
+mar_episode_abs_score_24h,True,0.0029376913202330403,0.0,"[0, 100]"
+mar_episode_abs_score_48h,True,0.0035301668806161745,0.0,"[0, 100]"
+mar_episode_pressure_rejection_score_12h,True,0.002641453540041473,0.0,"[0, 1]"
+mar_episode_pressure_rejection_score_24h,True,0.0029376913202330403,0.0,"[0, 1]"
+mar_episode_pressure_rejection_score_48h,True,0.0035301668806161745,0.0,"[0, 1]"
+mar_episode_active_force_aligned_24h,True,0.0029376913202330403,0.0,"[-1, 1]"
+mar_episode_active_force_price_24h,True,0.0029376913202330403,0.0,"[-1, 1]"
+mar_episode_active_z_24h,True,0.0029376913202330403,0.0,finite
+mar_episode_active_dominance_score_24h,True,0.0029376913202330403,0.0,"[0, 1]"
+mar_episode_active_dominance_price_score_24h,True,0.0029376913202330403,0.21566110397946084,"[0, 100]"
+mar_episode_liq_neutrality_score_24h,True,0.0,0.0,"[0, 1]"
+mar_episode_active_context_quality_24h,True,0.0029376913202330403,0.0,"[0, 1]"
+mar_episode_quality_24h,True,0.0029376913202330403,0.0,"[0, 1]"
+mar_episode_context_24h,True,0.0,,categorical
+mar_episode_label_24h,True,0.0,,categorical
+mar_episode_data_quality_24h,True,0.0,0.0,"[0, 1]"
+mar_episode_signal_clarity_24h,True,0.0029376913202330403,0.0,finite
+mar_episode_activity_level_24h,True,0.0,0.0,finite
+mar_episode_context_6h,True,0.0,,categorical
+mar_episode_label_6h,True,0.0,,categorical
+mar_episode_context_12h,True,0.0,,categorical
+mar_episode_label_12h,True,0.0,,categorical

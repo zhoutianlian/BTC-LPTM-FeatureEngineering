@@ -1,0 +1,261 @@
+dataset,check,column,severity,status,invalid_count,total_count,invalid_ratio,min_value,max_value,message
+artifacts,feature_pages_count,feature_pages/*.html,error,PASS,0,12,0.0,,,"feature pages present: 12, expected at least 12"
+artifacts,file_exists,clean_data.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/clean/clean_data.csv
+artifacts,file_exists,feature_catalog.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/report/feature_catalog.csv
+artifacts,file_exists,feature_overview.html,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/report/feature_overview.html
+artifacts,file_exists,feature_store.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/feature_store.csv
+artifacts,file_exists,features_bin_stats.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/features_bin_stats.csv
+artifacts,file_exists,features_kmeans_stats.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/features_kmeans_stats.csv
+artifacts,file_exists,features_liq_dataflow.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/features_liq_dataflow.csv
+artifacts,file_exists,features_rpn.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/features_rpn.csv
+artifacts,file_exists,features_rpn_bin.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/features_rpn_bin.csv
+artifacts,file_exists,features_rpn_bin_stage.csv,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/features_rpn_bin_stage.csv
+artifacts,file_exists,plotly.min.js,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/report/plotly.min.js
+artifacts,file_exists,rpn_dominance-latest.html,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/report/rpn_dominance-latest.html
+artifacts,file_exists,rpn_dominance-latest.png,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/report/rpn_dominance-latest.png
+artifacts,file_exists,rpn_features-latest.html,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/report/rpn_features-latest.html
+artifacts,file_exists,rpn_features-latest.png,error,PASS,0,1,0.0,,,artifact present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/report/rpn_features-latest.png
+cache_fll,cache_exists,fll_cwt.csv,error,PASS,0,1,0.0,,,cache file present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/cache/fll_cwt.csv
+cache_fll,finite,fll_normal_cwt,error,PASS,0,45509,0.0,0.0,37.9363478621212,fll_normal_cwt must not contain ±inf
+cache_fll,nonnegative,fll_normal_cwt,error,PASS,0,45509,0.0,0.0,37.9363478621212,fll_normal_cwt must be >= 0
+cache_fll,time_monotonic,time,error,PASS,0,45508,0.0,,,time is monotonic ascending
+cache_fll,time_not_null,time,error,PASS,0,45509,0.0,,,time has no NaT
+cache_fll,time_unique,time,error,PASS,0,45509,0.0,,,time is unique
+cache_fsl,cache_exists,fsl_cwt.csv,error,PASS,0,1,0.0,,,cache file present: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/cache/fsl_cwt.csv
+cache_fsl,finite,fsl_normal_cwt,error,PASS,0,45509,0.0,0.0,35.20674001204911,fsl_normal_cwt must not contain ±inf
+cache_fsl,nonnegative,fsl_normal_cwt,error,PASS,0,45509,0.0,0.0,35.20674001204911,fsl_normal_cwt must be >= 0
+cache_fsl,time_monotonic,time,error,PASS,0,45508,0.0,,,time is monotonic ascending
+cache_fsl,time_not_null,time,error,PASS,0,45509,0.0,,,time has no NaT
+cache_fsl,time_unique,time,error,PASS,0,45509,0.0,,,time is unique
+canonical,between,diff_dom_ls_cwt_kf,error,PASS,0,45509,0.0,-0.5756408916849888,0.7069338829993765,"diff_dom_ls_cwt_kf must be within [-1.0, 1.0]"
+canonical,between,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,"risk_priority_number must be within [0.0, 1.0]"
+canonical,diff_eq_fll_minus_fsl,*,error,PASS,0,45509,0.0,0.0,0.0,identity diff_eq_fll_minus_fsl must hold within tolerance 1e-09
+canonical,finite,delta_fll,error,PASS,0,45509,0.0,-0.3110666916538314,0.6930737990357398,delta_fll must not contain ±inf
+canonical,finite,delta_fsl,error,PASS,0,45509,0.0,-0.2866664464028865,2.1016331406181488,delta_fsl must not contain ±inf
+canonical,finite,diff_dom_ls_cwt_kf,error,PASS,0,45509,0.0,-0.5756408916849888,0.7069338829993765,diff_dom_ls_cwt_kf must not contain ±inf
+canonical,finite,diff_ls_cwt_kf,error,PASS,0,45509,0.0,-6.020764163177506,9.584650901865626,diff_ls_cwt_kf must not contain ±inf
+canonical,finite,diff_ls_smooth,error,PASS,0,45509,0.0,-5.402100811416624,8.606761881988463,diff_ls_smooth must not contain ±inf
+canonical,finite,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must not contain ±inf
+canonical,finite,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must not contain ±inf
+canonical,finite,liq_active_raw,error,PASS,0,45509,0.0,0.0,1.0,liq_active_raw must not contain ±inf
+canonical,finite,lld_cwt_kf_smooth,error,PASS,0,45509,0.0,0.2300619541994698,0.8428896247799591,lld_cwt_kf_smooth must not contain ±inf
+canonical,finite,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must not contain ±inf
+canonical,finite,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,risk_priority_number must not contain ±inf
+canonical,finite,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must not contain ±inf
+canonical,nonnegative,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must be >= 0
+canonical,nonnegative,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must be >= 0
+canonical,nonnegative,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must be >= 0
+canonical,positive,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must be > 0
+canonical,required_columns,"time,price,liq_active_raw,fll_cwt_kf,fsl_cwt_kf,risk_priority_number,diff_ls_cwt_kf,total_ls_cwt_kf,diff_dom_ls_cwt_kf",error,PASS,0,9,0.0,,,all required columns present
+canonical,sdom_eq_2rpn_minus_1,*,error,PASS,0,45509,0.0,2.225997164373439e-14,9.525297217649609e-13,identity sdom_eq_2rpn_minus_1 must hold within tolerance 1e-09
+canonical,time_monotonic,time,error,PASS,0,45508,0.0,,,time is monotonic ascending
+canonical,time_not_null,time,error,PASS,0,45509,0.0,,,time has no NaT
+canonical,time_unique,time,error,PASS,0,45509,0.0,,,time is unique
+canonical,total_eq_fll_plus_fsl,*,error,PASS,0,45509,0.0,0.0,0.0,identity total_eq_fll_plus_fsl must hold within tolerance 1e-09
+clean,between,diff_dom_ls_normal,error,PASS,0,46227,0.0,-0.9999999999999927,0.999999999999992,"diff_dom_ls_normal must be within [-1.0, 1.0]"
+clean,between,lld_normal,error,PASS,0,46227,0.0,0.0,0.999999999999992,"lld_normal must be within [0.0, 1.0]"
+clean,binary,liq_active_raw,error,PASS,0,46227,0.0,,,"liq_active_raw must be within [0, 1]"
+clean,diff_eq_fll_minus_fsl,*,error,PASS,0,46227,0.0,0.0,0.0,identity diff_eq_fll_minus_fsl must hold within tolerance 1e-09
+clean,finite,diff_dom_ls_normal,error,PASS,0,46227,0.0,-0.9999999999999927,0.999999999999992,diff_dom_ls_normal must not contain ±inf
+clean,finite,diff_ls_normal,error,PASS,0,46227,0.0,-292.8031262700549,342.4369615955953,diff_ls_normal must not contain ±inf
+clean,finite,fll_normal,error,PASS,0,46227,0.0,0.0,387.54945397807944,fll_normal must not contain ±inf
+clean,finite,fsl_normal,error,PASS,0,46227,0.0,0.0,340.2159736830903,fsl_normal must not contain ±inf
+clean,finite,liq_active_raw,error,PASS,0,46227,0.0,0.0,1.0,liq_active_raw must not contain ±inf
+clean,finite,lld_normal,error,PASS,0,46227,0.0,0.0,0.999999999999992,lld_normal must not contain ±inf
+clean,finite,price,error,PASS,0,46227,0.0,15611.740149166488,126064.156643407,price must not contain ±inf
+clean,finite,total_ls_normal,error,PASS,0,46227,0.0,0.0,506.55078275273024,total_ls_normal must not contain ±inf
+clean,liq_active_matches_total,*,error,PASS,0,46227,0.0,0.0,0.0,identity liq_active_matches_total must hold within tolerance 1e-09
+clean,nonnegative,fll_normal,error,PASS,0,46227,0.0,0.0,387.54945397807944,fll_normal must be >= 0
+clean,nonnegative,fsl_normal,error,PASS,0,46227,0.0,0.0,340.2159736830903,fsl_normal must be >= 0
+clean,nonnegative,total_ls_normal,error,PASS,0,46227,0.0,0.0,506.55078275273024,total_ls_normal must be >= 0
+clean,positive,price,error,PASS,0,46227,0.0,15611.740149166488,126064.156643407,price must be > 0
+clean,required_columns,"time,price,fll_normal,fsl_normal,total_ls_normal,diff_ls_normal,lld_normal,diff_dom_ls_normal,liq_active_raw",error,PASS,0,9,0.0,,,all required columns present
+clean,time_monotonic,time,error,PASS,0,46226,0.0,,,time is monotonic ascending
+clean,time_not_null,time,error,PASS,0,46227,0.0,,,time has no NaT
+clean,time_unique,time,error,PASS,0,46227,0.0,,,time is unique
+clean,total_eq_fll_plus_fsl,*,error,PASS,0,46227,0.0,0.0,0.0,identity total_eq_fll_plus_fsl must hold within tolerance 1e-09
+dominance,allowed_values,dominance,error,PASS,0,45509,0.0,,,"dominance must be within [-1, 0, 1]"
+dominance,allowed_values,dominance,error,PASS,0,45509,0.0,,,"dominance must be within [-1, 0, 1]"
+dominance,allowed_values,dominance_last,error,PASS,0,45509,0.0,,,"dominance_last must be within [-1, 0, 1]"
+dominance,allowed_values,dominance_prev,error,PASS,0,45509,0.0,,,"dominance_prev must be within [-1, 0, 1]"
+dominance,allowed_values,hit_ceiling_bottom,error,PASS,0,45509,0.0,,,"hit_ceiling_bottom must be within [-1, 0, 1]"
+dominance,allowed_values,reverse_ceiling_bottom,error,PASS,0,45509,0.0,,,"reverse_ceiling_bottom must be within [-1, 0, 1]"
+dominance,between,diff_dom_ls_cwt_kf,error,PASS,0,45509,0.0,-0.5756408916849888,0.7069338829993765,"diff_dom_ls_cwt_kf must be within [-1.0, 1.0]"
+dominance,between,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,"risk_priority_number must be within [0.0, 1.0]"
+dominance,binary,is_keep,error,PASS,0,45509,0.0,,,"is_keep must be within [0, 1]"
+dominance,binary,is_strengthen,error,PASS,0,45509,0.0,,,"is_strengthen must be within [0, 1]"
+dominance,diff_eq_fll_minus_fsl,*,error,PASS,0,45509,0.0,0.0,0.0,identity diff_eq_fll_minus_fsl must hold within tolerance 1e-09
+dominance,finite,bin_index,error,PASS,0,45509,0.0,0.0,8.0,bin_index must not contain ±inf
+dominance,finite,bin_index,error,PASS,0,45509,0.0,0.0,8.0,bin_index must not contain ±inf
+dominance,finite,delta_fll,error,PASS,0,45509,0.0,-0.3110666916538314,0.6930737990357398,delta_fll must not contain ±inf
+dominance,finite,delta_fll,error,PASS,0,45509,0.0,-0.3110666916538314,0.6930737990357398,delta_fll must not contain ±inf
+dominance,finite,delta_fsl,error,PASS,0,45509,0.0,-0.2866664464028865,2.1016331406181488,delta_fsl must not contain ±inf
+dominance,finite,delta_fsl,error,PASS,0,45509,0.0,-0.2866664464028865,2.1016331406181488,delta_fsl must not contain ±inf
+dominance,finite,diff_beta_24,error,PASS,0,45509,0.0,-0.31405828408728664,0.33045198090183847,diff_beta_24 must not contain ±inf
+dominance,finite,diff_beta_24,error,PASS,0,45509,0.0,-0.31405828408728664,0.33045198090183847,diff_beta_24 must not contain ±inf
+dominance,finite,diff_beta_8,error,PASS,0,45509,0.0,-0.6431966884899385,0.5921609126652518,diff_beta_8 must not contain ±inf
+dominance,finite,diff_beta_8,error,PASS,0,45509,0.0,-0.6431966884899385,0.5921609126652518,diff_beta_8 must not contain ±inf
+dominance,finite,diff_beta_long,error,PASS,0,45509,0.0,-0.5396725918898254,0.5451518136043193,diff_beta_long must not contain ±inf
+dominance,finite,diff_beta_long,error,PASS,0,45509,0.0,-0.5396725918898254,0.5451518136043193,diff_beta_long must not contain ±inf
+dominance,finite,diff_beta_short,error,PASS,0,45509,0.0,-1.3277686750033275,0.733228112004093,diff_beta_short must not contain ±inf
+dominance,finite,diff_beta_short,error,PASS,0,45509,0.0,-1.3277686750033275,0.733228112004093,diff_beta_short must not contain ±inf
+dominance,finite,diff_dom_ls_cwt_kf,error,PASS,0,45509,0.0,-0.5756408916849888,0.7069338829993765,diff_dom_ls_cwt_kf must not contain ±inf
+dominance,finite,diff_dom_ls_cwt_kf,error,PASS,0,45509,0.0,-0.5756408916849888,0.7069338829993765,diff_dom_ls_cwt_kf must not contain ±inf
+dominance,finite,diff_ls_cwt_kf,error,PASS,0,45509,0.0,-6.020764163177506,9.584650901865626,diff_ls_cwt_kf must not contain ±inf
+dominance,finite,diff_ls_cwt_kf,error,PASS,0,45509,0.0,-6.020764163177506,9.584650901865626,diff_ls_cwt_kf must not contain ±inf
+dominance,finite,diff_ls_smooth,error,PASS,0,45509,0.0,-5.402100811416624,8.606761881988463,diff_ls_smooth must not contain ±inf
+dominance,finite,diff_ls_smooth,error,PASS,0,45509,0.0,-5.402100811416624,8.606761881988463,diff_ls_smooth must not contain ±inf
+dominance,finite,dominance,error,PASS,0,45509,0.0,-1.0,1.0,dominance must not contain ±inf
+dominance,finite,dominance,error,PASS,0,45509,0.0,-1.0,1.0,dominance must not contain ±inf
+dominance,finite,dominance_duration,error,PASS,0,45509,0.0,1.0,722.0,dominance_duration must not contain ±inf
+dominance,finite,dominance_duration,error,PASS,0,45509,0.0,1.0,722.0,dominance_duration must not contain ±inf
+dominance,finite,dominance_duration_total,error,PASS,0,45509,0.0,0.0,265.0,dominance_duration_total must not contain ±inf
+dominance,finite,dominance_duration_total,error,PASS,0,45509,0.0,0.0,265.0,dominance_duration_total must not contain ±inf
+dominance,finite,dominance_last,error,PASS,0,45509,0.0,-1.0,1.0,dominance_last must not contain ±inf
+dominance,finite,dominance_last,error,PASS,0,45509,0.0,-1.0,1.0,dominance_last must not contain ±inf
+dominance,finite,dominance_prev,error,PASS,0,45509,0.0,-1.0,1.0,dominance_prev must not contain ±inf
+dominance,finite,dominance_prev,error,PASS,0,45509,0.0,-1.0,1.0,dominance_prev must not contain ±inf
+dominance,finite,dominance_time,error,PASS,0,45509,0.0,0.0,19.0,dominance_time must not contain ±inf
+dominance,finite,dominance_time,error,PASS,0,45509,0.0,0.0,19.0,dominance_time must not contain ±inf
+dominance,finite,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must not contain ±inf
+dominance,finite,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must not contain ±inf
+dominance,finite,fll_rolling_high,error,PASS,0,45509,0.0,5.273636321341852,18.998922247468325,fll_rolling_high must not contain ±inf
+dominance,finite,fll_rolling_high,error,PASS,0,45509,0.0,5.273636321341852,18.998922247468325,fll_rolling_high must not contain ±inf
+dominance,finite,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must not contain ±inf
+dominance,finite,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must not contain ±inf
+dominance,finite,fsl_rolling_high,error,PASS,0,45509,0.0,5.06163684700445,17.8509922510178,fsl_rolling_high must not contain ±inf
+dominance,finite,fsl_rolling_high,error,PASS,0,45509,0.0,5.06163684700445,17.8509922510178,fsl_rolling_high must not contain ±inf
+dominance,finite,hit_ceiling_bottom,error,PASS,0,45509,0.0,-1.0,1.0,hit_ceiling_bottom must not contain ±inf
+dominance,finite,hit_ceiling_bottom,error,PASS,0,45509,0.0,-1.0,1.0,hit_ceiling_bottom must not contain ±inf
+dominance,finite,is_keep,error,PASS,0,45509,0.0,0.0,1.0,is_keep must not contain ±inf
+dominance,finite,is_keep,error,PASS,0,45509,0.0,0.0,1.0,is_keep must not contain ±inf
+dominance,finite,is_rpn_extreme,error,PASS,0,45509,0.0,-1.0,1.0,is_rpn_extreme must not contain ±inf
+dominance,finite,is_rpn_extreme,error,PASS,0,45509,0.0,-1.0,1.0,is_rpn_extreme must not contain ±inf
+dominance,finite,is_strengthen,error,PASS,0,45509,0.0,0.0,1.0,is_strengthen must not contain ±inf
+dominance,finite,is_strengthen,error,PASS,0,45509,0.0,0.0,1.0,is_strengthen must not contain ±inf
+dominance,finite,liq_active_raw,error,PASS,0,45509,0.0,0.0,1.0,liq_active_raw must not contain ±inf
+dominance,finite,liq_active_raw,error,PASS,0,45509,0.0,0.0,1.0,liq_active_raw must not contain ±inf
+dominance,finite,lld_cwt_kf_smooth,error,PASS,0,45509,0.0,0.2300619541994698,0.8428896247799591,lld_cwt_kf_smooth must not contain ±inf
+dominance,finite,lld_cwt_kf_smooth,error,PASS,0,45509,0.0,0.2300619541994698,0.8428896247799591,lld_cwt_kf_smooth must not contain ±inf
+dominance,finite,max_variation_diff,error,PASS,0,45509,0.0,0.010992751675950152,1.4146463932473141,max_variation_diff must not contain ±inf
+dominance,finite,max_variation_diff,error,PASS,0,45509,0.0,0.010992751675950152,1.4146463932473141,max_variation_diff must not contain ±inf
+dominance,finite,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must not contain ±inf
+dominance,finite,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must not contain ±inf
+dominance,finite,reverse_ceiling_bottom,error,PASS,0,45509,0.0,-1.0,1.0,reverse_ceiling_bottom must not contain ±inf
+dominance,finite,reverse_ceiling_bottom,error,PASS,0,45509,0.0,-1.0,1.0,reverse_ceiling_bottom must not contain ±inf
+dominance,finite,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,risk_priority_number must not contain ±inf
+dominance,finite,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,risk_priority_number must not contain ±inf
+dominance,finite,thr_diff_neg,error,PASS,0,45509,0.0,-1.3768947460871703,0.6222691646508443,thr_diff_neg must not contain ±inf
+dominance,finite,thr_diff_neg,error,PASS,0,45509,0.0,-1.3768947460871703,0.6222691646508443,thr_diff_neg must not contain ±inf
+dominance,finite,thr_diff_neg_base,error,PASS,0,45509,0.0,-0.45065713626744996,1.4110284685911736,thr_diff_neg_base must not contain ±inf
+dominance,finite,thr_diff_neg_base,error,PASS,0,45509,0.0,-0.45065713626744996,1.4110284685911736,thr_diff_neg_base must not contain ±inf
+dominance,finite,thr_diff_pos,error,PASS,0,45509,0.0,1.3773374908979081,2.9613446243136536,thr_diff_pos must not contain ±inf
+dominance,finite,thr_diff_pos,error,PASS,0,45509,0.0,1.3773374908979081,2.9613446243136536,thr_diff_pos must not contain ±inf
+dominance,finite,thr_diff_pos_base,error,PASS,0,45509,0.0,0.5127007329297145,2.24890534736722,thr_diff_pos_base must not contain ±inf
+dominance,finite,thr_diff_pos_base,error,PASS,0,45509,0.0,0.5127007329297145,2.24890534736722,thr_diff_pos_base must not contain ±inf
+dominance,finite,thr_diff_var,error,PASS,0,45509,0.0,2.307743114017855,3.3596318471892985,thr_diff_var must not contain ±inf
+dominance,finite,thr_diff_var,error,PASS,0,45509,0.0,2.307743114017855,3.3596318471892985,thr_diff_var must not contain ±inf
+dominance,finite,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must not contain ±inf
+dominance,finite,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must not contain ±inf
+dominance,integer_range,bin_index,error,PASS,0,45509,0.0,0.0,8.0,"bin_index must be integer-like within [0, 8]"
+dominance,nonnegative,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must be >= 0
+dominance,nonnegative,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must be >= 0
+dominance,nonnegative,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must be >= 0
+dominance,positive,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must be > 0
+dominance,required_columns,"time,price,liq_active_raw,fll_cwt_kf,fsl_cwt_kf,risk_priority_number,diff_ls_cwt_kf,total_ls_cwt_kf,diff_dom_ls_cwt_kf",error,PASS,0,9,0.0,,,all required columns present
+dominance,sdom_eq_2rpn_minus_1,*,error,PASS,0,45509,0.0,2.225997164373439e-14,9.525297217649609e-13,identity sdom_eq_2rpn_minus_1 must hold within tolerance 1e-09
+dominance,ternary,is_rpn_extreme,error,PASS,0,45509,0.0,,,"is_rpn_extreme must be within [-1, 0, 1]"
+dominance,time_monotonic,time,error,PASS,0,45508,0.0,,,time is monotonic ascending
+dominance,time_not_null,time,error,PASS,0,45509,0.0,,,time has no NaT
+dominance,time_unique,time,error,PASS,0,45509,0.0,,,time is unique
+dominance,total_eq_fll_plus_fsl,*,error,PASS,0,45509,0.0,0.0,0.0,identity total_eq_fll_plus_fsl must hold within tolerance 1e-09
+feature_store,allowed_values,dominance,error,PASS,0,45509,0.0,,,"dominance must be within [-1, 0, 1]"
+feature_store,between,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,"risk_priority_number must be within [0.0, 1.0]"
+feature_store,finite,bin_index,error,PASS,0,45509,0.0,0.0,8.0,bin_index must not contain ±inf
+feature_store,finite,delta_fll,error,PASS,0,45509,0.0,-0.3110666916538314,0.6930737990357398,delta_fll must not contain ±inf
+feature_store,finite,delta_fsl,error,PASS,0,45509,0.0,-0.2866664464028865,2.1016331406181488,delta_fsl must not contain ±inf
+feature_store,finite,diff_beta_24,error,PASS,0,45509,0.0,-0.31405828408728664,0.33045198090183847,diff_beta_24 must not contain ±inf
+feature_store,finite,diff_beta_8,error,PASS,0,45509,0.0,-0.6431966884899385,0.5921609126652518,diff_beta_8 must not contain ±inf
+feature_store,finite,diff_beta_long,error,PASS,0,45509,0.0,-0.5396725918898254,0.5451518136043193,diff_beta_long must not contain ±inf
+feature_store,finite,diff_beta_short,error,PASS,0,45509,0.0,-1.3277686750033275,0.733228112004093,diff_beta_short must not contain ±inf
+feature_store,finite,diff_dom_ls_cwt_kf,error,PASS,0,45509,0.0,-0.5756408916849888,0.7069338829993765,diff_dom_ls_cwt_kf must not contain ±inf
+feature_store,finite,diff_dom_ls_normal,error,PASS,0,45509,0.0,-0.9999999999999927,0.999999999999992,diff_dom_ls_normal must not contain ±inf
+feature_store,finite,diff_ls_cwt_kf,error,PASS,0,45509,0.0,-6.020764163177506,9.584650901865626,diff_ls_cwt_kf must not contain ±inf
+feature_store,finite,diff_ls_normal,error,PASS,0,45509,0.0,-292.8031262700549,342.4369615955953,diff_ls_normal must not contain ±inf
+feature_store,finite,diff_ls_smooth,error,PASS,0,45509,0.0,-5.402100811416624,8.606761881988463,diff_ls_smooth must not contain ±inf
+feature_store,finite,dominance,error,PASS,0,45509,0.0,-1.0,1.0,dominance must not contain ±inf
+feature_store,finite,dominance_duration,error,PASS,0,45509,0.0,1.0,722.0,dominance_duration must not contain ±inf
+feature_store,finite,dominance_duration_total,error,PASS,0,45509,0.0,0.0,265.0,dominance_duration_total must not contain ±inf
+feature_store,finite,dominance_last,error,PASS,0,45509,0.0,-1.0,1.0,dominance_last must not contain ±inf
+feature_store,finite,dominance_prev,error,PASS,0,45509,0.0,-1.0,1.0,dominance_prev must not contain ±inf
+feature_store,finite,dominance_time,error,PASS,0,45509,0.0,0.0,19.0,dominance_time must not contain ±inf
+feature_store,finite,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must not contain ±inf
+feature_store,finite,fll_normal,error,PASS,0,45509,0.0,0.0,387.54945397807944,fll_normal must not contain ±inf
+feature_store,finite,fll_rolling_high,error,PASS,0,45509,0.0,5.273636321341852,18.998922247468325,fll_rolling_high must not contain ±inf
+feature_store,finite,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must not contain ±inf
+feature_store,finite,fsl_normal,error,PASS,0,45509,0.0,0.0,340.2159736830903,fsl_normal must not contain ±inf
+feature_store,finite,fsl_rolling_high,error,PASS,0,45509,0.0,5.06163684700445,17.8509922510178,fsl_rolling_high must not contain ±inf
+feature_store,finite,hit_ceiling_bottom,error,PASS,0,45509,0.0,-1.0,1.0,hit_ceiling_bottom must not contain ±inf
+feature_store,finite,is_keep,error,PASS,0,45509,0.0,0.0,1.0,is_keep must not contain ±inf
+feature_store,finite,is_rpn_extreme,error,PASS,0,45509,0.0,-1.0,1.0,is_rpn_extreme must not contain ±inf
+feature_store,finite,is_strengthen,error,PASS,0,45509,0.0,0.0,1.0,is_strengthen must not contain ±inf
+feature_store,finite,liq_active_raw,error,PASS,0,45509,0.0,0.0,1.0,liq_active_raw must not contain ±inf
+feature_store,finite,lld_cwt_kf_smooth,error,PASS,0,45509,0.0,0.2300619541994698,0.8428896247799591,lld_cwt_kf_smooth must not contain ±inf
+feature_store,finite,lld_normal,error,PASS,0,45509,0.0,0.0,0.999999999999992,lld_normal must not contain ±inf
+feature_store,finite,max_variation_diff,error,PASS,0,45509,0.0,0.010992751675950152,1.4146463932473141,max_variation_diff must not contain ±inf
+feature_store,finite,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must not contain ±inf
+feature_store,finite,reverse_ceiling_bottom,error,PASS,0,45509,0.0,-1.0,1.0,reverse_ceiling_bottom must not contain ±inf
+feature_store,finite,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,risk_priority_number must not contain ±inf
+feature_store,finite,thr_diff_neg,error,PASS,0,45509,0.0,-1.3768947460871703,0.6222691646508443,thr_diff_neg must not contain ±inf
+feature_store,finite,thr_diff_neg_base,error,PASS,0,45509,0.0,-0.45065713626744996,1.4110284685911736,thr_diff_neg_base must not contain ±inf
+feature_store,finite,thr_diff_pos,error,PASS,0,45509,0.0,1.3773374908979081,2.9613446243136536,thr_diff_pos must not contain ±inf
+feature_store,finite,thr_diff_pos_base,error,PASS,0,45509,0.0,0.5127007329297145,2.24890534736722,thr_diff_pos_base must not contain ±inf
+feature_store,finite,thr_diff_var,error,PASS,0,45509,0.0,2.307743114017855,3.3596318471892985,thr_diff_var must not contain ±inf
+feature_store,finite,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must not contain ±inf
+feature_store,finite,total_ls_normal,error,PASS,0,45509,0.0,0.0,506.55078275273024,total_ls_normal must not contain ±inf
+feature_store,finite,z_fll_cwt_kf,error,PASS,0,45509,0.0,-11.803042104634144,20.842099900853864,z_fll_cwt_kf must not contain ±inf
+feature_store,finite,z_fsl_cwt_kf,error,PASS,0,45509,0.0,-11.591367683058484,29.95783797788096,z_fsl_cwt_kf must not contain ±inf
+feature_store,finite,z_logTotalP,error,PASS,0,45509,0.0,-19.378445790229872,41.00637948836821,z_logTotalP must not contain ±inf
+feature_store,finite,z_sdom,error,PASS,0,45509,0.0,-44721017813.1179,33.11604549715615,z_sdom must not contain ±inf
+feature_store,integer_range,bin_index,error,PASS,0,45509,0.0,0.0,8.0,"bin_index must be integer-like within [0, 8]"
+feature_store,nonnegative,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must be >= 0
+feature_store,nonnegative,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must be >= 0
+feature_store,nonnegative,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must be >= 0
+feature_store,positive,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must be > 0
+feature_store,time_monotonic,time,error,PASS,0,45508,0.0,,,time is monotonic ascending
+feature_store,time_not_null,time,error,PASS,0,45509,0.0,,,time has no NaT
+feature_store,time_unique,time,error,PASS,0,45509,0.0,,,time is unique
+feature_store,total_eq_fll_plus_fsl,*,error,PASS,0,45509,0.0,0.0,0.0,identity total_eq_fll_plus_fsl must hold within tolerance 1e-09
+liq_dataflow_features,allowed_values,dominance,error,PASS,0,45509,0.0,,,"dominance must be within [-1, 0, 1]"
+liq_dataflow_features,between,diff_dom_ls_cwt_kf,error,PASS,0,45509,0.0,-0.5756408916849888,0.7069338829993765,"diff_dom_ls_cwt_kf must be within [-1.0, 1.0]"
+liq_dataflow_features,between,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,"risk_priority_number must be within [0.0, 1.0]"
+liq_dataflow_features,diff_eq_fll_minus_fsl,*,error,PASS,0,45509,0.0,0.0,0.0,identity diff_eq_fll_minus_fsl must hold within tolerance 1e-09
+liq_dataflow_features,finite,bin_index,error,PASS,0,45509,0.0,0.0,8.0,bin_index must not contain ±inf
+liq_dataflow_features,finite,diff_dom_ls_cwt_kf,error,PASS,0,45509,0.0,-0.5756408916849888,0.7069338829993765,diff_dom_ls_cwt_kf must not contain ±inf
+liq_dataflow_features,finite,diff_ls_cwt_kf,error,PASS,0,45509,0.0,-6.020764163177506,9.584650901865626,diff_ls_cwt_kf must not contain ±inf
+liq_dataflow_features,finite,dominance,error,PASS,0,45509,0.0,-1.0,1.0,dominance must not contain ±inf
+liq_dataflow_features,finite,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must not contain ±inf
+liq_dataflow_features,finite,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must not contain ±inf
+liq_dataflow_features,finite,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must not contain ±inf
+liq_dataflow_features,finite,risk_priority_number,error,PASS,0,45509,0.0,0.21217955415745327,0.8534669414996512,risk_priority_number must not contain ±inf
+liq_dataflow_features,finite,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must not contain ±inf
+liq_dataflow_features,finite,z_fll_cwt_kf,error,PASS,0,45509,0.0,-11.803042104634144,20.842099900853864,z_fll_cwt_kf must not contain ±inf
+liq_dataflow_features,finite,z_fsl_cwt_kf,error,PASS,0,45509,0.0,-11.591367683058484,29.95783797788096,z_fsl_cwt_kf must not contain ±inf
+liq_dataflow_features,finite,z_logTotalP,error,PASS,0,45509,0.0,-19.378445790229872,41.00637948836821,z_logTotalP must not contain ±inf
+liq_dataflow_features,finite,z_sdom,error,PASS,0,45509,0.0,-44721017813.1179,33.11604549715615,z_sdom must not contain ±inf
+liq_dataflow_features,integer_range,bin_index,error,PASS,0,45509,0.0,0.0,8.0,"bin_index must be integer-like within [0, 8]"
+liq_dataflow_features,nonnegative,fll_cwt_kf,error,PASS,0,45509,0.0,0.5733510763674532,24.595199421106354,fll_cwt_kf must be >= 0
+liq_dataflow_features,nonnegative,fsl_cwt_kf,error,PASS,0,45509,0.0,0.47654435231124537,21.189615946523258,fsl_cwt_kf must be >= 0
+liq_dataflow_features,nonnegative,total_ls_cwt_kf,error,PASS,0,45509,0.0,1.0498954286786986,44.84558558838524,total_ls_cwt_kf must be >= 0
+liq_dataflow_features,positive,price,error,PASS,0,45509,0.0,15611.740149166488,126064.156643407,price must be > 0
+liq_dataflow_features,required_columns,"time,price,fll_cwt_kf,fsl_cwt_kf,diff_ls_cwt_kf,total_ls_cwt_kf,risk_priority_number,bin_index,dominance,diff_dom_ls_cwt_kf,z_logTotalP,z_sdom,z_fll_cwt_kf,z_fsl_cwt_kf",error,PASS,0,14,0.0,,,all required columns present
+liq_dataflow_features,required_columns,"time,price,fll_cwt_kf,fsl_cwt_kf,risk_priority_number,diff_ls_cwt_kf,total_ls_cwt_kf,diff_dom_ls_cwt_kf",error,PASS,0,8,0.0,,,all required columns present
+liq_dataflow_features,sdom_eq_2rpn_minus_1,*,error,PASS,0,45509,0.0,2.225997164373439e-14,9.525297217649609e-13,identity sdom_eq_2rpn_minus_1 must hold within tolerance 1e-09
+liq_dataflow_features,time_monotonic,time,error,PASS,0,45508,0.0,,,time is monotonic ascending
+liq_dataflow_features,time_not_null,time,error,PASS,0,45509,0.0,,,time has no NaT
+liq_dataflow_features,time_unique,time,error,PASS,0,45509,0.0,,,time is unique
+liq_dataflow_features,total_eq_fll_plus_fsl,*,error,PASS,0,45509,0.0,0.0,0.0,identity total_eq_fll_plus_fsl must hold within tolerance 1e-09
+liq_dataflow_features,nan_ratio,z_fll_cwt_kf,warning,PASS,0,45509,0.0,,,z_fll_cwt_kf NaN ratio 0.0835% should be <= 1.0000%
+liq_dataflow_features,nan_ratio,z_fsl_cwt_kf,warning,PASS,0,45509,0.0,,,z_fsl_cwt_kf NaN ratio 0.0835% should be <= 1.0000%
+liq_dataflow_features,nan_ratio,z_logTotalP,warning,PASS,0,45509,0.0,,,z_logTotalP NaN ratio 0.0835% should be <= 1.0000%
+liq_dataflow_features,nan_ratio,z_sdom,warning,PASS,0,45509,0.0,,,z_sdom NaN ratio 0.0835% should be <= 1.0000%

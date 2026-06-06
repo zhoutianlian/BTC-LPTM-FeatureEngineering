@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>BTC liquidation HMM diagnostics</title>
+<style>
+body { margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#0b0f1a; color:#e5e7eb; }
+main { max-width: 1080px; margin: 48px auto; padding: 0 24px; }
+h1 { font-size: 28px; margin-bottom: 8px; }
+p { color:#a7b0c0; line-height:1.65; }
+ul { list-style: none; padding: 0; display:grid; gap:12px; }
+li { background:#111827; border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:16px 18px; display:flex; justify-content:space-between; gap:16px; align-items:center; }
+a { color:#7dd3fc; font-size:17px; text-decoration:none; font-weight:650; }
+a:hover { text-decoration:underline; }
+span { color:#9ca3af; font-size:13px; }
+.card { margin-top:24px; padding:18px; background:#111827; border-radius:14px; border:1px solid rgba(255,255,255,.08); }
+</style>
+</head>
+<body><main>
+<h1>BTC liquidation HMM diagnostics</h1>
+<div class="card"><p>State semantics: S1/S2 = short-liquidation dominance and upward liquidation pressure; S4/S5 = long-liquidation dominance and downward liquidation pressure; S3 = balanced.</p><p>Large HTML plots are downsampled only for visualization speed. Model outputs and CSV files are not downsampled.</p></div>
+<ul><li><a href='regime_dashboard.html'>1. Regime dashboard</a><span>regime_dashboard.html</span></li><li><a href='state_distribution.html'>2. State count distribution</a><span>state_distribution.html</span></li><li><a href='state_feature_boxplots.html'>3. State feature boxplots</a><span>state_feature_boxplots.html</span></li><li><a href='transition_duration.html'>4. Transition / duration diagnostics</a><span>transition_duration.html</span></li><li><a href='event_windows.html'>5. Liquidation event windows</a><span>event_windows.html</span></li><li><a href='state_semantic_summary.csv'>6. State semantic summary CSV</a><span>state_semantic_summary.csv</span></li></ul>
+</main></body></html>

@@ -1,0 +1,23 @@
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | 日志初始化完成
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | task_name=build_features
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | run_log=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/logs/build_features_20260413_101828.log
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | latest_log=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/logs/latest_build_features.log
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | 开始执行特征工程任务
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | project_root=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | input=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/feature_store.csv
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | output=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/output/features.csv
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | html_dir=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/output/html
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | resolved_config=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/output/resolved_feature_config.json
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | auto_visualize=True
+2026-04-13 18:18:28 | INFO | btc_liqprice_features.build_features.20260413_101828 | resolved_config={"bar_minutes": null, "decision_minutes": null, "liq_kama_fast_ema": 2, "liq_kama_slow_ema": 30, "liq_roc_gaussian_window_min": 130, "liq_spike_window_min": 1440, "price_kalman_measurement_noise": 0.0001, "price_kalman_process_noise": 1e-06, "price_kalman_slope_process_noise": 1e-07, "price_vol_adaptive_long_window_min": 1440, "price_vol_adaptive_min_weight": 0.3, "price_vol_adaptive_short_window_min": 360, "price_vol_adaptive_sigmoid_gamma": 3.0, "trend_pressure_mom_window_min": 180, "trend_pressure_vol_window_min": 720}
+2026-04-13 18:18:28 | ERROR | btc_liqprice_features.build_features.20260413_101828 | 特征工程任务失败: liq_dataflow/data/features/feature_store.csv
+Traceback (most recent call last):
+  File "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/cli_build_features.py", line 64, in main
+    feat_df, effective_bar_minutes = build_features_from_path(args.input, cfg)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/features.py", line 307, in build_features_from_path
+    raw_df = load_dataframe(input_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/features.py", line 299, in load_dataframe
+    raise FileNotFoundError(path)
+FileNotFoundError: liq_dataflow/data/features/feature_store.csv

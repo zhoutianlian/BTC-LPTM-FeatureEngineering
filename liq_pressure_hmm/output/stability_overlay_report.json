@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "state_output": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_pressure_hmm/output/hmm_state.csv",
+  "computed_rows": 274189,
+  "references": [
+    {
+      "name": "existing:/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_pressure_hmm/output/hmm_state.csv",
+      "reference_rows": 274034,
+      "preserved_rows": 274034,
+      "reference_min_time": "2021-02-01 01:50:00+00:00",
+      "reference_max_time": "2026-05-11 01:40:00+00:00",
+      "preserved_min_time": "2021-02-01 01:50:00+00:00",
+      "preserved_max_time": "2026-05-11 01:40:00+00:00"
+    },
+    {
+      "name": "history_reference:input.zip::input/hmm_state.csv",
+      "reference_rows": 270328,
+      "preserved_rows": 270328,
+      "reference_min_time": "2021-02-01 01:50:00+00:00",
+      "reference_max_time": "2026-04-15 08:00:00+00:00",
+      "preserved_min_time": "2021-02-01 01:50:00+00:00",
+      "preserved_max_time": "2026-04-15 08:00:00+00:00"
+    }
+  ]
+}

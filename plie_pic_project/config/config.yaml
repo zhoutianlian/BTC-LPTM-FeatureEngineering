@@ -1,0 +1,251 @@
+project:
+  name: PLIE-PIC
+  version: 0.1.0
+  description: Source-clock mechanism-constrained quantile passive liquidation impact curve.
+
+runtime:
+  command: all
+  generate_html: true
+  force_retrain: false
+
+paths:
+  input_csv: ../liq_pressure_hmm/output/hmm_state.csv
+  output_dir: outputs
+  feature_dir: outputs/features
+  prediction_dir: outputs/predictions
+  evaluation_dir: outputs/evaluation
+  check_dir: outputs/checks
+  model_dir: models
+  report_html_dir: reports/html
+  log_dir: logs
+  train_log: logs/train.log
+  model_artifact: models/plie_pic_model.joblib
+  model_summary: models/plie_pic_model_summary.json
+  source_features: outputs/features/plie_source_features.csv
+  train_source_predictions: outputs/predictions/plie_predictions_source.csv
+  train_bar_predictions: outputs/predictions/plie_predictions_10m.csv
+  latest_source_predictions: outputs/predictions/latest_plie_predictions_source.csv
+  latest_bar_predictions: outputs/predictions/latest_plie_predictions_10m.csv
+  latest_agent_payload: outputs/predictions/latest_agent_payload.json
+  latest_summary: outputs/evaluation/latest_summary.json
+  scheduled_retrain_decision: outputs/evaluation/scheduled_retrain_decision.json
+  pre_feature_checks: outputs/checks/pre_feature_leakage_checks.json
+  feature_checks: outputs/checks/feature_leakage_checks.json
+  post_training_checks: outputs/checks/post_training_leakage_checks.json
+  manual_validation_checks: outputs/checks/manual_validation_checks.json
+
+schema:
+  time_col: time
+  price_col: price
+  liq_time_col: liq_feature_time
+  liq_time_raw_col: liq_feature_time_raw
+  liq_age_col: liq_feature_age_min
+  long_liq_col: fll_cwt_kf
+  short_liq_col: fsl_cwt_kf
+  total_liq_col: total_ls_cwt_kf
+  hmm_state_col: hmm_state
+  hmm_conf_col: hmm_conf
+  hmm_state_conf_col: hmm_state_conf
+  entropy_col: liq_entropy
+  state_age_source_col: age_in_state_source
+  posterior_cols: [p_state_1, p_state_2, p_state_3, p_state_4, p_state_5]
+
+features:
+  eps: 1.0e-12
+  source_age_zero_value: 0.0
+  source_valid_states: [1, 2, 3, 4, 5]
+  strong_states: [1, 5]
+  robust_window_source: 24
+  robust_min_periods: 8
+  posterior_severity_weights: [2.0, 1.0, 0.0, -1.0, -2.0]
+  posterior_severity_scale: 2.0
+  hmm_posterior_weight_lambda: 0.65
+  direction_deadzone: 0.03
+  horizons_min: [20, 30, 60]
+  main_horizon_min: 30
+  quantile: 0.65
+  freshness_no_decay_min: 60.0
+  freshness_decay_min: 60.0
+  entropy_max: 1.6094379124341003
+  phase:
+    accel_window_source: 24
+    accel_min_periods: 3
+    mature_state_age_source: 24
+    labels:
+      neutral: neutral
+      early_strong_entry: early_strong_entry
+      accelerating: accelerating
+      mature: mature
+      normal: normal
+  transition_severity_map:
+    "2->1": 1.0
+    "4->5": 1.0
+    "3->1": 0.7
+    "3->5": 0.7
+    "1->2": 0.3
+    "5->4": 0.3
+    "1->5": -1.0
+    "5->1": -1.0
+
+model:
+  model_type: constrained_quantile_impact_curve
+  feature_names:
+    - model_log1p_intensity
+    - model_log1p_accel_pos
+    - model_strong_entry
+    - model_transition_severity
+    - model_strong_state
+  l2_alpha: 1.0e-4
+  max_iter: 250
+  optimizer: scipy_l_bfgs_b
+  multiply_by_reliability: true
+  use_sample_weight: false
+  sample_weight_floor: 0.10
+  min_train_rows: 1000
+
+split:
+  train_ratio: 0.70
+  validation_ratio: 0.15
+  test_ratio: 0.15
+  embargo_minutes: 60
+
+evaluation:
+  split_names: [train, validation, test]
+  all_subset_name: all
+  table_files:
+    overall_metrics: overall_metrics.csv
+    quantile_calibration_metrics: quantile_calibration_metrics.csv
+    by_state_metrics: by_state_metrics.csv
+    by_transition_metrics: by_transition_metrics.csv
+    decile_metrics: decile_metrics.csv
+    monotonicity_metrics: monotonicity_metrics.csv
+    conditional_subset_metrics: conditional_subset_metrics.csv
+    rolling_latest_monitoring: rolling_latest_monitoring.csv
+    retrain_monitoring: retrain_monitoring.csv
+    output_checks: output_checks.csv
+    model_coefficients: model_coefficients.csv
+    walk_forward: walk_forward_metrics.csv
+  subset_quantiles:
+    top20: 0.80
+    top10: 0.90
+  decile_variables: [plie_intensity, plie_accel_pos, plie_abs_main_bps]
+  decile_bins: 10
+  top_transition_count: 30
+  output_nan_or_inf_ratio_max: 0.05
+  state_direction_pass_ratio: 0.90
+
+walk_forward:
+  enabled: true
+  train_months: 18
+  validation_months: 3
+  step_months: 3
+  max_folds: 20
+
+streaming:
+  price_frequency_min: 10
+  liq_frequency_min: 60
+  max_liq_feature_age_min: 70
+  output_store: outputs/predictions/streaming_agent_outputs.csv
+  require_hmm_columns: true
+
+monitoring:
+  enabled: true
+  rolling_windows_days: [7, 14, 30, 60, 90]
+  primary_window_days: 30
+  coverage_error_watch: 0.05
+  coverage_error_retrain: 0.08
+  improvement_vs_null_watch_pct: 0.5
+  improvement_vs_null_retrain_pct: -1.0
+  note: Rolling monitoring uses only matured labels and is never an online Agent input.
+
+retraining:
+  cadence: monthly
+  min_days_between_full_retrains: 25
+  run_walk_forward_on_retrain: true
+  trigger_on_retrain_monitoring_status: retrain_now
+  default_command: python -m plie_pic_project.feature_plie_pic scheduled-retrain --config config/config.yaml
+  forced_command: set runtime.force_retrain=true in config, then run python -m plie_pic_project.feature_plie_pic scheduled-retrain --config config/config.yaml
+  note: Online 10m/1h updates run inference and monitoring; full retraining is monthly or drift-triggered.
+
+reports:
+  max_points: 60000
+  state_background_max_segments: 1200
+  rolling_window_report: 120
+  evaluation_rolling_window: 240
+  table_preview_rows: 300
+  histogram_bins: 80
+  state_duration_bins: 80
+  theme: dark
+  pages:
+    index: index.html
+    plie_price: plie_price.html
+    hmm_state: hmm_state.html
+    feature_statistics: feature_statistics.html
+    model_evaluation: model_evaluation.html
+  feature_statistics_variables:
+    - plie_force_up
+    - plie_intensity
+    - plie_accel_pos
+    - plie_reliability
+    - plie_main_bps
+    - plie_passive_20m_bps
+    - plie_passive_30m_bps
+    - plie_passive_60m_bps
+    - hmm_conf
+    - liq_entropy
+    - age_in_state_source
+
+outputs:
+  latest_summary_fields:
+    - time
+    - price
+    - hmm_state
+    - plie_direction
+    - plie_force_up
+    - plie_intensity
+    - plie_accel_pos
+    - plie_reliability
+    - plie_main_bps
+    - plie_phase
+  agent_input_columns:
+    - time
+    - liq_feature_time
+    - liq_feature_age_min
+    - hmm_state
+    - hmm_conf
+    - liq_entropy
+    - age_in_state_source
+    - plie_direction
+    - plie_force_up
+    - plie_intensity
+    - plie_accel_pos
+    - plie_strong_entry
+    - plie_transition_type
+    - plie_transition_severity
+    - plie_reliability
+    - plie_phase
+    - plie_main_bps
+  bar_output_base_columns:
+    - time
+    - price
+    - liq_feature_time
+    - liq_feature_age_min
+    - hmm_state
+    - hmm_conf
+    - liq_entropy
+    - age_in_state
+    - age_in_state_source
+    - plie_direction
+    - plie_force_up
+    - plie_intensity
+    - plie_accel_pos
+    - plie_strong_entry
+    - plie_transition_type
+    - plie_transition_severity
+    - plie_freshness_weight
+    - plie_reliability
+    - plie_phase
+
+storage:
+  max_10m_output_rows: 60000
+  note: Full source-clock history is always stored; 10m broadcast CSV stores the latest tail to keep runtime practical.

@@ -1,0 +1,30 @@
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | 日志初始化完成
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | task_name=build_features
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | run_log=/mnt/data/work/btc_liqprice_features_new/logs/build_features_20260413_073244.log
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | latest_log=/mnt/data/work/btc_liqprice_features_new/logs/latest_build_features.log
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | 开始执行特征工程任务
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | project_root=/mnt/data/work/btc_liqprice_features_new
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | input=/mnt/data/work/btc_liqprice_features_new/sample_input/sample_input.csv
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | output=/mnt/data/work/btc_liqprice_features_new/sample_output/features_sample.csv
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_dir=/mnt/data/work/btc_liqprice_features_new/sample_output/html
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | resolved_config=/mnt/data/work/btc_liqprice_features_new/sample_output/resolved_feature_config.json
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | auto_visualize=True
+2026-04-13 07:32:44 | INFO | btc_liqprice_features.build_features.20260413_073244 | resolved_config={"bar_minutes": null, "decision_minutes": null, "liq_kama_fast_ema": 2, "liq_kama_slow_ema": 30, "liq_roc_gaussian_window_min": 130, "liq_spike_window_min": 1440, "price_kalman_measurement_noise": 0.0001, "price_kalman_process_noise": 1e-06, "price_kalman_slope_process_noise": 1e-07, "price_vol_adaptive_long_window_min": 1440, "price_vol_adaptive_min_weight": 0.3, "price_vol_adaptive_short_window_min": 360, "price_vol_adaptive_sigmoid_gamma": 3.0, "trend_pressure_mom_window_min": 180, "trend_pressure_vol_window_min": 720}
+2026-04-13 07:32:46 | INFO | btc_liqprice_features.build_features.20260413_073244 | feature_profile={"columns": ["fll_spike_kama", "fsl_spike_kama", "fll_velocity_gaussian", "fll_acceleration_gaussian", "fsl_velocity_gaussian", "fsl_acceleration_gaussian", "trend_pressure", "kalman_slope", "vol_adaptive"], "end_time": "2024-12-30T23:30:00+00:00", "nan_ratio": {"fll_acceleration_gaussian": 0.00011415525114155251, "fll_spike_kama": 5.7077625570776254e-05, "fll_velocity_gaussian": 5.7077625570776254e-05, "fsl_acceleration_gaussian": 0.00011415525114155251, "fsl_spike_kama": 5.7077625570776254e-05, "fsl_velocity_gaussian": 5.7077625570776254e-05, "kalman_slope": 0.0, "trend_pressure": 0.00045662100456621003, "vol_adaptive": 0.0009132420091324201}, "rows": 17520, "start_time": "2024-01-01T00:00:00+00:00"}
+2026-04-13 07:32:46 | INFO | btc_liqprice_features.build_features.20260413_073244 | effective_bar_minutes=30
+2026-04-13 07:32:46 | INFO | btc_liqprice_features.build_features.20260413_073244 | feature_output_saved=/mnt/data/work/btc_liqprice_features_new/sample_output/features_sample.csv
+2026-04-13 07:32:46 | INFO | btc_liqprice_features.build_features.20260413_073244 | 开始生成 HTML 统计学可视化页面
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_page_count=11
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/fll_spike_kama.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/fsl_spike_kama.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/fll_velocity_gaussian.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/fll_acceleration_gaussian.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/fsl_velocity_gaussian.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/fsl_acceleration_gaussian.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/trend_pressure.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/kalman_slope.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/vol_adaptive.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/feature_summary.csv
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | html_created=/mnt/data/work/btc_liqprice_features_new/sample_output/html/index.html
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | run_manifest=/mnt/data/work/btc_liqprice_features_new/sample_output/run_manifest.json
+2026-04-13 07:32:49 | INFO | btc_liqprice_features.build_features.20260413_073244 | 特征工程任务执行完成

@@ -1,0 +1,2 @@
+dataset,metric,columns,endpoint,rows,start_time,latest_time,missing_bars,missing_ratio_pct,stale_hours
+btc_price_10m,price,price,metrics/market/price_usd_close,277366,2021-02-01 00:00:00,2026-05-12 03:30:00,0,0.0,0.283

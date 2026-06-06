@@ -1,0 +1,9 @@
+{
+  "run_id": "20260415T030651Z",
+  "root_dir": "/mnt/data/reorgproj/liq_data_download",
+  "dry_run": true,
+  "status": "SUCCESS",
+  "log_file": "/mnt/data/reorgproj/liq_data_download/logs/runs/20260415T030651Z/pipeline.log",
+  "catalog_csv": "/mnt/data/reorgproj/liq_data_download/data/manifests/download_catalog.csv",
+  "datasets": 2
+}

@@ -1,0 +1,26 @@
+2026-04-15 02:55:01 | INFO | ================ DOWNLOAD CONFIG ================
+2026-04-15 02:55:01 | INFO | Project
+2026-04-15 02:55:01 | INFO |   - project_name: BTC Glassnode Raw Data Download
+2026-04-15 02:55:01 | INFO |   - base_url: https://api.glassnode.com/v1
+2026-04-15 02:55:01 | INFO |   - requests_per_minute: 10
+2026-04-15 02:55:01 | INFO |   - api_key_present: False
+2026-04-15 02:55:01 | INFO |   - datasets_configured: 2
+2026-04-15 02:55:01 | INFO | ================ DATASET | hourly_liquidation_bundle ================
+2026-04-15 02:55:01 | INFO | Dataset spec
+2026-04-15 02:55:01 | INFO |   - asset: BTC
+2026-04-15 02:55:01 | INFO |   - interval: 1h
+2026-04-15 02:55:01 | INFO |   - output_csv: data/raw/hourly/BTC_price_lld.csv
+2026-04-15 02:55:01 | INFO |   - join: inner
+2026-04-15 02:55:01 | INFO |   - start_time: 2021-02-01T00:00:00Z
+2026-04-15 02:55:01 | INFO |   - lookback_days: None
+2026-04-15 02:55:01 | INFO |   - metrics: price, futures_long_liquidations, futures_short_liquidations
+2026-04-15 02:55:01 | INFO | ================ DATASET | btc_price_10m ================
+2026-04-15 02:55:01 | INFO | Dataset spec
+2026-04-15 02:55:01 | INFO |   - asset: BTC
+2026-04-15 02:55:01 | INFO |   - interval: 10m
+2026-04-15 02:55:01 | INFO |   - output_csv: data/raw/intraday/BTC_price_10m.csv
+2026-04-15 02:55:01 | INFO |   - join: inner
+2026-04-15 02:55:01 | INFO |   - start_time: None
+2026-04-15 02:55:01 | INFO |   - lookback_days: 30
+2026-04-15 02:55:01 | INFO |   - metrics: price_usd
+2026-04-15 02:55:01 | INFO | Raw data download pipeline completed successfully.

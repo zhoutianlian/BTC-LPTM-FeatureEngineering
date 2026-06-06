@@ -1,0 +1,131 @@
+{
+  "paths": {
+    "project_root": null
+  },
+  "input": {
+    "file_path": "../liq_data_download/data/raw/intraday/ohlc.csv",
+    "time_column": "time",
+    "open_column": "open",
+    "high_column": "high",
+    "low_column": "low",
+    "close_column": "close",
+    "datetime_format": null,
+    "timezone": null
+  },
+  "data": {
+    "bar_minutes": 10,
+    "sort_by_time": true,
+    "drop_duplicate_time": true,
+    "duplicate_keep": "last",
+    "validate_ohlc": true,
+    "fail_on_invalid_price": true,
+    "fail_on_ohlc_inconsistency": true
+  },
+  "windows": {
+    "return_windows": ["1h", "3h", "6h", "12h", "24h"],
+    "core_windows": ["1h", "6h", "24h"],
+    "vol_of_vol_windows": ["6h", "24h", "48h"],
+    "quality_windows": ["1h", "6h", "24h", "48h"]
+  },
+  "quality": {
+    "min_obs_ratio": 0.8,
+    "gap_tolerance_minutes": 10,
+    "outlier_method": "rolling_robust",
+    "outlier_lookback": "7d",
+    "outlier_z_threshold": 5.0,
+    "robust_sigma_estimator": "iqr",
+    "winsorize_outliers": false
+  },
+  "realized_vol": {
+    "output_zscore": true,
+    "zscore_method": "train_robust",
+    "zscore_clip": [-5, 5],
+    "zscore_lookback": "30d",
+    "train_split": {
+      "start_time": null,
+      "end_time": null
+    },
+    "fallback_when_train_missing": "past_rolling_robust"
+  },
+  "range": {
+    "compression_method": "past_percentile",
+    "percentile_lookback": "30d",
+    "output_range_to_vol": true
+  },
+  "trend": {
+    "squash_c": 2.0,
+    "near_zero_return_bps": 1e-8,
+    "regression_time_unit": "hour",
+    "strength_weights": {
+      "trend_efficiency": 0.35,
+      "trend_snr": 0.35,
+      "trend_slope_tstat": 0.30
+    },
+    "consistency_weights": {
+      "bar_direction_align": 0.40,
+      "block_direction_align": 0.40,
+      "trend_r2": 0.20
+    },
+    "block_windows": {
+      "1h": "20min",
+      "6h": "1h",
+      "24h": "1h"
+    }
+  },
+  "jump": {
+    "robust_sigma_lookback": "7d",
+    "robust_sigma_estimator": "iqr",
+    "jump_z_threshold": 5.0,
+    "squash_c": 2.0,
+    "output_bipower_ratio": true,
+    "output_signed_max_jump": true,
+    "proxy_weights": {
+      "max_jump_z": 0.50,
+      "jump_ratio_bv": 0.30,
+      "jump_count": 0.20
+    }
+  },
+  "output": {
+    "output_dir": "output",
+    "feature_file": "price_context_features.csv",
+    "include_extended_features": true,
+    "csv_writer": "pandas",
+    "float_precision": 10,
+    "write_zip": true,
+    "zip_file": "price_context_features.csv.zip"
+  },
+  "report": {
+    "enabled": true,
+    "output_dir": "reports/feature_diagnostics",
+    "documentation_file": "docs/price_context_feature_engineering.md",
+    "generate_html": true,
+    "generate_summary_json": true,
+    "include_actual_output_features": true,
+    "features_file": null,
+    "fail_on_error": true,
+    "rolling_window_bars": 144,
+    "min_valid_count": 30,
+    "warn_missing_ratio": 0.20,
+    "fail_missing_ratio": 0.95,
+    "fail_inf_ratio": 0.05,
+    "zscore_threshold": 5.0,
+    "iqr_multiplier": 1.5,
+    "extreme_quantile_low": 0.001,
+    "extreme_quantile_high": 0.999,
+    "max_outlier_timestamps": 50,
+    "max_plot_outlier_points": 500,
+    "max_missing_markers": 500,
+    "relationship_max_points": 10000,
+    "future_return_window": "1h",
+    "correlation_scope": "documented",
+    "high_correlation_threshold": 0.95,
+    "max_high_correlation_pairs": 100
+  },
+  "execution": {
+    "log_level": "INFO",
+    "print_summary": true,
+    "print_validation_report": true,
+    "print_columns": false,
+    "mark_required_columns": true
+  }
+}

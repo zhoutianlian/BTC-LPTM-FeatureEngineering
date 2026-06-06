@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>BTC 清算—价格特征总览</title>
+  <style>
+    body { margin: 0; background: #050816; color: #DCE7FF; font-family: Inter, Arial, Helvetica, sans-serif; }
+    .page { max-width: 1600px; margin: 0 auto; padding: 28px 24px 36px 24px; }
+    .hero { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 20px; }
+    .title { font-size: 34px; font-weight: 800; letter-spacing: 0.4px; }
+    .subtitle { color: #8DA2C0; line-height: 1.7; max-width: 980px; margin-top: 8px; }
+    .tag { display: inline-block; margin-top: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0,209,255,0.12); color: #8BD9FF; border: 1px solid rgba(0,209,255,0.18); font-size: 12px; }
+    .table-wrap { background: linear-gradient(180deg, #0E1629 0%, #09101F 100%); border: 1px solid #1D2A42; border-radius: 16px; padding: 12px; overflow-x: auto; box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
+    table { border-collapse: collapse; width: 100%; min-width: 980px; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid #18253A; text-align: right; white-space: nowrap; }
+    th:first-child, td:first-child { text-align: left; }
+    th { color: #BFD2F4; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+    tr:hover td { background: rgba(0,209,255,0.04); }
+    a { color: #8BCBFF; text-decoration: none; font-weight: 600; }
+    .note { margin-top: 16px; color: #8DA2C0; line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <div>
+        <div class="title">BTC 清算—价格特征交互式总览</div>
+        <div class="subtitle">点击特征名进入单独的交互式统计诊断页面。每个页面都提供稳健缩放主图、原始全尺度时间序列、滚动统计、分布图、箱线图与极值定位表，并支持鼠标悬停、时间段切换与范围滑块。</div>
+        <div class="tag">黑底亮色 · 可交互 · 面向问题定位</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>feature</th>
+            <th>count</th>
+            <th>mean</th>
+            <th>std</th>
+            <th>median</th>
+            <th>p01</th>
+            <th>p99</th>
+            <th>min</th>
+            <th>max</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="fll_spike_kama.html">fll_spike_kama</a></td><td>44809</td><td>0.005176</td><td>0.076188</td><td>-0.005954</td><td>-0.143011</td><td>0.262457</td><td>-0.268866</td><td>0.752969</td></tr><tr><td><a href="fsl_spike_kama.html">fsl_spike_kama</a></td><td>44809</td><td>0.006326</td><td>0.077338</td><td>-0.004745</td><td>-0.141208</td><td>0.253133</td><td>-0.238890</td><td>1.386583</td></tr><tr><td><a href="fll_velocity_gaussian.html">fll_velocity_gaussian</a></td><td>44809</td><td>-0.000006</td><td>0.014007</td><td>-0.002641</td><td>-0.019196</td><td>0.047160</td><td>-0.022412</td><td>0.137312</td></tr><tr><td><a href="fll_acceleration_gaussian.html">fll_acceleration_gaussian</a></td><td>44808</td><td>-0.000001</td><td>0.004754</td><td>-0.000330</td><td>-0.011291</td><td>0.016243</td><td>-0.032121</td><td>0.054723</td></tr><tr><td><a href="fsl_velocity_gaussian.html">fsl_velocity_gaussian</a></td><td>44809</td><td>0.000007</td><td>0.013181</td><td>-0.002542</td><td>-0.018344</td><td>0.042722</td><td>-0.021450</td><td>0.305209</td></tr><tr><td><a href="fsl_acceleration_gaussian.html">fsl_acceleration_gaussian</a></td><td>44808</td><td>-0.000006</td><td>0.004465</td><td>-0.000324</td><td>-0.010450</td><td>0.014728</td><td>-0.167851</td><td>0.082367</td></tr><tr><td><a href="trend_pressure.html">trend_pressure</a></td><td>44806</td><td>0.009062</td><td>1.011067</td><td>0.014286</td><td>-2.511384</td><td>2.528741</td><td>-5.435997</td><td>3.931825</td></tr><tr><td><a href="kalman_slope.html">kalman_slope</a></td><td>44810</td><td>0.000017</td><td>0.001482</td><td>0.000020</td><td>-0.004494</td><td>0.004224</td><td>-0.010806</td><td>0.009282</td></tr><tr><td><a href="vol_adaptive.html">vol_adaptive</a></td><td>44802</td><td>0.005338</td><td>0.003552</td><td>0.004490</td><td>0.001080</td><td>0.018331</td><td>0.000395</td><td>0.072366</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">建议的检查顺序：先看 spike 是否在关键事件期显著抬升；再看 velocity 是否与事件放大阶段同向；随后核对 acceleration 是否主要反映形态拐点而非噪声；最后看 trend_pressure、kalman_slope、vol_adaptive 是否给出一致的价格语境与风险背景。</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<html><head><meta charset='utf-8'><title>QD-MAR Index</title>
+    <style>
+      body { background:#080b12; color:#d7e3ff; font-family:Inter,Segoe UI,Arial,sans-serif; margin:0; }
+      .wrap { padding: 24px 28px; }
+      a { color:#00d4ff; text-decoration:none; }
+      a:hover { text-decoration:underline; }
+      .nav { background:#050711; padding:14px 28px; border-bottom:1px solid #202a3d; position:sticky; top:0; z-index:10; }
+      .card { background:#0f1624; border:1px solid #202a3d; border-radius:14px; padding:16px; margin:18px 0; box-shadow:0 0 22px rgba(0,212,255,.08); overflow:hidden; }
+      .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+      .metric { background:linear-gradient(135deg,#101a2c,#0b1020); border:1px solid #263246; border-radius:14px; padding:16px; }
+      .metric h3 { margin:0 0 8px; color:#8fb3ff; font-size:13px; letter-spacing:.04em; text-transform:uppercase; }
+      .metric .v { font-size:23px; font-weight:700; color:#00d4ff; word-break:break-word; }
+      .legend-note { margin-top:10px; padding:12px 14px; border:1px solid #263246; border-radius:10px; background:#0b1020; color:#c9d8ff; font-size:13px; }
+      .legend-note b { color:#ffffff; }
+      .legend-note p { margin:6px 0 8px; color:#9db7e8; }
+      .legend-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:8px 16px; }
+      .legend-item { display:flex; gap:8px; align-items:flex-start; }
+      .legend-key { min-width:130px; color:#00d4ff; font-weight:700; }
+      .time-control { margin:12px 0 10px; padding:12px 14px; border:1px solid #29405f; border-radius:12px; background:linear-gradient(135deg,#0b1322,#101b2d); box-shadow:0 0 16px rgba(0,212,255,.06); }
+      .time-row, .quick-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+      .quick-row { margin-top:8px; }
+      .time-title { color:#00d4ff; font-weight:800; margin-right:4px; }
+      .time-control label { color:#c9d8ff; font-size:13px; }
+      .time-control input { background:#060a12; color:#d7e3ff; border:1px solid #2b3b58; border-radius:8px; padding:6px 8px; }
+      .time-control button { background:#17233a; color:#d7e3ff; border:1px solid #35517a; border-radius:8px; padding:6px 10px; cursor:pointer; }
+      .time-control button:hover { background:#1e88ff; color:white; }
+      .time-hint { color:#9db7e8; font-size:12px; }
+      .explain { color:#b9c9ee; }
+      table { border-collapse:collapse; width:100%; font-size:13px; }
+      th, td { border:1px solid #263246; padding:6px 8px; text-align:left; }
+      th { background:#111b2e; color:#9bc4ff; }
+      h1,h2,h3 { color:#ffffff; }
+      code { color:#22ff9a; }
+    </style>
+    </head><body>
+    <div class='nav'>
+      <a href='index.html'>Index</a> ·
+      <a href='quality_assessment.html'>Quality Assessment</a> ·
+      <a href='feature_statistics.html'>Feature Statistics</a> ·
+      <a href='market_response_dashboard.html'>Market Response</a> ·
+      <a href='calibration.html'>Calibration</a> ·
+      <a href='curve_dashboard.html'>Absorption Curve</a> ·
+      <a href='path_absorption_dashboard.html'>Path Absorption</a> ·
+      <a href='scenario_examples.html'>Scenario Examples</a> ·
+      <a href='rolling_monitoring.html'>Rolling Monitoring</a> ·
+      <a href='extreme_events.html'>Extreme Events</a>
+    </div>
+    <div class='wrap'>
+    <h1>QD-MAR Market Absorption Dashboard</h1>
+    <div class='card'>
+      <p><b>QD-MAR</b> 是 Quantile-Calibrated Denoised Market Absorption Rate。v2 优化版同时包含 <b>event-level matured absorption</b>、<b>staleness-aware memory</b> 与 <b>path-level episode absorption</b>：后者用于识别持续清算压力被价格路径拒绝、吸收或反向接管的场景。</p>
+      <p>核心原则：当前 PLIE 可实时使用；event absorption 只有在 <code>available_time = event_time + horizon</code> 后成熟；Agent 只能读取 rolling matured absorption memory。</p>
+    </div>
+    <div class='grid'><div class='metric'><h3>latest_data_time</h3><div class='v'>2026-05-12 02:50:00+00:00</div></div><div class='metric'><h3>latest_price</h3><div class='v'>81217.0459</div></div><div class='metric'><h3>latest_hmm_state</h3><div class='v'>2.0000</div></div><div class='metric'><h3>latest_plie_main_bps</h3><div class='v'>1.4726</div></div><div class='metric'><h3>latest_plie_reliability</h3><div class='v'>0.3680</div></div><div class='metric'><h3>latest_matured_absorption_available_time</h3><div class='v'>2026-05-12 02:20:00+00:00</div></div><div class='metric'><h3>latest_matured_market_response_label</h3><div class='v'>weak_directional_amplification_candidate</div></div></div>
+    <div class='card'><h2>Latest Agent Inputs</h2><table><tr><th>Feature</th><th>Value</th></tr><tr><td>mar_abs_score_q_staleaware_ewm_6_30m</td><td>50.2240</td></tr><tr><td>mar_active_force_aligned_staleaware_ewm_6_30m</td><td>-0.0035</td></tr><tr><td>mar_active_force_price_staleaware_ewm_6_30m</td><td>-0.0035</td></tr><tr><td>mar_directional_core_freshness_30m</td><td>0.0331</td></tr><tr><td>mar_directional_core_age_hours_30m</td><td>118.0000</td></tr><tr><td>mar_directional_quality_ewm_6_30m</td><td>0.0000</td></tr><tr><td>mar_takeover_count_12_30m</td><td>6.0000</td></tr><tr><td>mar_amplification_persistence_6_30m</td><td>0.1667</td></tr><tr><td>mar_absorption_persistence_6_30m</td><td>0.8333</td></tr><tr><td>mar_curve_label_last</td><td>fast_to_sustained_transmission</td></tr><tr><td>mar_curve_label_mode_6</td><td>mixed_or_noise</td></tr><tr><td>mar_neutral_active_strength_evidence_ewm_6_30m</td><td>54.6888</td></tr><tr><td>mar_neutral_context_persistence_12_30m</td><td>1.0000</td></tr><tr><td>mar_response_conflict_score</td><td>0.0666</td></tr><tr><td>mar_episode_abs_score_12h</td><td>50.0000</td></tr><tr><td>mar_episode_abs_score_24h</td><td>50.0000</td></tr><tr><td>mar_episode_abs_score_48h</td><td>50.0000</td></tr><tr><td>mar_episode_pressure_rejection_score_12h</td><td>0.0000</td></tr><tr><td>mar_episode_pressure_rejection_score_24h</td><td>0.0000</td></tr><tr><td>mar_episode_pressure_rejection_score_48h</td><td>0.0000</td></tr><tr><td>mar_episode_active_force_aligned_24h</td><td>0.0000</td></tr><tr><td>mar_episode_active_force_price_24h</td><td>0.0000</td></tr><tr><td>mar_episode_active_z_24h</td><td>0.0966</td></tr><tr><td>mar_episode_active_dominance_score_24h</td><td>0.0000</td></tr><tr><td>mar_episode_active_dominance_price_score_24h</td><td>0.0000</td></tr><tr><td>mar_episode_liq_neutrality_score_24h</td><td>0.0000</td></tr><tr><td>mar_episode_active_context_quality_24h</td><td>0.0000</td></tr><tr><td>mar_episode_quality_24h</td><td>0.4427</td></tr><tr><td>mar_episode_context_24h</td><td>path_mixed_pressure</td></tr><tr><td>mar_episode_label_24h</td><td>path_mixed_pressure_chop</td></tr><tr><td>mar_episode_data_quality_24h</td><td>0.9000</td></tr><tr><td>mar_episode_signal_clarity_24h</td><td>0.4919</td></tr><tr><td>mar_episode_activity_level_24h</td><td>0.4685</td></tr><tr><td>mar_episode_context_6h</td><td>path_mixed_pressure</td></tr><tr><td>mar_episode_label_6h</td><td>path_normal_mixed_active_breakout_down</td></tr><tr><td>mar_episode_context_12h</td><td>path_mixed_pressure</td></tr><tr><td>mar_episode_label_12h</td><td>path_mixed_pressure_chop</td></tr></table></div>
+    <div class='card'><h2>Pages</h2>
+      <ul>
+        <li><a href='quality_assessment.html'>quality_assessment.html</a> — 输出质量、方向样本比例、staleness、Agent 冗余和金融一致性总览。</li><li><a href='feature_statistics.html'>feature_statistics.html</a> — Agent 输入与重要输出变量的统计、分布、关系图。</li><li><a href='market_response_dashboard.html'>market_response_dashboard.html</a> — PLIE、actual response、market response label 总览。</li><li><a href='calibration.html'>calibration.html</a> — q65 coverage、response percentile、label proportions。</li><li><a href='curve_dashboard.html'>curve_dashboard.html</a> — 20m/30m/60m absorption curve。</li><li><a href='path_absorption_dashboard.html'>path_absorption_dashboard.html</a> — 6h/12h/24h/48h 路径级压力拒绝、级联传导、混合压力与主动主导。</li><li><a href='scenario_examples.html'>scenario_examples.html</a> — 每类 path context / label 的典型案例，便于人工机制核对。</li><li><a href='rolling_monitoring.html'>rolling_monitoring.html</a> — price + PLIE + matured MAR memory 终端式监控。</li><li><a href='extreme_events.html'>extreme_events.html</a> — 极端事件复盘。</li>
+      </ul>
+    </div>
+    </div></body></html>

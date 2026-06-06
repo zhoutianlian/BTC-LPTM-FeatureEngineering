@@ -1,0 +1,23 @@
+{
+  "time": "2026-04-15 08:00:00+00:00",
+  "liq_feature_time": "2026-04-15 06:50:00+00:00",
+  "liq_feature_age_min": 70.0,
+  "hmm_state": 2.0,
+  "hmm_conf": 0.9997652335875812,
+  "liq_entropy": 0.0023489766995295,
+  "age_in_state_source": 1.0,
+  "plie_direction": 1.0,
+  "plie_force_up": 0.370533167543619,
+  "plie_intensity": 0.370533167543619,
+  "plie_accel_pos": 0.0,
+  "plie_strong_entry": 0.0,
+  "plie_transition_type": "2->2",
+  "plie_transition_severity": 0.0,
+  "plie_reliability": 0.29003716813917857,
+  "plie_phase": "normal",
+  "plie_main_bps": 1.1365158785615677,
+  "plie_passive_20m_bps": 0.933046321836609,
+  "plie_passive_30m_bps": 1.1365158785615677,
+  "plie_passive_60m_bps": 1.4486118959594072,
+  "agent_note": "state=2.0, upward short-liquidation forced-buy pressure, phase=normal, PLIE main passive baseline=1.1365158785615677 bps. Compare realized price move against this baseline for absorption/residual analysis."
+}

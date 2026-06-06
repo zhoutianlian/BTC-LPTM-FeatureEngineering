@@ -1,0 +1,17 @@
+{
+  "bar_minutes": null,
+  "decision_minutes": null,
+  "liq_spike_window_min": 1440,
+  "liq_kama_fast_ema": 2,
+  "liq_kama_slow_ema": 30,
+  "liq_roc_gaussian_window_min": 130,
+  "trend_pressure_mom_window_min": 180,
+  "trend_pressure_vol_window_min": 720,
+  "price_kalman_process_noise": 1e-06,
+  "price_kalman_slope_process_noise": 1e-07,
+  "price_kalman_measurement_noise": 0.0001,
+  "price_vol_adaptive_short_window_min": 360,
+  "price_vol_adaptive_long_window_min": 1440,
+  "price_vol_adaptive_min_weight": 0.3,
+  "price_vol_adaptive_sigmoid_gamma": 3.0
+}

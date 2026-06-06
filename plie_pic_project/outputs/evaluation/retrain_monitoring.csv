@@ -1,0 +1,2 @@
+status,target_quantile,max_abs_coverage_error_eval,min_improvement_vs_null_pct_eval,min_improvement_vs_zero_pct_eval,rolling_primary_window_days,rolling_max_abs_coverage_error,rolling_min_improvement_vs_null_pct,recommended_retrain_cadence,recommendation
+ok,0.65,0.03,0.887,2.0941,30,0.0148,2.1574,monthly; daily rolling monitoring; trigger retrain on calibration drift,No immediate retraining required; continue online inference and rolling latest monitoring.

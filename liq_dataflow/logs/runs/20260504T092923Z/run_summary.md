@@ -1,0 +1,22 @@
+# Run Summary
+
+- **run_id**: 20260504T092923Z
+- **root_dir**: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow
+- **visualizations_enabled**: True
+- **input_source**: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/data/raw/hourly/BTC_price_lld.csv
+- **timing_load_input_data_sec**: 0.0447
+- **clean_rows**: 46041
+- **clean_latest_time**: 2026-05-04 08:00:00
+- **timing_preprocess_sec**: 0.3011
+- **canonical_rows**: 45323
+- **timing_canonical_sec**: 6.0099
+- **timing_dominance_sec**: 3.5643
+- **final_feature_rows**: 45323
+- **feature_store_rows**: 45323
+- **feature_store_latest_time**: 2026-05-04 08:00:00
+- **timing_final_features_and_store_sec**: 1.1915
+- **timing_visualization_sec**: 15.2875
+- **timing_validation_sec**: 0.0074
+- **status**: SUCCESS
+- **log_file**: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/logs/runs/20260504T092923Z/pipeline.log
+- **stage_timings**: {'load_input_data': 0.0447, 'preprocess': 0.3011, 'canonical': 6.0099, 'dominance': 3.5643, 'final_features_and_store': 1.1915, 'visualization': 15.2875, 'validation': 0.0074}

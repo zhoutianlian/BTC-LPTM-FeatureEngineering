@@ -1,0 +1,64 @@
+project:
+  name: "BTC Liquidation Feature Engineering"
+  start_time: "2021-02-01"
+
+input:
+  source_csv: "../liq_data_download/data/raw/hourly/BTC_price_lld.csv"
+  fallback_csv: "data/clean/clean_data.csv"
+
+data:
+  clean_subdir: "clean"
+  cache_subdir: "cache"
+  features_subdir: "features"
+  report_subdir: "report"
+  feature_pages_subdir: "feature_pages"
+
+preprocess:
+  outlier_iqr_window_days: 180
+
+smoothing:
+  wavelet: "coif3"
+  level: 6
+  threshold_method: "soft"
+  window_size_hours: 17280
+  kalman_initial_state_mean: 0.49
+  kalman_initial_state_covariance: 50.0
+  kalman_observation_covariance: 80.0
+  kalman_transition_covariance: 0.05
+
+binning:
+  n_bins: 9
+  min_history_bars: 72
+  refit_every_bars: 24
+  neutral_bin: 4
+  extreme_window_bars: 720
+
+dominance:
+  rolling_window_bars: 8760
+  rolling_min_periods: 720
+  reverse_window_bars: 8
+  reverse_diff_threshold: 0.2
+
+model_features:
+  z_window_bars: 24
+
+visualization:
+  specialized_duration_months: 3
+  specialized_max_points: 15000
+  generic_max_points: 8000
+  overview_filename: "feature_overview.html"
+  catalog_filename: "feature_catalog.csv"
+  feature_store_filename: "feature_store.csv"
+  dominant_html_filename: "rpn_dominance-latest.html"
+  dominant_png_filename: "rpn_dominance-latest.png"
+  features_html_filename: "rpn_features-latest.html"
+  features_png_filename: "rpn_features-latest.png"
+
+validation:
+  enabled: true
+  raise_on_error: true
+  numeric_tolerance: 1.0e-9
+  max_model_nan_ratio: 0.01
+  report_csv_filename: "output_validation_report.csv"
+  report_md_filename: "output_validation_report.md"
+  report_json_filename: "output_validation_report.json"

@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <title>BTC Liquidation Feature Portal</title>
+  
+  
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #0b0f14; color: #e6edf3; font-family: Inter, IBM Plex Sans, Segoe UI, sans-serif; }
+    .page { width: min(2400px, calc(100vw - 24px)); max-width: none; margin: 0 auto; padding: 16px 12px 28px; box-sizing: border-box; }
+    .page.wide { width: calc(100vw - 12px); padding: 10px 6px 18px; }
+    .panel { background: #12161c; border: 1px solid rgba(230,237,243,0.12); border-radius: 16px; padding: 16px 18px; margin-bottom: 18px; box-sizing: border-box; }
+    .chip { display: inline-block; border-radius: 999px; padding: 4px 10px; background: rgba(61,133,198,0.18); color: #9fc5f8; font-size: 12px; }
+    .small { color: rgba(230,237,243,0.72); font-size: 13px; line-height: 1.65; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .stats-card { background: rgba(11,15,20,0.45); border: 1px solid rgba(230,237,243,0.12); border-radius: 12px; padding: 12px 14px; }
+    .stats-card h3 { margin: 0 0 10px; font-size: 16px; }
+    .stats-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .stats-table th, .stats-table td { padding: 6px 0; border-bottom: 1px solid rgba(230,237,243,0.08); text-align: left; vertical-align: top; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .card { background: rgba(11,15,20,0.45); border: 1px solid rgba(230,237,243,0.12); border-radius: 14px; padding: 14px; }
+    .card a, a.link { color: #e6edf3; text-decoration: none; font-weight: 700; }
+    .link-list a { display: inline-block; margin-right: 10px; margin-bottom: 10px; color: #9fc5f8; text-decoration: none; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .back { color: #e6edf3; text-decoration: none; border: 1px solid rgba(230,237,243,0.12); border-radius: 999px; padding: 8px 14px; background: #12161c; }
+    .figure-wrap { width: 100%; overflow-x: auto; overflow-y: visible; }
+    .plotly-graph-div { width: 100% !important; }
+    .toolbar { display:flex; align-items:center; gap:8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .toolbar button, .toolbar a { cursor:pointer; border:1px solid rgba(230,237,243,0.12); background:rgba(11,15,20,0.65); color:#e6edf3; border-radius:10px; padding:8px 12px; text-decoration:none; font-size:13px; }
+    .toolbar button:hover, .toolbar a:hover { border-color: rgba(159,197,248,0.65); }
+    .image-shell { width:100%; overflow:auto; background:#ffffff; border-radius:12px; border:1px solid rgba(230,237,243,0.08); min-height: 60vh; }
+    .image-shell img { display:block; width:100%; height:auto; max-width:none; }
+  </style>
+</head>
+<body>
+  <div class='page wide'>
+    <div class='panel'><h1 style='margin:0 0 8px'>BTC Liquidation Feature Portal</h1><p class='small'>本页面展示当前最终交付审阅的 12 个重要特征页面，以及 2 个自定义专题图表。通用页面专注于统计学审阅，自定义页面专注于 liquidation 结构与规则解释。</p></div><div class='panel'><h2 style='margin:0 0 12px'>自定义可视化</h2><div class='link-list'><a href='rpn_dominance-latest.html'>自定义可视化｜Liquidation Dominance</a><a href='rpn_features-latest.html'>自定义可视化｜Liquidation Feature Stack</a></div></div><div class='panel'><h2 style='margin:0 0 12px'>重要交付特征</h2><div class='cards'><div class='card'><a class='link' href='feature_pages/fll_cwt_kf.html'>fll_cwt_kf｜有效多头清算强度</a><div class='small' style='margin-top:6px'>表达当前有效多头清算压力腿的强度。</div><div class='small' style='margin-top:8px'>字段名：fll_cwt_kf<br/>最新值：2.1198</div></div><div class='card'><a class='link' href='feature_pages/fsl_cwt_kf.html'>fsl_cwt_kf｜有效空头清算强度</a><div class='small' style='margin-top:6px'>表达当前有效空头清算压力腿的强度。</div><div class='small' style='margin-top:8px'>字段名：fsl_cwt_kf<br/>最新值：3.3179</div></div><div class='card'><a class='link' href='feature_pages/diff_ls_cwt_kf.html'>diff_ls_cwt_kf｜有效净清算差</a><div class='small' style='margin-top:6px'>表达多头清算与空头清算之间的净方向压力。</div><div class='small' style='margin-top:8px'>字段名：diff_ls_cwt_kf<br/>最新值：-1.1981</div></div><div class='card'><a class='link' href='feature_pages/total_ls_cwt_kf.html'>total_ls_cwt_kf｜有效总清算强度</a><div class='small' style='margin-top:6px'>表达不含方向的总清算压力强度。</div><div class='small' style='margin-top:8px'>字段名：total_ls_cwt_kf<br/>最新值：5.4378</div></div><div class='card'><a class='link' href='feature_pages/risk_priority_number.html'>risk_priority_number｜多头清算占比</a><div class='small' style='margin-top:6px'>表达有效强平中多头清算占总清算的比例。</div><div class='small' style='margin-top:8px'>字段名：risk_priority_number<br/>最新值：0.389834</div></div><div class='card'><a class='link' href='feature_pages/bin_index.html'>bin_index｜risk_priority_number 有序分箱</a><div class='small' style='margin-top:6px'>离散表达当前 liquidation dominance 处于历史相对高低的哪个区间。</div><div class='small' style='margin-top:8px'>字段名：bin_index<br/>最新值：0</div></div><div class='card'><a class='link' href='feature_pages/dominance.html'>dominance｜清算方向主导状态</a><div class='small' style='margin-top:6px'>表达当前是否处于 FLL dominant / FSL dominant / neutral congestion 的规则状态。</div><div class='small' style='margin-top:8px'>字段名：dominance<br/>最新值：1</div></div><div class='card'><a class='link' href='feature_pages/diff_dom_ls_cwt_kf.html'>diff_dom_ls_cwt_kf｜有效清算方向占优度</a><div class='small' style='margin-top:6px'>表达 scale-free 的净方向偏置。</div><div class='small' style='margin-top:8px'>字段名：diff_dom_ls_cwt_kf<br/>最新值：-0.220332</div></div><div class='card'><a class='link' href='feature_pages/z_logtotalp.html'>z_logTotalP｜总清算压力标准化</a><div class='small' style='margin-top:6px'>衡量当前总清算压力相对近期基线有多异常。</div><div class='small' style='margin-top:8px'>字段名：z_logTotalP<br/>最新值：0.378865</div></div><div class='card'><a class='link' href='feature_pages/z_sdom.html'>z_sdom｜方向主导度标准化</a><div class='small' style='margin-top:6px'>衡量当前哪一侧强平更占主导，以及该偏置相对近期是否异常。</div><div class='small' style='margin-top:8px'>字段名：z_sdom<br/>最新值：-4.0920</div></div><div class='card'><a class='link' href='feature_pages/z_fll_cwt_kf.html'>z_fll_cwt_kf｜多头清算强度标准化</a><div class='small' style='margin-top:6px'>衡量 downside deleveraging leg 当前是否异常强。</div><div class='small' style='margin-top:8px'>字段名：z_fll_cwt_kf<br/>最新值：-1.5767</div></div><div class='card'><a class='link' href='feature_pages/z_fsl_cwt_kf.html'>z_fsl_cwt_kf｜空头清算强度标准化</a><div class='small' style='margin-top:6px'>衡量 upside squeeze leg 当前是否异常强。</div><div class='small' style='margin-top:8px'>字段名：z_fsl_cwt_kf<br/>最新值：1.6990</div></div></div></div>
+  </div>
+  
+</body>
+</html>

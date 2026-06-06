@@ -1,0 +1,142 @@
+2026-05-11 09:58:40 | INFO | Initialized feature engineering run_id=20260511T015840Z
+2026-05-11 09:58:40 | INFO | Logs will be written to /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/logs/runs/20260511T015840Z
+2026-05-11 09:58:40 | INFO | Starting BTC liquidation feature engineering pipeline.
+2026-05-11 09:58:40 | INFO | ================ INPUT ================
+2026-05-11 09:58:40 | INFO | CSV input summary
+2026-05-11 09:58:40 | INFO |   - path: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/data/raw/hourly/BTC_price_lld.csv
+2026-05-11 09:58:40 | INFO |   - rows: 46201
+2026-05-11 09:58:40 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-05-11 09:58:40 | INFO |   - latest_time: 2026-05-11 00:00:00
+2026-05-11 09:58:40 | INFO |   - missing_bars: 0
+2026-05-11 09:58:40 | INFO |   - missing_ratio_pct: 0.0
+2026-05-11 09:58:40 | INFO |   - columns: time, price, futures_long_liquidations, futures_short_liquidations
+2026-05-11 09:58:40 | INFO | Loaded input CSV from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/data/raw/hourly/BTC_price_lld.csv
+2026-05-11 09:58:40 | INFO | Dataframe summary | input_data::csv
+2026-05-11 09:58:40 | INFO |   - rows: 46201
+2026-05-11 09:58:40 | INFO |   - columns: 4
+2026-05-11 09:58:40 | INFO |   - col_names: time, price, futures_long_liquidations, futures_short_liquidations
+2026-05-11 09:58:40 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-05-11 09:58:40 | INFO |   - latest_time: 2026-05-11 00:00:00
+2026-05-11 09:58:40 | INFO |   - missing_time: 0
+2026-05-11 09:58:40 | INFO |   - price_min: 15611.740149166488
+2026-05-11 09:58:40 | INFO |   - price_max: 126064.156643407
+2026-05-11 09:58:40 | INFO |   - price_na: 0
+2026-05-11 09:58:40 | INFO |   - futures_long_liquidations_min: 0.0
+2026-05-11 09:58:40 | INFO |   - futures_long_liquidations_max: 23069.297704482193
+2026-05-11 09:58:40 | INFO |   - futures_long_liquidations_na: 0
+2026-05-11 09:58:40 | INFO |   - futures_short_liquidations_min: 0.0
+2026-05-11 09:58:40 | INFO |   - futures_short_liquidations_max: 4017.547555502496
+2026-05-11 09:58:40 | INFO |   - futures_short_liquidations_na: 0
+2026-05-11 09:58:40 | INFO | Stage completed | load_input_data | elapsed_sec=0.0389
+2026-05-11 09:58:40 | INFO | ================ PREPROCESS ================
+2026-05-11 09:58:40 | INFO | Preprocessing liquidation input frame | detected_input_type=raw_hourly
+2026-05-11 09:58:40 | INFO | Saved clean frame to /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/clean/clean_data.csv
+2026-05-11 09:58:40 | INFO | Dataframe summary | clean
+2026-05-11 09:58:40 | INFO |   - rows: 46201
+2026-05-11 09:58:40 | INFO |   - columns: 9
+2026-05-11 09:58:40 | INFO |   - col_names: time, price, fll_normal, fsl_normal, total_ls_normal, diff_ls_normal, lld_normal, diff_dom_ls_normal, liq_active_raw
+2026-05-11 09:58:40 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-05-11 09:58:40 | INFO |   - latest_time: 2026-05-11 00:00:00
+2026-05-11 09:58:40 | INFO |   - missing_time: 0
+2026-05-11 09:58:40 | INFO |   - price_min: 15611.740149166488
+2026-05-11 09:58:40 | INFO |   - price_max: 126064.156643407
+2026-05-11 09:58:40 | INFO |   - price_na: 0
+2026-05-11 09:58:40 | INFO |   - fll_normal_min: 0.0
+2026-05-11 09:58:40 | INFO |   - fll_normal_max: 387.54945397807944
+2026-05-11 09:58:40 | INFO |   - fll_normal_na: 0
+2026-05-11 09:58:40 | INFO |   - fsl_normal_min: 0.0
+2026-05-11 09:58:40 | INFO |   - fsl_normal_max: 340.2159736830903
+2026-05-11 09:58:40 | INFO |   - fsl_normal_na: 0
+2026-05-11 09:58:40 | INFO |   - total_ls_normal_min: 0.0
+2026-05-11 09:58:40 | INFO |   - total_ls_normal_max: 506.55078275273024
+2026-05-11 09:58:40 | INFO |   - total_ls_normal_na: 0
+2026-05-11 09:58:40 | INFO | Stage completed | preprocess | elapsed_sec=0.3071
+2026-05-11 09:58:40 | INFO | ================ CANONICAL FAMILY ================
+2026-05-11 09:58:40 | INFO | Smoothing fll_normal -> fll_cwt_kf | cache=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/cache/fll_cwt.csv | latest_cached_time=2026-05-10 09:00:00
+2026-05-11 09:58:42 | INFO | Dataframe summary | fll_cwt_kf
+2026-05-11 09:58:42 | INFO |   - rows: 45483
+2026-05-11 09:58:42 | INFO |   - columns: 2
+2026-05-11 09:58:42 | INFO |   - col_names: time, fll_cwt_kf
+2026-05-11 09:58:42 | INFO |   - start_time: 2021-02-01 01:00:00
+2026-05-11 09:58:42 | INFO |   - latest_time: 2026-05-11 00:00:00
+2026-05-11 09:58:42 | INFO |   - missing_time: 0
+2026-05-11 09:58:42 | INFO |   - fll_cwt_kf_min: 0.5733510763674532
+2026-05-11 09:58:42 | INFO |   - fll_cwt_kf_max: 24.595199421106354
+2026-05-11 09:58:42 | INFO |   - fll_cwt_kf_na: 0
+2026-05-11 09:58:43 | INFO | Smoothing fsl_normal -> fsl_cwt_kf | cache=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/cache/fsl_cwt.csv | latest_cached_time=2026-05-10 09:00:00
+2026-05-11 09:58:45 | INFO | Dataframe summary | fsl_cwt_kf
+2026-05-11 09:58:45 | INFO |   - rows: 45483
+2026-05-11 09:58:45 | INFO |   - columns: 2
+2026-05-11 09:58:45 | INFO |   - col_names: time, fsl_cwt_kf
+2026-05-11 09:58:45 | INFO |   - start_time: 2021-02-01 01:00:00
+2026-05-11 09:58:45 | INFO |   - latest_time: 2026-05-11 00:00:00
+2026-05-11 09:58:45 | INFO |   - missing_time: 0
+2026-05-11 09:58:45 | INFO |   - fsl_cwt_kf_min: 0.47654435231124537
+2026-05-11 09:58:45 | INFO |   - fsl_cwt_kf_max: 21.189615946523258
+2026-05-11 09:58:45 | INFO |   - fsl_cwt_kf_na: 0
+2026-05-11 09:58:45 | INFO | Saved canonical liquidation family to /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/features_rpn.csv
+2026-05-11 09:58:45 | INFO | Dataframe summary | canonical
+2026-05-11 09:58:45 | INFO |   - rows: 45483
+2026-05-11 09:58:45 | INFO |   - columns: 14
+2026-05-11 09:58:45 | INFO |   - col_names: time, price, liq_active_raw, fll_cwt_kf, fsl_cwt_kf, risk_priority_number, lld_cwt_kf_smooth, diff_ls_cwt_kf, diff_ls_smooth, total_ls_cwt_kf, diff_dom_ls_cwt_kf, corr_case ...
+2026-05-11 09:58:45 | INFO |   - start_time: 2021-02-01 01:00:00
+2026-05-11 09:58:45 | INFO |   - latest_time: 2026-05-11 00:00:00
+2026-05-11 09:58:45 | INFO |   - missing_time: 0
+2026-05-11 09:58:45 | INFO |   - fll_cwt_kf_min: 0.5733510763674532
+2026-05-11 09:58:45 | INFO |   - fll_cwt_kf_max: 24.595199421106354
+2026-05-11 09:58:45 | INFO |   - fll_cwt_kf_na: 0
+2026-05-11 09:58:45 | INFO |   - fsl_cwt_kf_min: 0.47654435231124537
+2026-05-11 09:58:45 | INFO |   - fsl_cwt_kf_max: 21.189615946523258
+2026-05-11 09:58:45 | INFO |   - fsl_cwt_kf_na: 0
+2026-05-11 09:58:45 | INFO |   - total_ls_cwt_kf_min: 1.0498954286786986
+2026-05-11 09:58:45 | INFO |   - total_ls_cwt_kf_max: 44.84558558838524
+2026-05-11 09:58:45 | INFO |   - total_ls_cwt_kf_na: 0
+2026-05-11 09:58:45 | INFO |   - risk_priority_number_min: 0.21217955415745327
+2026-05-11 09:58:45 | INFO |   - risk_priority_number_max: 0.8534669414996512
+2026-05-11 09:58:45 | INFO |   - risk_priority_number_na: 0
+2026-05-11 09:58:45 | INFO | Stage completed | canonical | elapsed_sec=5.3503
+2026-05-11 09:58:45 | INFO | ================ BINNING ================
+2026-05-11 09:58:48 | INFO | Binning summary
+2026-05-11 09:58:48 | INFO |   - latest_bin: 1
+2026-05-11 09:58:48 | INFO |   - bin_counts: {0: 8230, 1: 5317, 2: 4016, 3: 3663, 4: 3625, 5: 4031, 6: 4377, 7: 4847, 8: 7377}
+2026-05-11 09:58:49 | INFO | Dominance summary
+2026-05-11 09:58:49 | INFO |   - dominance_counts: {-1: 8423, 0: 27378, 1: 9682}
+2026-05-11 09:58:49 | INFO |   - hit_ceiling_bottom_events: 386
+2026-05-11 09:58:49 | INFO |   - reverse_ceiling_bottom_events: 64
+2026-05-11 09:58:49 | INFO | Stage completed | dominance | elapsed_sec=3.6025
+2026-05-11 09:58:49 | INFO | ================ FINAL FEATURES ================
+2026-05-11 09:58:49 | INFO | Saved merged liq_dataflow feature export to /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/features_liq_dataflow.csv
+2026-05-11 09:58:49 | INFO | Final feature summary
+2026-05-11 09:58:49 | INFO |   - fll_cwt_kf: 2.1662017984123443
+2026-05-11 09:58:49 | INFO |   - fsl_cwt_kf: 2.857122058583835
+2026-05-11 09:58:49 | INFO |   - diff_ls_cwt_kf: -0.6909202601714908
+2026-05-11 09:58:49 | INFO |   - total_ls_cwt_kf: 5.023323856996179
+2026-05-11 09:58:49 | INFO |   - risk_priority_number: 0.43122877602147014
+2026-05-11 09:58:49 | INFO |   - bin_index: 1
+2026-05-11 09:58:49 | INFO |   - dominance: 0
+2026-05-11 09:58:49 | INFO |   - diff_dom_ls_cwt_kf: -0.1375424479568606
+2026-05-11 09:58:49 | INFO |   - z_logTotalP: -0.3993955799528389
+2026-05-11 09:58:49 | INFO |   - z_sdom: -1.048147469161678
+2026-05-11 09:58:49 | INFO |   - z_fll_cwt_kf: -0.5486663602675348
+2026-05-11 09:58:49 | INFO |   - z_fsl_cwt_kf: -0.15178067416066016
+2026-05-11 09:58:49 | INFO |   - z_logTotalP_nan_pct: 0.0835
+2026-05-11 09:58:49 | INFO |   - z_sdom_nan_pct: 0.0835
+2026-05-11 09:58:49 | INFO |   - z_fll_cwt_kf_nan_pct: 0.0835
+2026-05-11 09:58:49 | INFO |   - z_fsl_cwt_kf_nan_pct: 0.0835
+2026-05-11 09:58:50 | INFO | Saved feature store to /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/feature_store.csv
+2026-05-11 09:58:50 | INFO | Dataframe summary | feature_store
+2026-05-11 09:58:50 | INFO |   - rows: 45483
+2026-05-11 09:58:50 | INFO |   - columns: 49
+2026-05-11 09:58:50 | INFO |   - col_names: time, price, fll_normal, fsl_normal, total_ls_normal, diff_ls_normal, lld_normal, diff_dom_ls_normal, liq_active_raw, fll_cwt_kf, fsl_cwt_kf, risk_priority_number ...
+2026-05-11 09:58:50 | INFO |   - start_time: 2021-02-01 01:00:00
+2026-05-11 09:58:50 | INFO |   - latest_time: 2026-05-11 00:00:00
+2026-05-11 09:58:50 | INFO |   - missing_time: 0
+2026-05-11 09:58:50 | INFO | Stage completed | final_features_and_store | elapsed_sec=1.1990
+2026-05-11 09:58:50 | INFO | ================ VISUALIZATION ================
+2026-05-11 09:58:50 | INFO | Generating specialized dashboards.
+2026-05-11 09:59:03 | INFO | Generating feature portal pages.
+2026-05-11 09:59:06 | INFO | Visualization artifacts written under /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/report
+2026-05-11 09:59:06 | INFO | Stage completed | visualization | elapsed_sec=15.3476
+2026-05-11 09:59:06 | INFO | Stage completed | validation | elapsed_sec=0.0077
+2026-05-11 09:59:06 | INFO | Run artifacts recorded at /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/logs/runs/20260511T015840Z
+2026-05-11 09:59:06 | INFO | Feature engineering pipeline completed successfully.

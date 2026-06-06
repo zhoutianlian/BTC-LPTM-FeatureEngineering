@@ -1,0 +1,108 @@
+project:
+  name: qd_mar_absorption
+  version: 0.1.0
+
+paths:
+  input_csv: data/input/plie_predictions_source.csv
+  output_dir: output
+  features_dir: output/features
+  reports_dir: output/reports
+  html_dir: output/html
+  state_dir: state
+  calibration_state: state/qdmar_calibration.pkl
+  latest_summary: output/reports/latest_summary.json
+
+data:
+  time_col: time
+  price_col: price
+  split_col: split
+  timezone: UTC
+  expected_splits: [train, validation, test]
+  source_clock: true
+
+horizons:
+  - name: 20m
+    minutes: 20
+    ret_col: ret_20m_bps
+    plie_col: plie_passive_20m_bps
+    raw_mag_col: plie_passive_20m_bps_mag_raw
+    eff_mag_col: plie_passive_20m_bps_mag
+    b_min_bps: 2.0
+  - name: 30m
+    minutes: 30
+    ret_col: ret_30m_bps
+    plie_col: plie_passive_30m_bps
+    raw_mag_col: plie_passive_30m_bps_mag_raw
+    eff_mag_col: plie_passive_30m_bps_mag
+    b_min_bps: 2.5
+  - name: 60m
+    minutes: 60
+    ret_col: ret_60m_bps
+    plie_col: plie_passive_60m_bps
+    raw_mag_col: plie_passive_60m_bps_mag_raw
+    eff_mag_col: plie_passive_60m_bps_mag
+    b_min_bps: 3.0
+
+absorption:
+  reliability_min: 0.65
+  snr_min: 0.20
+  snr_low: 0.10
+  snr_full: 0.45
+  eps: 1.0e-9
+  lambda_sigma: 0.75
+  neutral_tanh_scale: 2.0
+  sigma:
+    method: rolling_mad
+    window: 168
+    min_periods: 48
+    shift_by_maturity: true
+  labels:
+    u_amplification: 0.85
+    u_baseline: 0.65
+    u_normal_low: 0.35
+    u_partial_low: 0.15
+    active_z_low: 0.75
+    active_z_normal: 1.50
+    active_z_strong: 3.00
+
+calibration:
+  min_bucket_size: 500
+  train_split: train
+  bucket_levels:
+    - [horizon, state_severity_bucket, plie_phase_group, vol_regime]
+    - [horizon, state_severity_bucket, vol_regime]
+    - [horizon, vol_regime]
+    - [horizon]
+  neutral_bucket_levels:
+    - [horizon, vol_regime]
+    - [horizon]
+
+memory:
+  main_horizon: 30m
+  ewm_spans: [3, 6, 12]
+  persistence_window: 6
+  takeover_window: 12
+  curve_mode_window: 6
+  directional_decay_halflife_hours: 24
+
+visualization:
+  include_plotlyjs: cdn
+  max_points: 60000
+  latest_rows: 200
+
+agent_inputs:
+  # Recommended Agent fields use staleness-aware directional memory.
+  - mar_abs_score_q_staleaware_ewm_6_30m
+  - mar_active_force_aligned_staleaware_ewm_6_30m
+  - mar_active_force_price_staleaware_ewm_6_30m
+  - mar_directional_core_freshness_30m
+  - mar_directional_core_age_hours_30m
+  - mar_directional_quality_ewm_6_30m
+  - mar_takeover_count_12_30m
+  - mar_amplification_persistence_6_30m
+  - mar_absorption_persistence_6_30m
+  - mar_curve_label_last
+  - mar_curve_label_mode_6
+  - mar_neutral_active_strength_evidence_ewm_6_30m
+  - mar_neutral_context_persistence_12_30m
+  - mar_response_conflict_score

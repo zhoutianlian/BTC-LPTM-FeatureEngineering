@@ -1,0 +1,141 @@
+2026-04-15 02:55:31 | INFO | Initialized feature engineering run_id=20260415T025531Z
+2026-04-15 02:55:31 | INFO | Logs will be written to /mnt/data/reorgproj/liq_dataflow/logs/runs/20260415T025531Z
+2026-04-15 02:55:31 | INFO | Starting BTC liquidation feature engineering pipeline.
+2026-04-15 02:55:31 | INFO | ================ INPUT ================
+2026-04-15 02:55:31 | INFO | Input CSV not found, skipping candidate: /mnt/data/reorgproj/liq_data_download/data/raw/hourly/BTC_price_lld.csv
+2026-04-15 02:55:31 | INFO | CSV input summary
+2026-04-15 02:55:31 | INFO |   - path: /mnt/data/reorgproj/liq_dataflow/data/clean/clean_data.csv
+2026-04-15 02:55:31 | INFO |   - rows: 33691
+2026-04-15 02:55:31 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-04-15 02:55:31 | INFO |   - latest_time: 2025-01-04 03:00:00
+2026-04-15 02:55:31 | INFO |   - missing_bars: 705
+2026-04-15 02:55:31 | INFO |   - missing_ratio_pct: 2.049657
+2026-04-15 02:55:31 | INFO |   - columns: time, price, fll_normal, fsl_normal, total_ls_normal, diff_ls_normal, lld_normal, diff_dom_ls_normal, liq_active_raw
+2026-04-15 02:55:31 | INFO | Loaded input CSV from /mnt/data/reorgproj/liq_dataflow/data/clean/clean_data.csv
+2026-04-15 02:55:31 | INFO | Dataframe summary | input_data::csv
+2026-04-15 02:55:31 | INFO |   - rows: 33691
+2026-04-15 02:55:31 | INFO |   - columns: 9
+2026-04-15 02:55:31 | INFO |   - col_names: time, price, fll_normal, fsl_normal, total_ls_normal, diff_ls_normal, lld_normal, diff_dom_ls_normal, liq_active_raw
+2026-04-15 02:55:31 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-04-15 02:55:31 | INFO |   - latest_time: 2025-01-04 03:00:00
+2026-04-15 02:55:31 | INFO |   - missing_time: 0
+2026-04-15 02:55:31 | INFO |   - price_min: 15611.740149166488
+2026-04-15 02:55:31 | INFO |   - price_max: 108028.60273499548
+2026-04-15 02:55:31 | INFO |   - price_na: 0
+2026-04-15 02:55:31 | INFO |   - fll_normal_min: 0.0
+2026-04-15 02:55:31 | INFO |   - fll_normal_max: 459.5756167962604
+2026-04-15 02:55:31 | INFO |   - fll_normal_na: 0
+2026-04-15 02:55:31 | INFO |   - fsl_normal_min: 0.0
+2026-04-15 02:55:31 | INFO |   - fsl_normal_max: 398.99202742343454
+2026-04-15 02:55:31 | INFO |   - fsl_normal_na: 0
+2026-04-15 02:55:31 | INFO | Stage completed | load_input_data | elapsed_sec=0.0907
+2026-04-15 02:55:31 | INFO | ================ PREPROCESS ================
+2026-04-15 02:55:31 | INFO | Preprocessing liquidation input frame | detected_input_type=clean_frame
+2026-04-15 02:55:31 | INFO | Saved clean frame to /mnt/data/reorgproj/liq_dataflow/data/clean/clean_data.csv
+2026-04-15 02:55:31 | INFO | Dataframe summary | clean
+2026-04-15 02:55:31 | INFO |   - rows: 33691
+2026-04-15 02:55:31 | INFO |   - columns: 9
+2026-04-15 02:55:31 | INFO |   - col_names: time, price, fll_normal, fsl_normal, total_ls_normal, diff_ls_normal, lld_normal, diff_dom_ls_normal, liq_active_raw
+2026-04-15 02:55:31 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-04-15 02:55:31 | INFO |   - latest_time: 2025-01-04 03:00:00
+2026-04-15 02:55:31 | INFO |   - missing_time: 0
+2026-04-15 02:55:31 | INFO |   - price_min: 15611.740149166488
+2026-04-15 02:55:31 | INFO |   - price_max: 108028.60273499548
+2026-04-15 02:55:31 | INFO |   - price_na: 0
+2026-04-15 02:55:31 | INFO |   - fll_normal_min: 0.0
+2026-04-15 02:55:31 | INFO |   - fll_normal_max: 459.5756167962604
+2026-04-15 02:55:31 | INFO |   - fll_normal_na: 0
+2026-04-15 02:55:31 | INFO |   - fsl_normal_min: 0.0
+2026-04-15 02:55:31 | INFO |   - fsl_normal_max: 398.99202742343454
+2026-04-15 02:55:31 | INFO |   - fsl_normal_na: 0
+2026-04-15 02:55:31 | INFO |   - total_ls_normal_min: 0.001
+2026-04-15 02:55:31 | INFO |   - total_ls_normal_max: 592.9997642987464
+2026-04-15 02:55:31 | INFO |   - total_ls_normal_na: 0
+2026-04-15 02:55:31 | INFO | Stage completed | preprocess | elapsed_sec=0.3621
+2026-04-15 02:55:31 | INFO | ================ CANONICAL FAMILY ================
+2026-04-15 02:55:31 | INFO | Smoothing fll_normal -> fll_cwt_kf | cache=/mnt/data/reorgproj/liq_dataflow/data/cache/fll_cwt.csv | latest_cached_time=2026-02-24 01:00:00
+2026-04-15 02:55:32 | INFO | Dataframe summary | fll_cwt_kf
+2026-04-15 02:55:32 | INFO |   - rows: 43660
+2026-04-15 02:55:32 | INFO |   - columns: 2
+2026-04-15 02:55:32 | INFO |   - col_names: time, fll_cwt_kf
+2026-04-15 02:55:32 | INFO |   - start_time: 2021-02-01 01:00:00
+2026-04-15 02:55:32 | INFO |   - latest_time: 2026-02-24 01:00:00
+2026-04-15 02:55:32 | INFO |   - missing_time: 0
+2026-04-15 02:55:32 | INFO |   - fll_cwt_kf_min: 0.004901815576529154
+2026-04-15 02:55:32 | INFO |   - fll_cwt_kf_max: 31.227325850189537
+2026-04-15 02:55:32 | INFO |   - fll_cwt_kf_na: 0
+2026-04-15 02:55:32 | INFO | Smoothing fsl_normal -> fsl_cwt_kf | cache=/mnt/data/reorgproj/liq_dataflow/data/cache/fsl_cwt.csv | latest_cached_time=2026-02-24 01:00:00
+2026-04-15 02:55:33 | INFO | Dataframe summary | fsl_cwt_kf
+2026-04-15 02:55:33 | INFO |   - rows: 43660
+2026-04-15 02:55:33 | INFO |   - columns: 2
+2026-04-15 02:55:33 | INFO |   - col_names: time, fsl_cwt_kf
+2026-04-15 02:55:33 | INFO |   - start_time: 2021-02-01 01:00:00
+2026-04-15 02:55:33 | INFO |   - latest_time: 2026-02-24 01:00:00
+2026-04-15 02:55:33 | INFO |   - missing_time: 0
+2026-04-15 02:55:33 | INFO |   - fsl_cwt_kf_min: 0.00464718122159607
+2026-04-15 02:55:33 | INFO |   - fsl_cwt_kf_max: 27.11272918310002
+2026-04-15 02:55:33 | INFO |   - fsl_cwt_kf_na: 0
+2026-04-15 02:55:34 | INFO | Saved canonical liquidation family to /mnt/data/reorgproj/liq_dataflow/data/features/features_rpn.csv
+2026-04-15 02:55:34 | INFO | Dataframe summary | canonical
+2026-04-15 02:55:34 | INFO |   - rows: 33690
+2026-04-15 02:55:34 | INFO |   - columns: 14
+2026-04-15 02:55:34 | INFO |   - col_names: time, price, liq_active_raw, fll_cwt_kf, fsl_cwt_kf, risk_priority_number, lld_cwt_kf_smooth, diff_ls_cwt_kf, diff_ls_smooth, total_ls_cwt_kf, diff_dom_ls_cwt_kf, corr_case ...
+2026-04-15 02:55:34 | INFO |   - start_time: 2021-02-01 01:00:00
+2026-04-15 02:55:34 | INFO |   - latest_time: 2025-01-04 03:00:00
+2026-04-15 02:55:34 | INFO |   - missing_time: 0
+2026-04-15 02:55:34 | INFO |   - fll_cwt_kf_min: 0.06596476679596266
+2026-04-15 02:55:34 | INFO |   - fll_cwt_kf_max: 31.227325850189537
+2026-04-15 02:55:34 | INFO |   - fll_cwt_kf_na: 0
+2026-04-15 02:55:34 | INFO |   - fsl_cwt_kf_min: 0.051650383755041336
+2026-04-15 02:55:34 | INFO |   - fsl_cwt_kf_max: 27.11272918310002
+2026-04-15 02:55:34 | INFO |   - fsl_cwt_kf_na: 0
+2026-04-15 02:55:34 | INFO |   - total_ls_cwt_kf_min: 0.2822273062970986
+2026-04-15 02:55:34 | INFO |   - total_ls_cwt_kf_max: 50.882967222516115
+2026-04-15 02:55:34 | INFO |   - total_ls_cwt_kf_na: 0
+2026-04-15 02:55:34 | INFO |   - risk_priority_number_min: 0.02870216223288878
+2026-04-15 02:55:34 | INFO |   - risk_priority_number_max: 0.9864878449866465
+2026-04-15 02:55:34 | INFO |   - risk_priority_number_na: 0
+2026-04-15 02:55:34 | INFO | Stage completed | canonical | elapsed_sec=2.6910
+2026-04-15 02:55:34 | INFO | ================ BINNING ================
+2026-04-15 02:55:37 | INFO | Binning summary
+2026-04-15 02:55:37 | INFO |   - latest_bin: 6
+2026-04-15 02:55:37 | INFO |   - bin_counts: {0: 5749, 1: 4070, 2: 3320, 3: 2806, 4: 2936, 5: 2812, 6: 3101, 7: 3575, 8: 5321}
+2026-04-15 02:55:38 | INFO | Dominance summary
+2026-04-15 02:55:38 | INFO |   - dominance_counts: {-1: 6319, 0: 20547, 1: 6824}
+2026-04-15 02:55:38 | INFO |   - hit_ceiling_bottom_events: 521
+2026-04-15 02:55:38 | INFO |   - reverse_ceiling_bottom_events: 65
+2026-04-15 02:55:38 | INFO | Stage completed | dominance | elapsed_sec=4.1806
+2026-04-15 02:55:39 | INFO | Saved contract feature export to /mnt/data/reorgproj/liq_dataflow/data/features/liq_dataflow_features.csv
+2026-04-15 02:55:39 | INFO | ================ MODEL FEATURES ================
+2026-04-15 02:55:39 | INFO | Model feature summary
+2026-04-15 02:55:39 | INFO |   - z_logTotalP: 0.17632674772083282
+2026-04-15 02:55:39 | INFO |   - z_sdom: 0.048181577205921956
+2026-04-15 02:55:39 | INFO |   - RPN: 0.592384500176077
+2026-04-15 02:55:39 | INFO |   - bin_index: 6.0
+2026-04-15 02:55:39 | INFO |   - z_fll_cwt_kf: -0.4792462272411282
+2026-04-15 02:55:39 | INFO |   - z_fsl_cwt_kf: 0.11649518415968567
+2026-04-15 02:55:39 | INFO |   - dominance: 0.0
+2026-04-15 02:55:39 | INFO |   - z_logTotalP_nan_pct: 0.1128
+2026-04-15 02:55:39 | INFO |   - z_sdom_nan_pct: 0.1128
+2026-04-15 02:55:39 | INFO |   - RPN_nan_pct: 0.0
+2026-04-15 02:55:39 | INFO |   - bin_index_nan_pct: 0.0
+2026-04-15 02:55:39 | INFO |   - z_fll_cwt_kf_nan_pct: 0.1128
+2026-04-15 02:55:39 | INFO |   - z_fsl_cwt_kf_nan_pct: 0.1128
+2026-04-15 02:55:39 | INFO |   - dominance_nan_pct: 0.0
+2026-04-15 02:55:41 | INFO | Saved feature store to /mnt/data/reorgproj/liq_dataflow/data/features/feature_store.csv
+2026-04-15 02:55:41 | INFO | Dataframe summary | feature_store
+2026-04-15 02:55:41 | INFO |   - rows: 33690
+2026-04-15 02:55:41 | INFO |   - columns: 50
+2026-04-15 02:55:41 | INFO |   - col_names: time, price, fll_normal, fsl_normal, total_ls_normal, diff_ls_normal, lld_normal, diff_dom_ls_normal, liq_active_raw, fll_cwt_kf, fsl_cwt_kf, risk_priority_number ...
+2026-04-15 02:55:41 | INFO |   - start_time: 2021-02-01 01:00:00
+2026-04-15 02:55:41 | INFO |   - latest_time: 2025-01-04 03:00:00
+2026-04-15 02:55:41 | INFO |   - missing_time: 0
+2026-04-15 02:55:41 | INFO | Stage completed | model_and_store | elapsed_sec=2.3394
+2026-04-15 02:55:41 | INFO | ================ VISUALIZATION ================
+2026-04-15 02:55:41 | INFO | Generating specialized dashboards.
+2026-04-15 02:55:49 | INFO | Generating feature portal pages.
+2026-04-15 02:55:50 | INFO | Visualization artifacts written under /mnt/data/reorgproj/liq_dataflow/data/features
+2026-04-15 02:55:50 | INFO | Stage completed | visualization | elapsed_sec=9.5978
+2026-04-15 02:55:50 | INFO | Stage completed | validation | elapsed_sec=0.0102
+2026-04-15 02:55:50 | INFO | Run artifacts recorded at /mnt/data/reorgproj/liq_dataflow/logs/runs/20260415T025531Z
+2026-04-15 02:55:50 | INFO | Feature engineering pipeline completed successfully.

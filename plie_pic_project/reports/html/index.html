@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PLIE-PIC Index</title>
+<style>
+body { background:#070b12; color:#dbe7ff; font-family: Inter, Segoe UI, Arial, sans-serif; margin:0; }
+a { color:#4cc9f0; text-decoration:none; }
+a:hover { text-decoration:underline; }
+.container { max-width: 1420px; margin: 0 auto; padding: 28px; }
+.card { background: linear-gradient(145deg,#0c1220,#111827); border:1px solid #1f2a44; border-radius:16px; padding:20px; margin:16px 0; box-shadow:0 0 24px rgba(76,201,240,.08); }
+.grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:16px; }
+.metric { font-size:28px; font-weight:700; color:#f5fbff; }
+.label { color:#8da2c8; font-size:13px; text-transform:uppercase; letter-spacing:.08em; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th, td { border-bottom:1px solid #1f2a44; padding:8px 10px; text-align:left; }
+th { color:#8de3ff; }
+.badge { display:inline-block; border:1px solid #2d426b; border-radius:999px; padding:4px 10px; margin:2px; color:#bfe8ff; background:#0a1424; }
+</style>
+</head>
+<body><div class="container">
+<h1>PLIE-PIC Research Terminal</h1>
+<div class="card">
+  <p><b>PLIE-PIC</b> is a source-clock, mechanism-constrained, quantile passive impact curve. It estimates the approximate passive price pressure caused by BTC futures liquidation forced flow. It is not a generic BTC return predictor.</p>
+  <p>Core pipeline: liquidation pressure state/change → passive PLIE baseline → compare with realized price move → absorption / active residual diagnostics.</p>
+</div>
+<div class="grid">
+  <div class="card"><div class="label">Latest source time</div><div class="metric">2026-05-12 02:50:00+00:00</div></div>
+  <div class="card"><div class="label">Latest HMM state</div><div class="metric">2.0</div></div>
+  <div class="card"><div class="label">Latest PLIE main</div><div class="metric">1.4726 bps</div></div>
+  <div class="card"><div class="label">Latest reliability</div><div class="metric">0.3680</div></div>
+</div>
+<div class="card">
+<h2>Navigation</h2>
+<p>
+<span class="badge"><a href="plie_price.html">PLIE × Price</a></span>
+<span class="badge"><a href="hmm_state.html">HMM State</a></span>
+<span class="badge"><a href="feature_statistics.html">Feature Statistics</a></span>
+<span class="badge"><a href="model_evaluation.html">Model Evaluation</a></span>
+</p>
+</div>
+<div class="card">
+<h2>Latest inference summary</h2>
+<table><tr><th>time</th><td>2026-05-12 02:50:00+00:00</td></tr><tr><th>price</th><td>81217.0458663961</td></tr><tr><th>hmm_state</th><td>2.0</td></tr><tr><th>plie_direction</th><td>1.0</td></tr><tr><th>plie_force_up</th><td>0.3877786781427475</td></tr><tr><th>plie_intensity</th><td>0.3877786781427475</td></tr><tr><th>plie_accel_pos</th><td>0.0</td></tr><tr><th>plie_reliability</th><td>0.3680231345439114</td></tr><tr><th>plie_main_bps</th><td>1.4725522113591585</td></tr><tr><th>plie_phase</th><td>mature</td></tr></table>
+</div>
+<div class="card">
+<h2>Test main-horizon core metric snapshot</h2>
+<table><tr><th>subset</th><td>test</td></tr><tr><th>horizon_min</th><td>30</td></tr><tr><th>n</th><td>6077</td></tr><tr><th>pinball_q</th><td>9.169042</td></tr><tr><th>mae_aligned_vs_plie</th><td>19.032</td></tr><tr><th>mean_aligned_actual_bps</th><td>0.1154</td></tr><tr><th>median_aligned_actual_bps</th><td>0.0</td></tr><tr><th>mean_plie_mag_bps</th><td>2.4286</td></tr><tr><th>transmission_rate</th><td>0.4211</td></tr><tr><th>spearman_plie_vs_aligned</th><td>-0.00656</td></tr><tr><th>spearman_signed_plie_vs_return</th><td>-0.00467</td></tr></table>
+</div>
+</div></body></html>

@@ -1,0 +1,10 @@
+variable,horizon_min,n_deciles,rho_decile_vs_plie,rho_decile_vs_aligned_actual,plie_shape_pass,actual_relation_note
+plie_abs_main_bps,20,10,1.0,0.3455,True,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.
+plie_abs_main_bps,30,10,1.0,0.4545,True,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.
+plie_abs_main_bps,60,10,1.0,0.6727,True,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.
+plie_accel_pos,20,10,0.3212,0.3091,False,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.
+plie_accel_pos,30,10,0.3212,0.0909,False,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.
+plie_accel_pos,60,10,0.3212,0.5273,False,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.
+plie_intensity,20,10,1.0,0.4303,True,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.
+plie_intensity,30,10,1.0,0.3455,True,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.
+plie_intensity,60,10,1.0,0.297,True,Actual returns include active flow/absorption; positive monotonicity is useful but not required for PLIE validity.

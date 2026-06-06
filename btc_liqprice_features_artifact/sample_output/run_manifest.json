@@ -1,0 +1,49 @@
+{
+  "input": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/data/features/feature_store.csv",
+  "output": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/features.csv",
+  "html_dir": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html",
+  "resolved_config": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/resolved_feature_config.json",
+  "log_file": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/logs/build_features_20260413_093804.log",
+  "effective_bar_minutes": 60,
+  "auto_visualize": true,
+  "feature_profile": {
+    "rows": 44810,
+    "columns": [
+      "fll_spike_kama",
+      "fsl_spike_kama",
+      "fll_velocity_gaussian",
+      "fll_acceleration_gaussian",
+      "fsl_velocity_gaussian",
+      "fsl_acceleration_gaussian",
+      "trend_pressure",
+      "kalman_slope",
+      "vol_adaptive"
+    ],
+    "nan_ratio": {
+      "fll_spike_kama": 2.2316447221602322e-05,
+      "fsl_spike_kama": 2.2316447221602322e-05,
+      "fll_velocity_gaussian": 2.2316447221602322e-05,
+      "fll_acceleration_gaussian": 4.4632894443204644e-05,
+      "fsl_velocity_gaussian": 2.2316447221602322e-05,
+      "fsl_acceleration_gaussian": 4.4632894443204644e-05,
+      "trend_pressure": 8.926578888640929e-05,
+      "kalman_slope": 0.0,
+      "vol_adaptive": 0.00017853157777281858
+    },
+    "start_time": "2021-02-01T01:00:00+00:00",
+    "end_time": "2026-04-12T23:00:00+00:00"
+  },
+  "html_outputs": [
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/fll_spike_kama.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/fsl_spike_kama.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/fll_velocity_gaussian.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/fll_acceleration_gaussian.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/fsl_velocity_gaussian.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/fsl_acceleration_gaussian.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/trend_pressure.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/kalman_slope.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/vol_adaptive.html",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/feature_summary.csv",
+    "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/sample_output/html/index.html"
+  ]
+}

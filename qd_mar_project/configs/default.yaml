@@ -1,0 +1,551 @@
+project:
+  name: qd_mar_absorption
+  version: 0.7.0
+  root_dir: ..
+run:
+  make_html: true
+  drop_unmatured_tail: true
+  print_outputs: true
+paths:
+  input_csv: ../plie_pic_project/outputs/predictions/plie_predictions_source.csv
+  output_dir: output
+  features_dir: output/features
+  reports_dir: output/reports
+  html_dir: output/html
+  state_dir: state
+  calibration_state: state/qdmar_calibration.pkl
+  latest_summary: output/reports/latest_summary.json
+  price_context_csv: ../price_context/output/price_context_features.csv
+data:
+  time_col: time
+  price_col: price
+  split_col: split
+  timezone: UTC
+  expected_splits:
+  - train
+  - validation
+  - test
+  source_clock: true
+  source_time_col: liq_feature_time
+  source_time_raw_col: liq_feature_time_raw
+  source_age_col: liq_feature_age_min
+io:
+  timestamp_parse_columns:
+  - liq_feature_time
+  - liq_feature_time_raw
+  csv_date_format: '%Y-%m-%dT%H:%M:%SZ'
+  csv_chunksize: 50000
+columns:
+  required_input:
+  - time
+  - price
+  - split
+  - ret_20m_bps
+  - ret_30m_bps
+  - ret_60m_bps
+  - plie_passive_20m_bps
+  - plie_passive_30m_bps
+  - plie_passive_60m_bps
+  - plie_passive_20m_bps_mag_raw
+  - plie_passive_30m_bps_mag_raw
+  - plie_passive_60m_bps_mag_raw
+  - plie_main_bps
+  - plie_direction
+  - plie_reliability
+  - plie_intensity
+  - plie_phase
+  - hmm_state
+  - hmm_conf
+  - liq_entropy
+  - age_in_state_source
+  - state_severity
+  optional_input:
+  - liq_feature_time
+  - liq_feature_time_raw
+  - liq_feature_age_min
+  - plie_intensity_scaled
+horizons:
+- name: 20m
+  minutes: 20
+  ret_col: ret_20m_bps
+  plie_col: plie_passive_20m_bps
+  raw_mag_col: plie_passive_20m_bps_mag_raw
+  eff_mag_col: plie_passive_20m_bps_mag
+  b_min_bps: 2.0
+- name: 30m
+  minutes: 30
+  ret_col: ret_30m_bps
+  plie_col: plie_passive_30m_bps
+  raw_mag_col: plie_passive_30m_bps_mag_raw
+  eff_mag_col: plie_passive_30m_bps_mag
+  b_min_bps: 2.5
+- name: 60m
+  minutes: 60
+  ret_col: ret_60m_bps
+  plie_col: plie_passive_60m_bps
+  raw_mag_col: plie_passive_60m_bps_mag_raw
+  eff_mag_col: plie_passive_60m_bps_mag
+  b_min_bps: 3.0
+absorption:
+  reliability_min: 0.65
+  snr_min: 0.2
+  snr_low: 0.1
+  snr_full: 0.45
+  eps: 1.0e-09
+  lambda_sigma: 0.75
+  neutral_tanh_scale: 2.0
+  active_residual_winsor_sigma: 5.0
+  deadzone:
+    b_raw_fraction: 0.15
+    sigma_fraction: 0.1
+  sigma:
+    method: rolling_mad
+    window: 168
+    min_periods: 48
+    shift_by_maturity: true
+  labels:
+    u_amplification: 0.85
+    u_baseline: 0.65
+    u_normal_low: 0.35
+    u_partial_low: 0.15
+    active_z_low: 0.75
+    active_z_normal: 1.5
+    active_z_strong: 3.0
+  weak_reliability_min: 0.3
+  weak_snr_min: 0.1
+  weak_directional_labels:
+    amplification_tr: 1.25
+  curve:
+    horizon_percentile_columns:
+      20m: u20
+      30m: u30
+      60m: u60
+    maturity_minutes: auto
+    label_thresholds:
+      neutral_active_dominance_percentile: 85.0
+      persistent_low: 0.2
+      persistent_high: 0.8
+      fast_high: 0.75
+      sustained_high: 0.65
+      delayed_low: 0.35
+      delayed_high: 0.65
+      fast_absorption_u20: 0.25
+      fast_absorption_u30_u60: 0.35
+calibration:
+  min_bucket_size: 500
+  train_split: train
+  bucket_levels:
+  - - horizon
+    - state_severity_bucket
+    - plie_phase_group
+    - vol_regime
+  - - horizon
+    - state_severity_bucket
+    - vol_regime
+  - - horizon
+    - vol_regime
+  - - horizon
+  neutral_bucket_levels:
+  - - horizon
+    - vol_regime
+  - - horizon
+memory:
+  main_horizon: 30m
+  ewm_spans:
+  - 3
+  - 6
+  - 12
+  persistence_window: 6
+  takeover_window: 12
+  curve_mode_window: 6
+  directional_decay_halflife_hours: 24
+visualization:
+  include_plotlyjs: cdn
+  max_points: 8000
+  latest_rows: 200
+agent_inputs:
+- mar_abs_score_q_staleaware_ewm_6_30m
+- mar_active_force_aligned_staleaware_ewm_6_30m
+- mar_active_force_price_staleaware_ewm_6_30m
+- mar_directional_core_freshness_30m
+- mar_directional_core_age_hours_30m
+- mar_directional_quality_ewm_6_30m
+- mar_takeover_count_12_30m
+- mar_amplification_persistence_6_30m
+- mar_absorption_persistence_6_30m
+- mar_curve_label_last
+- mar_curve_label_mode_6
+- mar_neutral_active_strength_evidence_ewm_6_30m
+- mar_neutral_context_persistence_12_30m
+- mar_response_conflict_score
+- mar_episode_abs_score_12h
+- mar_episode_abs_score_24h
+- mar_episode_abs_score_48h
+- mar_episode_pressure_rejection_score_12h
+- mar_episode_pressure_rejection_score_24h
+- mar_episode_pressure_rejection_score_48h
+- mar_episode_active_force_aligned_24h
+- mar_episode_active_force_price_24h
+- mar_episode_active_z_24h
+- mar_episode_active_dominance_score_24h
+- mar_episode_active_dominance_price_score_24h
+- mar_episode_liq_neutrality_score_24h
+- mar_episode_active_context_quality_24h
+- mar_episode_quality_24h
+- mar_episode_context_24h
+- mar_episode_label_24h
+- mar_episode_data_quality_24h
+- mar_episode_signal_clarity_24h
+- mar_episode_activity_level_24h
+- mar_episode_context_6h
+- mar_episode_label_6h
+- mar_episode_context_12h
+- mar_episode_label_12h
+path_absorption:
+  enabled: true
+  main_horizon: 30m
+  windows_hours:
+  - 6
+  - 12
+  - 24
+  - 48
+  source_clock_default_minutes: 60.0
+  min_window_points: 2
+  price_return_bps_scale: 10000.0
+  vol_window: 168
+  vol_min_periods: 48
+  lambda_sigma: 0.75
+  sigmoid_clip: 20.0
+  active_score_clip_upper: 2.0
+  intensity_train_quantile: 0.9
+  intensity_default_scale: 1.0
+  intensity_max: 3.0
+  min_direction_consistency: 0.55
+  core_direction_consistency: 0.7
+  min_net_braw_bps: 8.0
+  min_total_braw_bps: 8.0
+  min_nonzero_direction_share: 0.5
+  weak_reliability_min: 0.3
+  core_reliability_min: 0.55
+  weak_snr_min: 0.1
+  core_snr_min: 0.25
+  label_thresholds:
+    amplification_tr: 1.25
+    baseline_tr: 0.65
+    partial_tr: 0.15
+    reversal_tr: -0.15
+  score_weights:
+    cascade_base: 0.6
+    cascade_vol_jump: 0.4
+    rejection_base: 0.6
+    rejection_trend_against: 0.4
+  quiet_score_weights:
+    vol_low: 0.35
+    trend_low: 0.3
+    range_high: 0.25
+    no_jump: 0.1
+  chop_score_weights:
+    trend_low: 0.35
+    low_trend_consistency: 0.25
+    range_high: 0.25
+    low_directionality: 0.15
+price_context:
+  enabled: true
+  required: false
+  csv_path: ../price_context/output/price_context_features.csv.zip
+  merge_tolerance_minutes: 70
+  usecols:
+  - time
+  - price_feature_time
+  - price_feature_age_min
+  - realized_vol_1h_bps
+  - realized_vol_6h_bps
+  - realized_vol_24h_bps
+  - realized_vol_1h_per_sqrt_hour_bps
+  - realized_vol_6h_per_sqrt_hour_bps
+  - realized_vol_24h_per_sqrt_hour_bps
+  - range_compression_1h
+  - range_compression_6h
+  - range_compression_24h
+  - trend_strength_1h
+  - trend_strength_6h
+  - trend_strength_24h
+  - trend_consistency_1h
+  - trend_consistency_6h
+  - trend_consistency_24h
+  - trend_direction_1h
+  - trend_direction_6h
+  - trend_direction_24h
+  - vol_of_vol_6h
+  - vol_of_vol_24h
+  - vol_of_vol_48h
+  - jump_proxy_1h
+  - jump_proxy_6h
+  - jump_proxy_24h
+  - price_missing_ratio_1h
+  - price_missing_ratio_6h
+  - price_missing_ratio_24h
+  - price_gap_flag_1h
+  - price_gap_flag_6h
+  - price_gap_flag_24h
+  - price_outlier_flag_1h
+  - price_outlier_flag_6h
+  - price_outlier_flag_24h
+  window_mapping:
+    6: 6h
+    12: 6h
+    24: 24h
+    48: 24h
+  use_realized_vol: true
+  use_range_compression: true
+  use_trend_strength: true
+  use_trend_consistency: true
+  use_vol_of_vol: true
+  use_jump_proxy: true
+path_context:
+  windows:
+  - 6h
+  - 12h
+  - 24h
+  - 48h
+  pressure_intensity_source: plie_intensity_scaled
+  fallback_intensity_source: abs_plie_main_bps
+  intensity_train_quantile: 0.9
+  intensity_default_scale: 1.0
+  intensity_max: 3.0
+  mass_low_quantile: 0.3
+  mass_high_quantile: 0.7
+  direction_core_threshold: 0.65
+  direction_weak_threshold: 0.4
+  mixed_threshold: 0.35
+  min_valid_obs_share: 0.8
+  fallback_context: auto
+path_label:
+  baseline_impact_mode: effective_plie
+  amplification_tr: 1.25
+  baseline_tr: 0.65
+  partial_tr: 0.15
+  near_zero_tr: -0.15
+  strong_negative_tr: -0.65
+  cascade_score_min: 0.35
+  active_z_normal: 0.75
+  active_z_strong: 1.5
+  active_z_extreme: 3.0
+  quiet_score_min: 0.6
+  chop_score_min: 0.55
+  vol_low_quantile: 0.3
+  vol_high_quantile: 0.7
+  trend_low_quantile: 0.3
+  trend_high_quantile: 0.7
+  range_high_quantile: 0.7
+  jump_high_quantile: 0.7
+  use_train_split_thresholds: true
+  train_split_ratio: 0.7
+path_quality:
+  enable_refactor: true
+  output_legacy_path_quality: true
+  data_quality_weights:
+    missing_ratio: 0.35
+    gap_flag: 0.25
+    price_missing: 0.2
+    plie_missing: 0.2
+    price_outlier: 0.1
+  signal_clarity_weights:
+    directionality: 0.35
+    label_margin: 0.3
+    quiet_support: 0.2
+    chop_support: 0.2
+    data_quality: 0.15
+  activity_level_weights:
+    pressure_mass: 0.3
+    realized_vol: 0.25
+    trend_strength: 0.25
+    jump_proxy: 0.2
+state_mapping:
+  partial_absorption_boosts_rha: false
+  mixed_pressure_auto_amb: false
+  low_activity_is_bad_quality: false
+  quiet_no_pressure_supports_rc: true
+validation:
+  source_time_col: liq_feature_time
+  forbidden_agent_input_fragments:
+  - ret_
+  - future
+  - residual_raw
+  - absorption_raw
+  - transmission_ratio_raw
+  - available_time
+  - event_time
+  - plie_residual
+  - plie_absorption
+outputs:
+  features:
+    base_context: base_context.csv
+    absorption_event_matured: absorption_event_matured.csv
+    absorption_curve: absorption_curve.csv
+    absorption_memory: absorption_memory.csv
+    path_absorption: path_absorption.csv
+    path_absorption_multiscale: path_absorption_multiscale.csv
+  reports:
+    validation_results: validation_results.csv
+    q65_coverage: q65_coverage.csv
+    context_distribution: context_distribution.csv
+    label_proportions: label_proportions.csv
+    directional_label_proportions: directional_label_proportions.csv
+    percentile_summary: percentile_summary.csv
+    directional_quality_summary: directional_quality_summary.csv
+    state_exit_rates: state_exit_rates.csv
+    staleness_diagnostics: staleness_diagnostics.csv
+    agent_feature_correlation: agent_feature_correlation.csv
+    memory_quality: memory_quality.csv
+    path_context_distribution: path_context_distribution.csv
+    path_label_proportions: path_label_proportions.csv
+    path_context_label_combo_counts: path_context_label_combo_counts.csv
+    path_quality_summary: path_quality_summary.csv
+    path_scenario_examples: path_scenario_examples.csv
+    state_proxy_distribution: state_proxy_distribution.csv
+    state_evidence_summary: state_evidence_summary.csv
+    typical_state_evidence_examples: typical_state_evidence_examples.csv
+    latest_summary: latest_summary.json
+  html:
+    index: index.html
+    quality_assessment: quality_assessment.html
+    feature_statistics: feature_statistics.html
+    market_response_dashboard: market_response_dashboard.html
+    calibration: calibration.html
+    curve_dashboard: curve_dashboard.html
+    path_absorption_dashboard: path_absorption_dashboard.html
+    scenario_examples: scenario_examples.html
+    rolling_monitoring: rolling_monitoring.html
+    extreme_events: extreme_events.html
+  filters:
+    event_horizon: auto
+    path_window_hours: 24
+  report_params:
+    state_exit_windows:
+    - 12
+    - 24
+    path_scenario_main_window: 24
+  columns:
+    base_context:
+    - time
+    - price
+    - split
+    - liq_feature_time_raw
+    - liq_feature_time
+    - liq_feature_age_min
+    - hmm_state
+    - hmm_conf
+    - liq_entropy
+    - age_in_state_source
+    - state_severity
+    - plie_direction
+    - plie_main_bps
+    - plie_reliability
+    - plie_intensity
+    - plie_phase
+    - mar_sigma_past_20m_bps
+    - mar_sigma_past_30m_bps
+    - mar_sigma_past_60m_bps
+    - state_severity_bucket
+    - plie_phase_group
+    - vol_regime
+    memory_context:
+    - time
+    - price
+    - hmm_state
+    - plie_main_bps
+    - plie_reliability
+    - plie_direction
+    - plie_phase
+    - split
+    memory_audit_contains:
+    - available_time
+    - last_directional_core
+    path_absorption:
+    - time
+    - available_time
+    - window_hours
+    - split
+    - price
+    - hmm_state
+    - path_pressure_name
+    - path_return_bps
+    - path_pressure_mass
+    - path_net_pressure
+    - path_directionality
+    - path_dominant_direction
+    - path_pressure_obs_count
+    - path_pressure_missing_ratio
+    - path_aligned_return_bps
+    - path_baseline_impact_bps
+    - path_signed_plie_effective_sum_bps
+    - path_raw_plie_total_bps
+    - path_net_braw_bps
+    - path_direction_consistency
+    - path_liq_neutrality_score
+    - path_snr
+    - path_active_z
+    - path_active_dominance_score
+    - path_active_dominance_price_score
+    - path_aligned_response_bps
+    - path_transmission_ratio
+    - path_absorption_score_0_100
+    - path_quality
+    - path_data_quality
+    - path_signal_clarity
+    - path_activity_level
+    - path_pressure_rejection_score
+    - path_cascade_score
+    - path_quiet_score
+    - path_chop_score
+    - realized_vol_used_bps
+    - range_compression_used
+    - trend_strength_used
+    - trend_consistency_used
+    - trend_direction_used
+    - jump_proxy_used
+    - price_missing_ratio_used
+    - price_gap_flag_used
+    - price_outlier_flag_used
+    - path_context
+    - path_label
+    absorption_event_matured:
+    - event_time
+    - available_time
+    - horizon
+    - horizon_minutes
+    - split
+    - hmm_state
+    - state_severity
+    - plie_phase
+    - plie_direction
+    - plie_reliability
+    - signed_plie_effective_bps
+    - plie_reference_raw_bps
+    - actual_return_bps
+    - aligned_actual_response_bps
+    - snr_raw
+    - volatility_sigma_past_bps
+    - quality_weight
+    - response_context
+    - transmission_ratio_raw
+    - absorption_raw
+    - response_percentile
+    - absorption_score_q_0_100
+    - active_force_aligned_score
+    - active_force_price_score
+    - neutral_active_strength_score_0_100
+    - directional_absorption_label
+    - market_response_label
+  column_prefixes:
+    base_context:
+    - realized_vol_
+    - range_compression_
+    - trend_strength_
+    - trend_consistency_
+    - trend_direction_
+    - jump_proxy_
+    - price_missing_ratio_
+    - price_gap_flag_
+    - price_outlier_flag_

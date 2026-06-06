@@ -1,0 +1,22 @@
+# Run Summary
+
+- **run_id**: 20260415T030653Z
+- **root_dir**: /mnt/data/reorgproj/liq_dataflow
+- **visualizations_enabled**: True
+- **input_source**: /mnt/data/reorgproj/liq_dataflow/data/clean/clean_data.csv
+- **timing_load_input_data_sec**: 0.0905
+- **clean_rows**: 33691
+- **clean_latest_time**: 2025-01-04 03:00:00
+- **timing_preprocess_sec**: 0.3647
+- **canonical_rows**: 33690
+- **timing_canonical_sec**: 2.5199
+- **timing_dominance_sec**: 4.1429
+- **model_feature_rows**: 33690
+- **feature_store_rows**: 33690
+- **feature_store_latest_time**: 2025-01-04 03:00:00
+- **timing_model_and_store_sec**: 2.2865
+- **timing_visualization_sec**: 8.5953
+- **timing_validation_sec**: 0.0124
+- **status**: SUCCESS
+- **log_file**: /mnt/data/reorgproj/liq_dataflow/logs/runs/20260415T030653Z/pipeline.log
+- **stage_timings**: {'load_input_data': 0.0905, 'preprocess': 0.3647, 'canonical': 2.5199, 'dominance': 4.1429, 'model_and_store': 2.2865, 'visualization': 8.5953, 'validation': 0.0124}

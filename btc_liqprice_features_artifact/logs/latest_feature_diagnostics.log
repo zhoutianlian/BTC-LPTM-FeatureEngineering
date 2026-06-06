@@ -1,0 +1,11 @@
+2026-05-05 15:34:43 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | 日志初始化完成
+2026-05-05 15:34:43 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | task_name=feature_diagnostics
+2026-05-05 15:34:43 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | run_log=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/logs/feature_diagnostics_20260505_073443.log
+2026-05-05 15:34:43 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | latest_log=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/logs/latest_feature_diagnostics.log
+2026-05-05 15:34:43 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | 开始单独生成输出特征检验与可视化报告
+2026-05-05 15:34:43 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | features=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/output/liqprice_features.csv
+2026-05-05 15:34:43 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | report_dir=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/reports/feature_diagnostics
+2026-05-05 15:35:19 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | feature_diagnostics_report_dir=/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/reports/feature_diagnostics
+2026-05-05 15:35:19 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | feature_diagnostics_feature_count=9
+2026-05-05 15:35:19 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | feature_diagnostics_fail_count=0
+2026-05-05 15:35:19 | INFO | btc_liqprice_features.feature_diagnostics.20260505_073443 | feature_diagnostics_warn_count=9

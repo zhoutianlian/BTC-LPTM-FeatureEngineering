@@ -1,0 +1,146 @@
+{
+  "passed": true,
+  "n_checks": 9,
+  "n_failed": 0,
+  "results": [
+    {
+      "name": "required_columns",
+      "passed": true,
+      "severity": "critical",
+      "message": "All required columns are present.",
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "name": "data_time_monotonicity",
+      "passed": true,
+      "severity": "critical",
+      "message": "Price bar timestamps parse to UTC and are monotonic increasing.",
+      "details": {
+        "bad_parse": 0,
+        "duplicates": 0,
+        "monotonic_increasing": true
+      }
+    },
+    {
+      "name": "asof_liquidation_alignment",
+      "passed": true,
+      "severity": "critical",
+      "message": "Liquidation feature time is never after price time, and age matches the timestamps.",
+      "details": {
+        "future_liq_rows": 0,
+        "age_mismatch_rows": 0,
+        "max_age_min": 70.0,
+        "rows_above_config_tolerance": 0
+      }
+    },
+    {
+      "name": "hmm_posterior",
+      "passed": true,
+      "severity": "high",
+      "message": "Posterior probabilities are non-negative and sum to 1 on valid HMM rows.",
+      "details": {
+        "valid_rows": 244185,
+        "negative_rows": 0,
+        "max_sum_abs_error": 4.440892098500626e-16
+      }
+    },
+    {
+      "name": "source_clock_dedup",
+      "passed": true,
+      "severity": "critical",
+      "message": "Source-clock frame has one monotonic row per liquidation snapshot.",
+      "details": {
+        "duplicates": 0,
+        "monotonic_increasing": true,
+        "source_rows": 40508
+      }
+    },
+    {
+      "name": "rolling_window_boundary",
+      "passed": true,
+      "severity": "high",
+      "message": "Rolling features are configured to be computed on source-clock rows with right-closed past-only windows.",
+      "details": {
+        "rolling_window_source": 24,
+        "robust_min_periods": 8,
+        "feature_columns_checked": [
+          "z_log_total_liq",
+          "plie_force_up",
+          "plie_accel_pos"
+        ]
+      }
+    },
+    {
+      "name": "train_validation_test_split",
+      "passed": true,
+      "severity": "critical",
+      "message": "Train/validation/test windows are chronological and non-overlapping.",
+      "details": {
+        "train": {
+          "rows": 28355,
+          "start": "2021-08-28 11:50:00+00:00",
+          "end": "2024-12-21 02:50:00+00:00"
+        },
+        "validation": {
+          "rows": 6076,
+          "start": "2024-12-21 03:50:00+00:00",
+          "end": "2025-08-31 20:50:00+00:00"
+        },
+        "test": {
+          "rows": 6077,
+          "start": "2025-08-31 21:50:00+00:00",
+          "end": "2026-05-12 02:50:00+00:00"
+        }
+      }
+    },
+    {
+      "name": "model_feature_label_leakage",
+      "passed": true,
+      "severity": "critical",
+      "message": "Model feature list contains no future return or label columns.",
+      "details": {
+        "forbidden_features": [],
+        "feature_names": [
+          "model_log1p_intensity",
+          "model_log1p_accel_pos",
+          "model_strong_entry",
+          "model_transition_severity",
+          "model_strong_state"
+        ]
+      }
+    },
+    {
+      "name": "agent_input_future_leakage",
+      "passed": true,
+      "severity": "critical",
+      "message": "Agent input variables exclude future labels and post-horizon realized outcomes.",
+      "details": {
+        "bad_columns": [],
+        "agent_columns": [
+          "time",
+          "liq_feature_time",
+          "liq_feature_age_min",
+          "hmm_state",
+          "hmm_conf",
+          "liq_entropy",
+          "age_in_state_source",
+          "plie_direction",
+          "plie_force_up",
+          "plie_intensity",
+          "plie_accel_pos",
+          "plie_strong_entry",
+          "plie_transition_type",
+          "plie_transition_severity",
+          "plie_reliability",
+          "plie_phase",
+          "plie_main_bps",
+          "plie_passive_20m_bps",
+          "plie_passive_30m_bps",
+          "plie_passive_60m_bps"
+        ]
+      }
+    }
+  ]
+}

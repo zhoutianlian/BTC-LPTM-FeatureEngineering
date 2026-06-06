@@ -1,0 +1,4 @@
+dataset,metric,columns,endpoint,rows,start_time,latest_time,missing_bars,missing_ratio_pct,stale_hours
+hourly_liquidation_bundle,price,price,metrics/market/price_usd_close,46227,2021-02-01 00:00:00,2026-05-12 02:00:00,0,0.0,1.774
+hourly_liquidation_bundle,futures_long_liquidations,futures_long_liquidations,metrics/derivatives/futures_liquidated_volume_long_sum,46227,2021-02-01 00:00:00,2026-05-12 02:00:00,0,0.0,1.776
+hourly_liquidation_bundle,futures_short_liquidations,futures_short_liquidations,metrics/derivatives/futures_liquidated_volume_short_sum,46227,2021-02-01 00:00:00,2026-05-12 02:00:00,0,0.0,1.779

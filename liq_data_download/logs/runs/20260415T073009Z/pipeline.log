@@ -1,0 +1,78 @@
+2026-04-15 15:30:09 | INFO | ================ DOWNLOAD CONFIG ================
+2026-04-15 15:30:09 | INFO | Project
+2026-04-15 15:30:09 | INFO |   - project_name: BTC Glassnode Raw Data Download
+2026-04-15 15:30:09 | INFO |   - base_url: https://api.glassnode.com/v1
+2026-04-15 15:30:09 | INFO |   - requests_per_minute: 10
+2026-04-15 15:30:09 | INFO |   - api_key_present: True
+2026-04-15 15:30:09 | INFO |   - datasets_configured: 2
+2026-04-15 15:30:09 | INFO | ================ DATASET | hourly_liquidation_bundle ================
+2026-04-15 15:30:09 | INFO | Dataset spec
+2026-04-15 15:30:09 | INFO |   - asset: BTC
+2026-04-15 15:30:09 | INFO |   - interval: 1h
+2026-04-15 15:30:09 | INFO |   - output_csv: data/raw/hourly/BTC_price_lld.csv
+2026-04-15 15:30:09 | INFO |   - join: inner
+2026-04-15 15:30:09 | INFO |   - start_time: 2021-02-01T00:00:00Z
+2026-04-15 15:30:09 | INFO |   - lookback_days: None
+2026-04-15 15:30:09 | INFO |   - metrics: price, futures_long_liquidations, futures_short_liquidations
+2026-04-15 15:30:09 | INFO | Requesting Glassnode endpoint=metrics/market/price_usd_close params={'a': 'BTC', 'i': '1h', 'u': 1776238209, 'timestamp_format': 'unix', 's': 1612137600, 'api_key': '***'}
+2026-04-15 15:30:13 | INFO | Received endpoint=metrics/market/price_usd_close rows=45,583
+2026-04-15 15:30:13 | INFO | Metric download summary | hourly_liquidation_bundle::price
+2026-04-15 15:30:13 | INFO |   - dataset: hourly_liquidation_bundle
+2026-04-15 15:30:13 | INFO |   - metric: price
+2026-04-15 15:30:13 | INFO |   - endpoint: metrics/market/price_usd_close
+2026-04-15 15:30:13 | INFO |   - rows: 45583
+2026-04-15 15:30:13 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-04-15 15:30:13 | INFO |   - latest_time: 2026-04-15 06:00:00
+2026-04-15 15:30:13 | INFO |   - missing_bars: 0
+2026-04-15 15:30:13 | INFO |   - missing_ratio_pct: 0.0
+2026-04-15 15:30:13 | INFO |   - stale_hours: 1.504
+2026-04-15 15:30:13 | INFO | Requesting Glassnode endpoint=metrics/derivatives/futures_liquidated_volume_long_sum params={'a': 'BTC', 'i': '1h', 'u': 1776238209, 'timestamp_format': 'unix', 's': 1612137600, 'api_key': '***'}
+2026-04-15 15:30:22 | INFO | Received endpoint=metrics/derivatives/futures_liquidated_volume_long_sum rows=45,583
+2026-04-15 15:30:22 | INFO | Metric download summary | hourly_liquidation_bundle::futures_long_liquidations
+2026-04-15 15:30:22 | INFO |   - dataset: hourly_liquidation_bundle
+2026-04-15 15:30:22 | INFO |   - metric: futures_long_liquidations
+2026-04-15 15:30:22 | INFO |   - endpoint: metrics/derivatives/futures_liquidated_volume_long_sum
+2026-04-15 15:30:22 | INFO |   - rows: 45583
+2026-04-15 15:30:22 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-04-15 15:30:22 | INFO |   - latest_time: 2026-04-15 06:00:00
+2026-04-15 15:30:22 | INFO |   - missing_bars: 0
+2026-04-15 15:30:22 | INFO |   - missing_ratio_pct: 0.0
+2026-04-15 15:30:22 | INFO |   - stale_hours: 1.506
+2026-04-15 15:30:22 | INFO | Requesting Glassnode endpoint=metrics/derivatives/futures_liquidated_volume_short_sum params={'a': 'BTC', 'i': '1h', 'u': 1776238209, 'timestamp_format': 'unix', 's': 1612137600, 'api_key': '***'}
+2026-04-15 15:30:30 | INFO | Received endpoint=metrics/derivatives/futures_liquidated_volume_short_sum rows=45,583
+2026-04-15 15:30:30 | INFO | Metric download summary | hourly_liquidation_bundle::futures_short_liquidations
+2026-04-15 15:30:30 | INFO |   - dataset: hourly_liquidation_bundle
+2026-04-15 15:30:30 | INFO |   - metric: futures_short_liquidations
+2026-04-15 15:30:30 | INFO |   - endpoint: metrics/derivatives/futures_liquidated_volume_short_sum
+2026-04-15 15:30:30 | INFO |   - rows: 45583
+2026-04-15 15:30:30 | INFO |   - start_time: 2021-02-01 00:00:00
+2026-04-15 15:30:30 | INFO |   - latest_time: 2026-04-15 06:00:00
+2026-04-15 15:30:30 | INFO |   - missing_bars: 0
+2026-04-15 15:30:30 | INFO |   - missing_ratio_pct: 0.0
+2026-04-15 15:30:30 | INFO |   - stale_hours: 1.509
+2026-04-15 15:30:30 | INFO | Saved dataset hourly_liquidation_bundle -> /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/data/raw/hourly/BTC_price_lld.csv
+2026-04-15 15:30:30 | INFO | Saved metric health report -> /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/data/manifests/hourly_liquidation_bundle_metric_health.csv
+2026-04-15 15:30:30 | INFO | ================ DATASET | btc_price_10m ================
+2026-04-15 15:30:30 | INFO | Dataset spec
+2026-04-15 15:30:30 | INFO |   - asset: BTC
+2026-04-15 15:30:30 | INFO |   - interval: 10m
+2026-04-15 15:30:30 | INFO |   - output_csv: data/raw/intraday/BTC_price_10m.csv
+2026-04-15 15:30:30 | INFO |   - join: inner
+2026-04-15 15:30:30 | INFO |   - start_time: None
+2026-04-15 15:30:30 | INFO |   - lookback_days: 30
+2026-04-15 15:30:30 | INFO |   - metrics: price_usd
+2026-04-15 15:30:30 | INFO | Requesting Glassnode endpoint=metrics/market/price_usd_close params={'a': 'BTC', 'i': '10m', 'u': 1776238230, 'timestamp_format': 'unix', 's': 1773646230, 'api_key': '***'}
+2026-04-15 15:30:38 | INFO | Received endpoint=metrics/market/price_usd_close rows=4,319
+2026-04-15 15:30:38 | INFO | Metric download summary | btc_price_10m::price_usd
+2026-04-15 15:30:38 | INFO |   - dataset: btc_price_10m
+2026-04-15 15:30:38 | INFO |   - metric: price_usd
+2026-04-15 15:30:38 | INFO |   - endpoint: metrics/market/price_usd_close
+2026-04-15 15:30:38 | INFO |   - rows: 4319
+2026-04-15 15:30:38 | INFO |   - start_time: 2026-03-16 07:30:00
+2026-04-15 15:30:38 | INFO |   - latest_time: 2026-04-15 07:10:00
+2026-04-15 15:30:38 | INFO |   - missing_bars: 0
+2026-04-15 15:30:38 | INFO |   - missing_ratio_pct: 0.0
+2026-04-15 15:30:38 | INFO |   - stale_hours: 0.344
+2026-04-15 15:30:38 | INFO | Saved dataset btc_price_10m -> /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/data/raw/intraday/BTC_price_10m.csv
+2026-04-15 15:30:38 | INFO | Saved metric health report -> /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/data/manifests/btc_price_10m_metric_health.csv
+2026-04-15 15:30:38 | INFO | Raw data download pipeline completed successfully.

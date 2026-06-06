@@ -1,0 +1,121 @@
+2026-04-24 08:56:29,062 INFO Loading input frame from /mnt/data/plie_pic_project/data/input/hmm_state.csv.zip
+2026-04-24 08:56:33,605 INFO Building source-clock PLIE feature frame
+2026-04-24 08:56:43,898 INFO Source feature frame saved: rows=39865 cols=74
+2026-04-24 08:56:44,741 INFO Fitting constrained quantile PLIE-PIC model on 27905 train rows
+2026-04-24 08:56:45,048 INFO Source predictions generated: rows=39865 cols=91
+2026-04-24 08:56:51,930 INFO Source predictions saved: /mnt/data/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-04-24 08:56:52,714 INFO 10m broadcast generated: rows=270328 cols=59
+2026-04-24 08:56:55,470 INFO 10m compact predictions saved: /mnt/data/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-04-24 08:56:55,470 INFO Evaluating model outputs
+2026-04-24 08:56:56,573 INFO Running walk-forward validation
+2026-04-24 08:56:58,022 INFO Walk-forward metrics saved
+2026-04-25 02:15:03,533 INFO Loading input frame from /mnt/data/plie_pic_project_src/plie_pic_project/data/input/hmm_state.csv.zip
+2026-04-25 02:15:08,202 INFO Building source-clock PLIE feature frame
+2026-04-25 02:15:18,899 INFO Source feature frame saved: rows=39865 cols=74
+2026-04-25 02:15:19,834 INFO Fitting constrained quantile PLIE-PIC model on 27905 train rows
+2026-04-25 02:15:20,115 INFO Source predictions generated: rows=39865 cols=91
+2026-04-25 02:15:26,881 INFO Source predictions saved: /mnt/data/plie_pic_project_src/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-04-25 02:15:27,796 INFO 10m broadcast generated: rows=270328 cols=59
+2026-04-25 02:15:30,894 INFO 10m compact predictions saved: /mnt/data/plie_pic_project_src/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-04-25 02:15:30,895 INFO Evaluating model outputs
+2026-04-25 02:15:33,065 INFO Running walk-forward validation
+2026-04-25 02:15:36,008 INFO Walk-forward metrics saved
+2026-04-25 11:39:46,529 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/data/input/hmm_state.csv.zip
+2026-04-25 11:39:48,379 INFO Building source-clock PLIE feature frame
+2026-04-25 11:39:51,763 INFO Source feature frame saved: rows=39865 cols=74
+2026-04-25 11:39:52,629 INFO Fitting constrained quantile PLIE-PIC model on 27905 train rows
+2026-04-25 11:39:52,677 INFO Source predictions generated: rows=39865 cols=91
+2026-04-25 11:39:54,295 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-04-25 11:39:54,819 INFO 10m broadcast generated: rows=270328 cols=59
+2026-04-25 11:39:55,455 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-04-25 11:39:55,455 INFO Evaluating model outputs
+2026-04-25 11:39:56,407 INFO Running walk-forward validation
+2026-04-25 11:39:56,851 INFO Walk-forward metrics saved
+2026-05-04 22:12:43,534 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/../liq_pressure_hmm/output/hmm_state.csv
+2026-05-04 22:12:45,204 INFO Building source-clock PLIE feature frame
+2026-05-04 22:12:48,079 INFO Source feature frame saved: rows=39936 cols=74
+2026-05-04 22:12:48,959 INFO Fitting constrained quantile PLIE-PIC model on 27955 train rows
+2026-05-04 22:12:48,996 INFO Source predictions generated: rows=39936 cols=91
+2026-05-04 22:12:50,605 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-05-04 22:12:51,123 INFO 10m broadcast generated: rows=270750 cols=59
+2026-05-04 22:12:51,744 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-05-04 22:12:51,744 INFO Evaluating model outputs
+2026-05-04 22:12:52,662 INFO Running walk-forward validation
+2026-05-04 22:12:53,062 INFO Walk-forward metrics saved
+2026-05-04 22:43:58,850 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/../liq_pressure_hmm/output/hmm_state.csv
+2026-05-04 22:44:00,565 INFO Building source-clock PLIE feature frame
+2026-05-04 22:44:03,524 INFO Source feature frame saved: rows=39936 cols=74
+2026-05-04 22:44:04,381 INFO Fitting constrained quantile PLIE-PIC model on 27955 train rows
+2026-05-04 22:44:04,430 INFO Source predictions generated: rows=39936 cols=91
+2026-05-04 22:44:05,976 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-05-04 22:44:06,517 INFO 10m broadcast generated: rows=270750 cols=59
+2026-05-04 22:44:07,098 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-05-04 22:44:07,098 INFO Evaluating model outputs
+2026-05-04 22:44:07,995 INFO Running walk-forward validation
+2026-05-04 22:44:08,432 INFO Walk-forward metrics saved
+2026-05-06 14:29:24,948 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/../liq_pressure_hmm/output/hmm_state.csv
+2026-05-06 14:29:26,643 INFO Building source-clock PLIE feature frame
+2026-05-06 14:29:29,737 INFO Source feature frame saved: rows=40368 cols=74
+2026-05-06 14:29:30,623 INFO Fitting constrained quantile PLIE-PIC model on 28257 train rows
+2026-05-06 14:29:30,660 INFO Source predictions generated: rows=40368 cols=91
+2026-05-06 14:29:32,413 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-05-06 14:29:32,930 INFO 10m broadcast generated: rows=273341 cols=59
+2026-05-06 14:29:33,590 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-05-06 14:29:33,590 INFO Evaluating model outputs
+2026-05-06 14:29:34,637 INFO Running walk-forward validation
+2026-05-06 14:29:35,114 INFO Walk-forward metrics saved
+2026-05-10 15:53:34,368 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/../liq_pressure_hmm/output/hmm_state.csv
+2026-05-10 15:53:36,067 INFO Building source-clock PLIE feature frame
+2026-05-10 15:53:39,034 INFO Source feature frame saved: rows=40465 cols=74
+2026-05-10 15:53:39,918 INFO Fitting constrained quantile PLIE-PIC model on 28325 train rows
+2026-05-10 15:53:39,956 INFO Source predictions generated: rows=40465 cols=91
+2026-05-10 15:53:41,614 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-05-10 15:53:42,121 INFO 10m broadcast generated: rows=273925 cols=59
+2026-05-10 15:53:42,738 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-05-10 15:53:42,738 INFO Evaluating model outputs
+2026-05-10 15:53:43,666 INFO Running walk-forward validation
+2026-05-10 15:53:44,139 INFO Walk-forward metrics saved
+2026-05-10 17:32:30,621 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/../liq_pressure_hmm/output/hmm_state.csv
+2026-05-10 17:32:32,474 INFO Building source-clock PLIE feature frame
+2026-05-10 17:32:35,513 INFO Source feature frame saved: rows=40464 cols=74
+2026-05-10 17:32:36,405 INFO Fitting constrained quantile PLIE-PIC model on 28324 train rows
+2026-05-10 17:32:36,444 INFO Source predictions generated: rows=40464 cols=91
+2026-05-10 17:32:38,150 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-05-10 17:32:38,693 INFO 10m broadcast generated: rows=273925 cols=59
+2026-05-10 17:32:39,318 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-05-10 17:32:39,318 INFO Evaluating model outputs
+2026-05-10 17:32:40,284 INFO Running walk-forward validation
+2026-05-10 17:32:40,673 INFO Walk-forward metrics saved
+2026-05-10 18:42:09,329 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/../liq_pressure_hmm/output/hmm_state.csv
+2026-05-10 18:42:10,938 INFO Building source-clock PLIE feature frame
+2026-05-10 18:42:13,873 INFO Source feature frame saved: rows=40467 cols=74
+2026-05-10 18:42:14,750 INFO Fitting constrained quantile PLIE-PIC model on 28326 train rows
+2026-05-10 18:42:14,801 INFO Source predictions generated: rows=40467 cols=91
+2026-05-10 18:42:16,419 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-05-10 18:42:16,931 INFO 10m broadcast generated: rows=273942 cols=59
+2026-05-10 18:42:17,530 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-05-10 18:42:17,530 INFO Evaluating model outputs
+2026-05-10 18:42:18,423 INFO Running walk-forward validation
+2026-05-10 18:42:18,911 INFO Walk-forward metrics saved
+2026-05-11 09:59:28,803 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/../liq_pressure_hmm/output/hmm_state.csv
+2026-05-11 09:59:30,474 INFO Building source-clock PLIE feature frame
+2026-05-11 09:59:33,482 INFO Source feature frame saved: rows=40482 cols=74
+2026-05-11 09:59:34,366 INFO Fitting constrained quantile PLIE-PIC model on 28337 train rows
+2026-05-11 09:59:34,418 INFO Source predictions generated: rows=40482 cols=91
+2026-05-11 09:59:36,101 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-05-11 09:59:36,605 INFO 10m broadcast generated: rows=274034 cols=59
+2026-05-11 09:59:37,233 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-05-11 09:59:37,233 INFO Evaluating model outputs
+2026-05-11 09:59:38,185 INFO Running walk-forward validation
+2026-05-11 09:59:38,776 INFO Walk-forward metrics saved
+2026-05-12 11:48:02,074 INFO Loading input frame from /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/../liq_pressure_hmm/output/hmm_state.csv
+2026-05-12 11:48:03,764 INFO Building source-clock PLIE feature frame
+2026-05-12 11:48:06,741 INFO Source feature frame saved: rows=40508 cols=74
+2026-05-12 11:48:07,619 INFO Fitting constrained quantile PLIE-PIC model on 28355 train rows
+2026-05-12 11:48:07,692 INFO Source predictions generated: rows=40508 cols=91
+2026-05-12 11:48:09,407 INFO Source predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_source.csv
+2026-05-12 11:48:09,928 INFO 10m broadcast generated: rows=274189 cols=59
+2026-05-12 11:48:10,552 INFO 10m compact predictions saved: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/outputs/predictions/plie_predictions_10m.csv
+2026-05-12 11:48:10,552 INFO Evaluating model outputs
+2026-05-12 11:48:11,504 INFO Running walk-forward validation
+2026-05-12 11:48:12,338 INFO Walk-forward metrics saved

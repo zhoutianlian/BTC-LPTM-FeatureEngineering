@@ -1,0 +1,11 @@
+metric,value
+staleness_available,1.0
+pct_no_core_yet,0.0013083835291794214
+median_core_age_hours,22.0
+p90_core_age_hours,143.0
+p99_core_age_hours,1180.4599999999991
+pct_core_age_gt_6h,0.6338254172015404
+pct_core_age_gt_12h,0.5757628122839933
+pct_core_age_gt_24h,0.4808432902142787
+median_freshness,0.5297315471796477
+p10_freshness,0.015625000000000007

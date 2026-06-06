@@ -1,0 +1,13 @@
+check,passed,message,nan_or_inf_ratio,q01,q99
+valid_direction::plie_direction,True,"Direction is in {-1,0,1}.",,,
+finite::plie_force_up,True,Finite ratio acceptable.,0.0,-3.220813931139534,2.8371423960104094
+finite::plie_intensity,True,Finite ratio acceptable.,0.0,0.00022160780275202744,4.010067479415298
+finite::plie_accel_pos,True,Finite ratio acceptable.,0.0,0.0,0.7438274089694263
+finite::plie_reliability,True,Finite ratio acceptable.,0.0,0.0015364547936320167,0.8205151818279383
+range::plie_reliability,True,"Reliability lies in [0,1].",,,
+finite::plie_main_bps,True,Finite ratio acceptable.,0.0,-11.902877957862932,10.92877934785509
+finite::plie_passive_20m_bps,True,Finite ratio acceptable.,0.0,-9.74671884640615,8.932548396993216
+finite::plie_passive_30m_bps,True,Finite ratio acceptable.,0.0,-11.902877957862932,10.92877934785509
+finite::plie_passive_60m_bps,True,Finite ratio acceptable.,0.0,-16.91916013115142,15.618615723065504
+logic::state1_direction,True,State 1 mostly maps to upward PLIE direction.,,,
+logic::state5_direction,True,State 5 mostly maps to downward PLIE direction.,,,

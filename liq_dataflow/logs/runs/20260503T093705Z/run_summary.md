@@ -1,0 +1,22 @@
+# Run Summary
+
+- **run_id**: 20260503T093705Z
+- **root_dir**: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow
+- **visualizations_enabled**: True
+- **input_source**: in_memory_dataframe
+- **timing_load_input_data_sec**: 0.0074
+- **clean_rows**: 45654
+- **clean_latest_time**: 2026-04-18 05:00:00
+- **timing_preprocess_sec**: 0.3458
+- **canonical_rows**: 44936
+- **timing_canonical_sec**: 5.4116
+- **timing_dominance_sec**: 3.48
+- **model_feature_rows**: 44936
+- **feature_store_rows**: 44936
+- **feature_store_latest_time**: 2026-04-18 05:00:00
+- **timing_model_and_store_sec**: 1.2691
+- **timing_visualization_sec**: 15.3901
+- **timing_validation_sec**: 0.0092
+- **status**: SUCCESS
+- **log_file**: /Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_dataflow/logs/runs/20260503T093705Z/pipeline.log
+- **stage_timings**: {'load_input_data': 0.0074, 'preprocess': 0.3458, 'canonical': 5.4116, 'dominance': 3.48, 'model_and_store': 1.2691, 'visualization': 15.3901, 'validation': 0.0092}

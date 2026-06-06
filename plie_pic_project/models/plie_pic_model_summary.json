@@ -1,0 +1,89 @@
+{
+  "horizons_min": [
+    20,
+    30,
+    60
+  ],
+  "feature_names": [
+    "model_log1p_intensity",
+    "model_log1p_accel_pos",
+    "model_strong_entry",
+    "model_transition_severity",
+    "model_strong_state"
+  ],
+  "quantile": 0.65,
+  "l2_alpha": 0.0001,
+  "max_iter": 250,
+  "main_horizon_min": 30,
+  "multiply_by_reliability": true,
+  "use_sample_weight": false,
+  "sample_weight_floor": 0.1,
+  "models": {
+    "20": {
+      "feature_names": [
+        "model_log1p_intensity",
+        "model_log1p_accel_pos",
+        "model_strong_entry",
+        "model_transition_severity",
+        "model_strong_state"
+      ],
+      "quantile": 0.65,
+      "l2_alpha": 0.0001,
+      "max_iter": 250,
+      "intercept": 1.2253912477409863,
+      "coef": [
+        6.409178448515401,
+        2.0532384542758906,
+        0.0,
+        1.151245101313801,
+        2.4885082893131987
+      ],
+      "success": true,
+      "message": "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL"
+    },
+    "30": {
+      "feature_names": [
+        "model_log1p_intensity",
+        "model_log1p_accel_pos",
+        "model_strong_entry",
+        "model_transition_severity",
+        "model_strong_state"
+      ],
+      "quantile": 0.65,
+      "l2_alpha": 0.0001,
+      "max_iter": 250,
+      "intercept": 1.415204466128888,
+      "coef": [
+        7.891394201966711,
+        1.5601455316839756,
+        0.6954075197333954,
+        2.212684341976175,
+        3.1198689561156483
+      ],
+      "success": true,
+      "message": "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL"
+    },
+    "60": {
+      "feature_names": [
+        "model_log1p_intensity",
+        "model_log1p_accel_pos",
+        "model_strong_entry",
+        "model_transition_severity",
+        "model_strong_state"
+      ],
+      "quantile": 0.65,
+      "l2_alpha": 0.0001,
+      "max_iter": 250,
+      "intercept": 1.5269781478808575,
+      "coef": [
+        11.005489932055601,
+        1.6087579926407853,
+        0.7305766984349624,
+        1.944850956795522,
+        5.410746135366101
+      ],
+      "success": true,
+      "message": "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL"
+    }
+  }
+}

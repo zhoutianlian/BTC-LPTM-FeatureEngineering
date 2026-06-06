@@ -1,0 +1,85 @@
+2026-04-29 17:01:17 | INFO | ================ DOWNLOAD CONFIG ================
+2026-04-29 17:01:17 | INFO | Project
+2026-04-29 17:01:17 | INFO |   - project_name: BTC Glassnode Raw Data Download
+2026-04-29 17:01:17 | INFO |   - base_url: https://api.glassnode.com/v1
+2026-04-29 17:01:17 | INFO |   - requests_per_minute: 10
+2026-04-29 17:01:17 | INFO |   - api_key_present: True
+2026-04-29 17:01:17 | INFO |   - datasets_configured: 3
+2026-04-29 17:01:17 | INFO | ================ DATASET | btc_ohlc_10m ================
+2026-04-29 17:01:17 | INFO | Dataset spec
+2026-04-29 17:01:17 | INFO |   - asset: BTC
+2026-04-29 17:01:17 | INFO |   - interval: 10m
+2026-04-29 17:01:17 | INFO |   - output_csv: data/raw/intraday/ohlc.csv
+2026-04-29 17:01:17 | INFO |   - join: inner
+2026-04-29 17:01:17 | INFO |   - start_time: 2021-02-01T00:00:00Z
+2026-04-29 17:01:17 | INFO |   - lookback_days: None
+2026-04-29 17:01:17 | INFO |   - metrics: open, high, low, close
+2026-04-29 17:01:17 | INFO | Requesting Glassnode endpoint=metrics/market/price_usd_ohlc params={'a': 'BTC', 'i': '10m', 'u': 1777453277, 'timestamp_format': 'unix', 's': 1612137600, 'api_key': '***'}
+2026-04-29 17:01:22 | ERROR | Download pipeline failed: HTTPSConnectionPool(host='api.glassnode.com', port=443): Max retries exceeded with url: /v1/metrics/market/price_usd_ohlc?a=BTC&i=10m&u=1777453277&timestamp_format=unix&s=1612137600&api_key=*** (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1006)')))
+2026-04-29 17:01:22 | ERROR | Traceback (most recent call last):
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/urllib3/connectionpool.py", line 711, in urlopen
+    self._prepare_proxy(conn)
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1007, in _prepare_proxy
+    conn.connect()
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/urllib3/connection.py", line 419, in connect
+    self.sock = ssl_wrap_socket(
+                ^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/urllib3/util/ssl_.py", line 449, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/urllib3/util/ssl_.py", line 493, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/ssl.py", line 517, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/ssl.py", line 1108, in _create
+    self.do_handshake()
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/ssl.py", line 1379, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLEOFError: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1006)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/urllib3/connectionpool.py", line 798, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/urllib3/util/retry.py", line 592, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.glassnode.com', port=443): Max retries exceeded with url: /v1/metrics/market/price_usd_ohlc?a=BTC&i=10m&u=1777453277&timestamp_format=unix&s=1612137600&api_key=*** (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1006)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/pipeline.py", line 210, in run
+    frame, meta = self._download_dataset(dataset)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/pipeline.py", line 69, in _download_dataset
+    frame = self.client.get_series(metric.endpoint, params, value_name=metric.value_name, value_fields=metric.value_fields)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/glassnode_client.py", line 84, in get_series
+    payload = self.request_json(endpoint, params)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/glassnode_client.py", line 63, in request_json
+    response = requests.get(url, headers={"Accept": "application/json"}, timeout=(15, 45))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhoutianlian/anaconda3/lib/python3.11/site-packages/requests/adapters.py", line 517, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: HTTPSConnectionPool(host='api.glassnode.com', port=443): Max retries exceeded with url: /v1/metrics/market/price_usd_ohlc?a=BTC&i=10m&u=1777453277&timestamp_format=unix&s=1612137600&api_key=*** (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1006)')))
+

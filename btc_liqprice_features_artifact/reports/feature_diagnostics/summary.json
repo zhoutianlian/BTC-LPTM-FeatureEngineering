@@ -1,0 +1,3647 @@
+{
+  "project": "btc_liqprice_features_artifact Feature Diagnostics",
+  "generated_at": "2026-05-12T03:51:02.633050+00:00",
+  "output_dir": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/reports/feature_diagnostics",
+  "feature_doc_path": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/btc_liqprice_features_artifact/docs/liqprice_feature_engineering.md",
+  "overview": {
+    "sample_count": 45509,
+    "data_start_time": "2021-02-01T01:00:00+00:00",
+    "data_end_time": "2026-05-12T02:00:00+00:00",
+    "feature_count": 9,
+    "existing_feature_count": 9,
+    "missing_feature_count": 0,
+    "fail_feature_count": 0,
+    "warn_feature_count": 9,
+    "pass_feature_count": 0,
+    "missing_features": [],
+    "high_correlation_pair_count": 0,
+    "correlation_columns": [
+      "fll_spike_kama",
+      "fsl_spike_kama",
+      "fll_velocity_gaussian",
+      "fll_acceleration_gaussian",
+      "fsl_velocity_gaussian",
+      "fsl_acceleration_gaussian",
+      "trend_pressure",
+      "kalman_slope",
+      "vol_adaptive",
+      "price",
+      "return_1bar",
+      "future_return_1bar",
+      "future_return_3bar",
+      "future_return_6bar"
+    ]
+  },
+  "time_profile": {
+    "time_col": "time",
+    "has_time_col": true,
+    "start_time": "2021-02-01T01:00:00+00:00",
+    "end_time": "2026-05-12T02:00:00+00:00",
+    "duplicate_timestamp_count": 0,
+    "is_monotonic_increasing": true,
+    "median_interval_minutes": 60.0,
+    "time_gap_anomaly_count": 25,
+    "time_gap_examples": [
+      {
+        "time": "2022-10-15T07:00:00+00:00",
+        "gap_minutes": 240.0
+      },
+      {
+        "time": "2022-10-22T09:00:00+00:00",
+        "gap_minutes": 360.0
+      },
+      {
+        "time": "2022-12-10T07:00:00+00:00",
+        "gap_minutes": 420.0
+      },
+      {
+        "time": "2022-12-10T13:00:00+00:00",
+        "gap_minutes": 240.0
+      },
+      {
+        "time": "2022-12-10T21:00:00+00:00",
+        "gap_minutes": 240.0
+      },
+      {
+        "time": "2022-12-11T03:00:00+00:00",
+        "gap_minutes": 240.0
+      },
+      {
+        "time": "2022-12-11T15:00:00+00:00",
+        "gap_minutes": 300.0
+      },
+      {
+        "time": "2022-12-15T08:00:00+00:00",
+        "gap_minutes": 300.0
+      },
+      {
+        "time": "2022-12-24T03:00:00+00:00",
+        "gap_minutes": 300.0
+      },
+      {
+        "time": "2022-12-24T16:00:00+00:00",
+        "gap_minutes": 480.0
+      },
+      {
+        "time": "2022-12-25T08:00:00+00:00",
+        "gap_minutes": 480.0
+      },
+      {
+        "time": "2022-12-25T14:00:00+00:00",
+        "gap_minutes": 360.0
+      },
+      {
+        "time": "2023-01-01T12:00:00+00:00",
+        "gap_minutes": 300.0
+      },
+      {
+        "time": "2023-01-01T16:00:00+00:00",
+        "gap_minutes": 240.0
+      },
+      {
+        "time": "2023-01-05T13:00:00+00:00",
+        "gap_minutes": 240.0
+      },
+      {
+        "time": "2023-01-07T21:00:00+00:00",
+        "gap_minutes": 360.0
+      },
+      {
+        "time": "2023-05-20T05:00:00+00:00",
+        "gap_minutes": 300.0
+      },
+      {
+        "time": "2023-06-04T13:00:00+00:00",
+        "gap_minutes": 240.0
+      },
+      {
+        "time": "2023-07-29T08:00:00+00:00",
+        "gap_minutes": 240.0
+      },
+      {
+        "time": "2023-08-15T12:00:00+00:00",
+        "gap_minutes": 240.0
+      }
+    ]
+  },
+  "important_features": [
+    "fll_spike_kama",
+    "fsl_spike_kama",
+    "fll_velocity_gaussian",
+    "fll_acceleration_gaussian",
+    "fsl_velocity_gaussian",
+    "fsl_acceleration_gaussian",
+    "trend_pressure",
+    "kalman_slope",
+    "vol_adaptive"
+  ],
+  "features": {
+    "fll_spike_kama": {
+      "feature_name": "fll_spike_kama",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `fll_spike_kama` 用于刻画期货多头清算强度相对于过去自适应基线是否异常。\n- 它回答的问题是：当前多头清算是否显著高于当前 regime 下的常态水平。\n- 它反映的是被迫卖出压力的突发性，而不是稳态多头清算流本身的高低。\n- 该序列通常重尾、偏态、存在显著自相关，并可能在极端踩踏中出现异常尖峰。",
+      "calculation": "1. Inputs and smoothing\n设 `FLL_t` 为时点 `t` 的多头清算量平滑序列。由于上游 `fll_cwt_kf` 已经是非负、多头侧、因果平滑后的清算量代理，因此本项目直接取：\n$$\n\\widetilde{FLL}_t = fll\\_cwt\\_kf(t)\n$$\n2. Adaptive baseline via causal KAMA\n对 `\\widetilde{FLL}_t` 计算严格因果的 Kaufman Adaptive Moving Average：\n$$\nER_t = \\frac{|\\widetilde{FLL}_t - \\widetilde{FLL}_{t-N}|}{\\sum_{i=t-N+1}^{t}|\\widetilde{FLL}_i - \\widetilde{FLL}_{i-1}| + \\varepsilon}\n$$\n$$\nSC_t = \\left(ER_t\\left(\\frac{2}{FastN+1} - \\frac{2}{SlowN+1}\\right) + \\frac{2}{SlowN+1}\\right)^2\n$$\n$$\nKAMA_t = KAMA_{t-1} + SC_t\\big(\\widetilde{FLL}_t - KAMA_{t-1}\\big)\n$$\n为避免当前值污染当前基线，实际实现使用滞后一期基线：\n$$\nB_t = KAMA_{t-1}\n$$\n3. Spike ratio definition\n当前生产实现采用对数比值形式，以压缩重尾并保持原特征名不变：\n$$\nfll\\_spike\\_kama_t = \\log\\left(\\frac{\\widetilde{FLL}_t + \\varepsilon}{B_t + \\varepsilon}\\right)\n$$\n4. Signal interpretation and thresholding\n- `fll_spike_kama > 0`：当前多头清算高于过去自适应基线。\n- `fll_spike_kama \\gg 0`：当前多头清算显著异常，可视为当前 bar 相对于前期 regime 的清算峰值。\n- `fll_spike_kama < 0`：当前多头清算低于过去自适应基线。\n窗口 `N`、`FastN`、`SlowN` 均为可调超参数，应结合 bar 周期与期望响应速度设定。",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "cliff_jumps",
+          "message": "Large one-bar jumps detected."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45508,
+        "mean": 0.0051131840289493245,
+        "std": 0.07602937134706343,
+        "min": -0.2688663069451563,
+        "max": 0.7529690995452916,
+        "median": -0.005947053656739679,
+        "p01": -0.14291094389944994,
+        "p05": -0.09438073071890062,
+        "p25": -0.04098078506006599,
+        "p75": 0.03667456953622412,
+        "p95": 0.14192768353767976,
+        "p99": 0.26037998154819,
+        "skew": 1.5140541354264927,
+        "kurtosis": 5.982065524987586,
+        "zero_ratio": 0.0,
+        "positive_ratio": 0.45767777094137296,
+        "negative_ratio": 0.542322229058627,
+        "unique_count": 45508,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 1,
+        "missing_ratio": 2.1973675536707026e-05,
+        "nan_count": 1,
+        "nan_ratio": 2.1973675536707026e-05,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45508,
+        "valid_ratio": 0.9999780263244633
+      },
+      "outliers": {
+        "zscore_outlier_count": 268,
+        "iqr_outlier_count": 397,
+        "iqr_low": -0.27394684884893633,
+        "iqr_high": 0.26964063332509447,
+        "extreme_quantile_count": 912,
+        "extreme_low": -0.14291094389944994,
+        "extreme_high": 0.26037998154819,
+        "explosion_value_count": 0,
+        "explosion_threshold": 37.97723887383323,
+        "cliff_jump_count": 38,
+        "cliff_threshold": 0.10718334720106676,
+        "examples": [
+          {
+            "time": "2025-12-01T05:00:00+00:00",
+            "value": 0.7529690995452916,
+            "zscore": 9.836407986362069,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T06:00:00+00:00",
+            "value": 0.7078199692556695,
+            "zscore": 9.24256998021149,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-02T01:00:00+00:00",
+            "value": 0.6770481283652033,
+            "zscore": 8.837833753339417,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T20:00:00+00:00",
+            "value": 0.6698809823183598,
+            "zscore": 8.743565631429972,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T04:00:00+00:00",
+            "value": 0.6687695607448431,
+            "zscore": 8.72894731282724,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-02-01T21:00:00+00:00",
+            "value": 0.6667832214063258,
+            "zscore": 8.70282136566598,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-02T00:00:00+00:00",
+            "value": 0.6660870830304049,
+            "zscore": 8.693665188736103,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T19:00:00+00:00",
+            "value": 0.6648333360828549,
+            "zscore": 8.677174891297936,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T22:00:00+00:00",
+            "value": 0.6646330000859941,
+            "zscore": 8.674539909667663,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T23:00:00+00:00",
+            "value": 0.6632909631122886,
+            "zscore": 8.656888350146286,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T18:00:00+00:00",
+            "value": 0.6541674261142632,
+            "zscore": 8.53688818657295,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T17:00:00+00:00",
+            "value": 0.6353391031292285,
+            "zscore": 8.289242800961567,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T06:00:00+00:00",
+            "value": 0.6096860556539878,
+            "zscore": 7.951833099674703,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T05:00:00+00:00",
+            "value": 0.6086054920853669,
+            "zscore": 7.9376206505977756,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T07:00:00+00:00",
+            "value": 0.6034997485486071,
+            "zscore": 7.870465767605876,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T16:00:00+00:00",
+            "value": 0.5912477363189235,
+            "zscore": 7.709317358608057,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-02-21T21:00:00+00:00",
+            "value": 0.5855390724473162,
+            "zscore": 7.634232378021435,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-02-21T22:00:00+00:00",
+            "value": 0.5688283835022034,
+            "zscore": 7.4144398340474655,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T15:00:00+00:00",
+            "value": 0.5573359355262457,
+            "zscore": 7.263281830603029,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-16T03:00:00+00:00",
+            "value": 0.555848672411345,
+            "zscore": 7.243720139002139,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-17T06:00:00+00:00",
+            "value": 0.5533973405808855,
+            "zscore": 7.211478233183013,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-17T05:00:00+00:00",
+            "value": 0.5497435989832413,
+            "zscore": 7.1634212581888965,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T07:00:00+00:00",
+            "value": 0.5440285812264114,
+            "zscore": 7.088252706146796,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T03:00:00+00:00",
+            "value": 0.534031352709905,
+            "zscore": 6.956761042604421,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-02-21T20:00:00+00:00",
+            "value": 0.5315023275217863,
+            "zscore": 6.923497250686768,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T04:00:00+00:00",
+            "value": 0.527873565152932,
+            "zscore": 6.875768822783694,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2024-09-16T02:00:00+00:00",
+            "value": 0.5163295274105866,
+            "zscore": 6.723932268859705,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-16T04:00:00+00:00",
+            "value": 0.5162792883336252,
+            "zscore": 6.723271483743752,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T14:00:00+00:00",
+            "value": 0.5107141095723445,
+            "zscore": 6.650073735785579,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-17T07:00:00+00:00",
+            "value": 0.5102594399101421,
+            "zscore": 6.644093551362813,
+            "reason": "zscore,iqr,tail"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 1,
+        "max_zero_run": 0,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "KAMA baseline is expected to be shifted by one bar; confirm upstream source timestamps."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": 0.012090784008490979,
+        "corr_return_1bar": -0.0069840673938886015,
+        "corr_future_return_1bar": -0.004164940943490866,
+        "corr_future_return_3bar": -0.004225956732591764,
+        "corr_future_return_6bar": -0.0004605822668028193
+      }
+    },
+    "fsl_spike_kama": {
+      "feature_name": "fsl_spike_kama",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `fsl_spike_kama` 用于刻画期货空头清算强度相对于过去自适应基线是否异常。\n- 它回答的问题是：当前空头清算是否显著高于当前 regime 下的常态水平。\n- 它反映的是被迫买回压力的突发性，而不是稳态空头清算流本身的高低。\n- 在 short squeeze 环境下，该特征可能出现极端尖峰与厚尾。",
+      "calculation": "1. Inputs and smoothing\n$$\n\\widetilde{FSL}_t = fsl\\_cwt\\_kf(t)\n$$\n2. Adaptive baseline via causal KAMA\n$$\nER_t = \\frac{|\\widetilde{FSL}_t - \\widetilde{FSL}_{t-N}|}{\\sum_{i=t-N+1}^{t}|\\widetilde{FSL}_i - \\widetilde{FSL}_{i-1}| + \\varepsilon}\n$$\n$$\nSC_t = \\left(ER_t\\left(\\frac{2}{FastN+1} - \\frac{2}{SlowN+1}\\right) + \\frac{2}{SlowN+1}\\right)^2\n$$\n$$\nKAMA_t = KAMA_{t-1} + SC_t\\big(\\widetilde{FSL}_t - KAMA_{t-1}\\big)\n$$\n实际实现同样使用滞后一期基线：\n$$\nB_t = KAMA_{t-1}\n$$\n3. Spike ratio definition\n$$\nfsl\\_spike\\_kama_t = \\log\\left(\\frac{\\widetilde{FSL}_t + \\varepsilon}{B_t + \\varepsilon}\\right)\n$$\n4. Signal interpretation and thresholding\n- `fsl_spike_kama > 0`：当前空头清算高于过去自适应基线。\n- `fsl_spike_kama \\gg 0`：当前空头清算显著异常，可视为当前 bar 相对于前期 regime 的 squeeze 峰值。\n- `fsl_spike_kama < 0`：当前空头清算低于过去自适应基线。\n## 4.3 Side-specific liquidation dynamics (Gaussian RoC / RoC²)\nRoC 用于刻画清算量级变化的速度，RoC² 用于刻画该速度本身的变化，也就是加速度。它们的核心作用是帮助识别清算压力是在持续增强、开始钝化，还是已经进入拐点阶段。\nRoC 与 RoC² 可用于 HPEM 识别：若单侧清算量级处于高位，同时速度与加速度均为正，说明清算级联可能正在加速扩散。\n这些导数类特征对噪声更敏感，因此实现时必须严格保持因果性，并通过对数压缩与单边 Gaussian 平滑降低重尾与尖峰影响。",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "cliff_jumps",
+          "message": "Large one-bar jumps detected."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45508,
+        "mean": 0.00629925634858509,
+        "std": 0.07702757851696887,
+        "min": -0.2388904632641367,
+        "max": 1.3865829600189312,
+        "median": -0.004659431350376208,
+        "p01": -0.1409183184213304,
+        "p05": -0.08983041850603754,
+        "p25": -0.03712045304760005,
+        "p75": 0.037296566813404285,
+        "p95": 0.1338055759103122,
+        "p99": 0.25134750659740945,
+        "skew": 3.2861430007158035,
+        "kurtosis": 40.772164412897006,
+        "zero_ratio": 0.0,
+        "positive_ratio": 0.4660718994462512,
+        "negative_ratio": 0.5339281005537488,
+        "unique_count": 45508,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 1,
+        "missing_ratio": 2.1973675536707026e-05,
+        "nan_count": 1,
+        "nan_ratio": 2.1973675536707026e-05,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45508,
+        "valid_ratio": 0.9999780263244633
+      },
+      "outliers": {
+        "zscore_outlier_count": 208,
+        "iqr_outlier_count": 403,
+        "iqr_low": -0.26037151263061303,
+        "iqr_high": 0.26054762639641726,
+        "extreme_quantile_count": 912,
+        "extreme_low": -0.1409183184213304,
+        "extreme_high": 0.25134750659740945,
+        "explosion_value_count": 0,
+        "explosion_threshold": 36.21646479657004,
+        "cliff_jump_count": 32,
+        "cliff_threshold": 0.10009648303015467,
+        "examples": [
+          {
+            "time": "2021-02-01T17:00:00+00:00",
+            "value": 1.3865829600189312,
+            "zscore": 17.919344347119456,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T18:00:00+00:00",
+            "value": 1.3851799864307455,
+            "zscore": 17.901130434450803,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T16:00:00+00:00",
+            "value": 1.38491462489656,
+            "zscore": 17.897685414637195,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T15:00:00+00:00",
+            "value": 1.381555395043109,
+            "zscore": 17.854074672638976,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T19:00:00+00:00",
+            "value": 1.3758430114235534,
+            "zscore": 17.77991443380585,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T20:00:00+00:00",
+            "value": 1.3733644017003375,
+            "zscore": 17.7477362221713,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T14:00:00+00:00",
+            "value": 1.3680814616550878,
+            "zscore": 17.679151175789688,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T21:00:00+00:00",
+            "value": 1.3646892503004986,
+            "zscore": 17.635112255965122,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T22:00:00+00:00",
+            "value": 1.3519162378872143,
+            "zscore": 17.469288369777782,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T13:00:00+00:00",
+            "value": 1.349822092823077,
+            "zscore": 17.442101417981345,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T23:00:00+00:00",
+            "value": 1.3345023987454319,
+            "zscore": 17.24321558549642,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T12:00:00+00:00",
+            "value": 1.3256865342720172,
+            "zscore": 17.128764831063414,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-02T00:00:00+00:00",
+            "value": 1.3130752397206051,
+            "zscore": 16.965040424893306,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-02T01:00:00+00:00",
+            "value": 1.2973470457345162,
+            "zscore": 16.760851298233636,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T11:00:00+00:00",
+            "value": 1.2912338592462929,
+            "zscore": 16.681487690991634,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T10:00:00+00:00",
+            "value": 1.2558578337243158,
+            "zscore": 16.222223279425275,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T09:00:00+00:00",
+            "value": 1.2212917291882517,
+            "zscore": 15.773473556253734,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T08:00:00+00:00",
+            "value": 1.1825905109448847,
+            "zscore": 15.271040285099541,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T07:00:00+00:00",
+            "value": 1.13241735884562,
+            "zscore": 14.619674202129508,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T06:00:00+00:00",
+            "value": 1.0707484615327483,
+            "zscore": 13.81906617964979,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T05:00:00+00:00",
+            "value": 1.0016989413864905,
+            "zscore": 12.922640230974194,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T04:00:00+00:00",
+            "value": 0.9276544742553312,
+            "zscore": 11.961368066422796,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T03:00:00+00:00",
+            "value": 0.8277238674829879,
+            "zscore": 10.664032635446878,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-02-02T02:00:00+00:00",
+            "value": 0.6979967231962425,
+            "zscore": 8.979867732636555,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-06-29T15:00:00+00:00",
+            "value": 0.6123500146147736,
+            "zscore": 7.867971055752167,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-29T16:00:00+00:00",
+            "value": 0.600892346449343,
+            "zscore": 7.719223446311134,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-30T09:00:00+00:00",
+            "value": 0.5959976752980536,
+            "zscore": 7.655679047726527,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-30T10:00:00+00:00",
+            "value": 0.5867204619690144,
+            "zscore": 7.535238894892235,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T02:00:00+00:00",
+            "value": 0.5670699626599711,
+            "zscore": 7.280128975985535,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-29T14:00:00+00:00",
+            "value": 0.546070277710208,
+            "zscore": 7.007503439079466,
+            "reason": "zscore,iqr,tail,cliff"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 1,
+        "max_zero_run": 0,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "KAMA baseline is expected to be shifted by one bar; confirm upstream source timestamps."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": 0.00030994673055777954,
+        "corr_return_1bar": 0.0036935496255587315,
+        "corr_future_return_1bar": 0.0029641040478375737,
+        "corr_future_return_3bar": 0.006817230175378572,
+        "corr_future_return_6bar": 0.014135011231407002
+      }
+    },
+    "fll_velocity_gaussian": {
+      "feature_name": "fll_velocity_gaussian",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `fll_velocity_gaussian` 衡量多头清算强度变化的速度，即多头清算压力是在变强还是变弱。\n- 它回答的问题是：多头清算正在加速释放，还是正在放缓。\n- 正值表示多头清算压力相较上一时点继续增强；负值表示其正在减弱。\n- 它不是量级本身，而是量级的变化速度，因此更适合作为级联强化或衰竭的动态确认变量。",
+      "calculation": "1. Input transform\n本项目以非负多头清算量 `fll_cwt_kf` 作为输入，并先做对数压缩：\n$$\nX_t = \\log\\big(1 + fll\\_cwt\\_kf(t)\\big)\n$$\n2. Causal Gaussian smoothing\n使用严格单边、只依赖历史样本的 Gaussian 核：\n$$\n\\widetilde{X}_t = \\sum_{i=0}^{L-1} w_i X_{t-i}, \\qquad\nw_i \\propto \\exp\\left(-\\frac{i^2}{2\\sigma^2}\\right)\n$$\n其中 `L` 为平滑窗口，对应代码中的 `liq_roc_gaussian_window_min` 换算后的 bars。\n3. Velocity definition\n生产实现使用 backward difference，并统一换算为每小时单位：\n$$\nfll\\_velocity\\_gaussian_t = \\frac{\\widetilde{X}_t - \\widetilde{X}_{t-1}}{\\Delta t_{hour}}\n$$",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "cliff_jumps",
+          "message": "Large one-bar jumps detected."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45508,
+        "mean": -1.812842093005758e-05,
+        "std": 0.013978160827293603,
+        "min": -0.022411506864012498,
+        "max": 0.1373123353224195,
+        "median": -0.0026505266788110493,
+        "p01": -0.01916941262678799,
+        "p05": -0.01663577054778167,
+        "p25": -0.010168937023459779,
+        "p75": 0.006760791011521161,
+        "p95": 0.026085169848945402,
+        "p99": 0.047052274988261956,
+        "skew": 1.499287855422166,
+        "kurtosis": 4.102550592721465,
+        "zero_ratio": 0.0,
+        "positive_ratio": 0.4179484925727345,
+        "negative_ratio": 0.5820515074272655,
+        "unique_count": 45508,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 1,
+        "missing_ratio": 2.1973675536707026e-05,
+        "nan_count": 1,
+        "nan_ratio": 2.1973675536707026e-05,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45508,
+        "valid_ratio": 0.9999780263244633
+      },
+      "outliers": {
+        "zscore_outlier_count": 222,
+        "iqr_outlier_count": 194,
+        "iqr_low": -0.0609581211284026,
+        "iqr_high": 0.05754997511646398,
+        "extreme_quantile_count": 912,
+        "extreme_low": -0.01916941262678799,
+        "extreme_high": 0.047052274988261956,
+        "explosion_value_count": 0,
+        "explosion_threshold": 8.228192656348783,
+        "cliff_jump_count": 43,
+        "cliff_threshold": 0.03096977132215928,
+        "examples": [
+          {
+            "time": "2025-12-01T05:00:00+00:00",
+            "value": 0.1373123353224195,
+            "zscore": 9.824644703987063,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T06:00:00+00:00",
+            "value": 0.12259324374178382,
+            "zscore": 8.771638392033969,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T04:00:00+00:00",
+            "value": 0.11974417174200713,
+            "zscore": 8.567815297209247,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T03:00:00+00:00",
+            "value": 0.11690286084672086,
+            "zscore": 8.364547433118117,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-12-01T04:00:00+00:00",
+            "value": 0.11512133895385634,
+            "zscore": 8.237097054282446,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T05:00:00+00:00",
+            "value": 0.10680716003293367,
+            "zscore": 7.642299281982637,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-16T02:00:00+00:00",
+            "value": 0.09961981889365878,
+            "zscore": 7.128115675993431,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-16T01:00:00+00:00",
+            "value": 0.09889184152131425,
+            "zscore": 7.0760360511172395,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T03:00:00+00:00",
+            "value": 0.09480677010655536,
+            "zscore": 6.783789348190312,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T07:00:00+00:00",
+            "value": 0.09440041457753345,
+            "zscore": 6.754718604618063,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T02:00:00+00:00",
+            "value": 0.09418769884644851,
+            "zscore": 6.739500885083058,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-02-21T19:00:00+00:00",
+            "value": 0.09412272914825204,
+            "zscore": 6.734852941837935,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2023-08-29T18:00:00+00:00",
+            "value": 0.09395354761424257,
+            "zscore": 6.722749666156693,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-05T21:00:00+00:00",
+            "value": 0.09364782322946508,
+            "zscore": 6.700878091737508,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T01:00:00+00:00",
+            "value": 0.09261450035259655,
+            "zscore": 6.626953997599824,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2024-09-16T03:00:00+00:00",
+            "value": 0.09165398541005199,
+            "zscore": 6.558238595451276,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-08-20T17:00:00+00:00",
+            "value": 0.09131967231596128,
+            "zscore": 6.534321779911571,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T06:00:00+00:00",
+            "value": 0.09038353011530686,
+            "zscore": 6.467350007857947,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-02-21T20:00:00+00:00",
+            "value": 0.09021719806883643,
+            "zscore": 6.455450584999279,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-01-13T15:00:00+00:00",
+            "value": 0.0888451403916557,
+            "zscore": 6.357293345707707,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-02-21T21:00:00+00:00",
+            "value": 0.08857812393572706,
+            "zscore": 6.338190943093533,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2023-08-29T19:00:00+00:00",
+            "value": 0.08807284759793643,
+            "zscore": 6.30204338805868,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-08-20T18:00:00+00:00",
+            "value": 0.08741156337035383,
+            "zscore": 6.254735002087659,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-05T20:00:00+00:00",
+            "value": 0.08682945023257549,
+            "zscore": 6.213090529329719,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-17T02:00:00+00:00",
+            "value": 0.08655925269411757,
+            "zscore": 6.193760551531041,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-08-11T13:00:00+00:00",
+            "value": 0.08553894929734596,
+            "zscore": 6.12076787321106,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-01-13T16:00:00+00:00",
+            "value": 0.08546607328059364,
+            "zscore": 6.115554310593435,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-01-31T22:00:00+00:00",
+            "value": 0.08507908640318163,
+            "zscore": 6.087869203647435,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T02:00:00+00:00",
+            "value": 0.08505020391785156,
+            "zscore": 6.0858029457407685,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-01-31T20:00:00+00:00",
+            "value": 0.0849087509270845,
+            "zscore": 6.075683374753227,
+            "reason": "zscore,iqr,tail"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 1,
+        "max_zero_run": 0,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "Gaussian dynamics are expected to use one-sided smoothing and backward differences."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": -0.002339179851242222,
+        "corr_return_1bar": -0.01051306572113874,
+        "corr_future_return_1bar": -0.006764571519264325,
+        "corr_future_return_3bar": -0.010431737476028673,
+        "corr_future_return_6bar": -0.010831828723616101
+      }
+    },
+    "fll_acceleration_gaussian": {
+      "feature_name": "fll_acceleration_gaussian",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `fll_acceleration_gaussian` 衡量多头清算速度本身的变化，即多头清算动量是在继续增强，还是已经开始失速。\n- 相比 velocity，它更敏感、更不稳定，也更容易受单次极端事件和滤波形状影响。\n- 因此它具有金融学意义，但在建模中应视为次级辅助特征，而不是优先级最高的核心特征。",
+      "calculation": "在 `fll_velocity_gaussian` 的基础上继续做 backward difference，并统一换算为每小时平方单位：\n$$\nfll\\_acceleration\\_gaussian_t = \\frac{fll\\_velocity\\_gaussian_t - fll\\_velocity\\_gaussian_{t-1}}{\\Delta t_{hour}}\n$$\n该定义保持了严格因果性，同时避免了中心差分带来的未来信息泄漏。",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "cliff_jumps",
+          "message": "Large one-bar jumps detected."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45507,
+        "mean": -1.2832284500408098e-06,
+        "std": 0.0047463630808274706,
+        "min": -0.03212101806996559,
+        "max": 0.05472258002032282,
+        "median": -0.0003280918019410439,
+        "p01": -0.011263777459850246,
+        "p05": -0.006682813115316776,
+        "p25": -0.0022390295380919634,
+        "p75": 0.0015801877326450109,
+        "p95": 0.008002512194736145,
+        "p99": 0.01615590245566058,
+        "skew": 1.3168336920028951,
+        "kurtosis": 8.031883340178418,
+        "zero_ratio": 0.0,
+        "positive_ratio": 0.43320807787812865,
+        "negative_ratio": 0.5667919221218713,
+        "unique_count": 45507,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 2,
+        "missing_ratio": 4.394735107341405e-05,
+        "nan_count": 2,
+        "nan_ratio": 4.394735107341405e-05,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45507,
+        "valid_ratio": 0.9999560526489266
+      },
+      "outliers": {
+        "zscore_outlier_count": 301,
+        "iqr_outlier_count": 988,
+        "iqr_low": -0.013696681350302886,
+        "iqr_high": 0.013037839544855934,
+        "extreme_quantile_count": 912,
+        "extreme_low": -0.011263777459850246,
+        "extreme_high": 0.01615590245566058,
+        "explosion_value_count": 0,
+        "explosion_threshold": 1.909440004817401,
+        "cliff_jump_count": 59,
+        "cliff_threshold": 0.02604990192863088,
+        "examples": [
+          {
+            "time": "2024-09-30T02:00:00+00:00",
+            "value": 0.05472258002032282,
+            "zscore": 11.52964118354646,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-17T01:00:00+00:00",
+            "value": 0.05183649910772137,
+            "zscore": 10.921579629161897,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2024-10-07T11:00:00+00:00",
+            "value": 0.048023409028618236,
+            "zscore": 10.118208708276013,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-12-01T00:00:00+00:00",
+            "value": 0.0456436887814502,
+            "zscore": 9.616831083631006,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-08-18T04:00:00+00:00",
+            "value": 0.044045163312698365,
+            "zscore": 9.280041537292053,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-06-26T16:00:00+00:00",
+            "value": 0.04187043322518935,
+            "zscore": 8.821852804050458,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-30T01:00:00+00:00",
+            "value": 0.041483900243238225,
+            "zscore": 8.740415085239503,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2024-08-20T16:00:00+00:00",
+            "value": 0.040531007772569794,
+            "zscore": 8.539652426664654,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2023-08-29T17:00:00+00:00",
+            "value": 0.03955150812410135,
+            "zscore": 8.333283964794335,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-08-20T15:00:00+00:00",
+            "value": 0.03838130149608632,
+            "zscore": 8.086735900921601,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-09-14T15:00:00+00:00",
+            "value": 0.03820456861482002,
+            "zscore": 8.049500468600758,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-09-11T13:00:00+00:00",
+            "value": 0.03786992671502798,
+            "zscore": 7.9789955590324615,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-08-11T12:00:00+00:00",
+            "value": 0.03741894052461947,
+            "zscore": 7.883978346331177,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-12-31T17:00:00+00:00",
+            "value": 0.03694842620355354,
+            "zscore": 7.784846798016525,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-09-04T15:00:00+00:00",
+            "value": 0.036619161483549156,
+            "zscore": 7.715474793726667,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-04-30T14:00:00+00:00",
+            "value": 0.03641250935828855,
+            "zscore": 7.671935746725531,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-01T01:00:00+00:00",
+            "value": 0.03607743205636216,
+            "zscore": 7.601339103312407,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-15T16:00:00+00:00",
+            "value": 0.03544854663895336,
+            "zscore": 7.468840723669028,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T11:00:00+00:00",
+            "value": 0.03484323777739773,
+            "zscore": 7.341309632758447,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2023-07-23T22:00:00+00:00",
+            "value": 0.03474883036282339,
+            "zscore": 7.32141915810098,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-02-24T15:00:00+00:00",
+            "value": 0.0344487819500463,
+            "zscore": 7.2582026684082495,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2024-11-24T13:00:00+00:00",
+            "value": 0.0341912046451065,
+            "zscore": 7.203934315871068,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2024-06-07T18:00:00+00:00",
+            "value": 0.03408196885123904,
+            "zscore": 7.180919685088036,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2026-01-12T18:00:00+00:00",
+            "value": 0.034037739175719284,
+            "zscore": 7.171601039471055,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-02-21T16:00:00+00:00",
+            "value": 0.033956286792986456,
+            "zscore": 7.154440029799914,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-09-01T01:00:00+00:00",
+            "value": 0.03354399523956797,
+            "zscore": 7.06757529855255,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-05-04T11:00:00+00:00",
+            "value": 0.03342037037236034,
+            "zscore": 7.041529067975079,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-12-31T16:00:00+00:00",
+            "value": 0.03336364204013731,
+            "zscore": 7.02957710996913,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-21T14:00:00+00:00",
+            "value": 0.03331472250780454,
+            "zscore": 7.01927036952393,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2024-09-03T15:00:00+00:00",
+            "value": 0.03328672391201892,
+            "zscore": 7.0133714116673955,
+            "reason": "zscore,iqr,tail"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 2,
+        "max_zero_run": 0,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "Gaussian dynamics are expected to use one-sided smoothing and backward differences."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": 0.00041905427191266445,
+        "corr_return_1bar": -0.011291194769543858,
+        "corr_future_return_1bar": -0.002060373701229185,
+        "corr_future_return_3bar": -0.004347019883728126,
+        "corr_future_return_6bar": -0.004926372714544698
+      }
+    },
+    "fsl_velocity_gaussian": {
+      "feature_name": "fsl_velocity_gaussian",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `fsl_velocity_gaussian` 衡量空头清算强度变化的速度，即空头回补压力是在增强还是在减弱。\n- 正值表示空头清算压力相较上一时点继续增强；负值表示其正在减弱。\n- 该特征帮助识别 short squeeze 是否正在持续放大，或者已经进入钝化阶段。",
+      "calculation": "1. Input transform\n$$\nX_t = \\log\\big(1 + fsl\\_cwt\\_kf(t)\\big)\n$$\n2. Causal Gaussian smoothing\n$$\n\\widetilde{X}_t = \\sum_{i=0}^{L-1} w_i X_{t-i}, \\qquad\nw_i \\propto \\exp\\left(-\\frac{i^2}{2\\sigma^2}\\right)\n$$\n3. Velocity definition\n$$\nfsl\\_velocity\\_gaussian_t = \\frac{\\widetilde{X}_t - \\widetilde{X}_{t-1}}{\\Delta t_{hour}}\n$$",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "cliff_jumps",
+          "message": "Large one-bar jumps detected."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45508,
+        "mean": 3.1693142487187806e-06,
+        "std": 0.01314462705309245,
+        "min": -0.021450125484111515,
+        "max": 0.30520949916461015,
+        "median": -0.0025400078320353403,
+        "p01": -0.01833245378894501,
+        "p05": -0.015765813999149135,
+        "p25": -0.009362960902806305,
+        "p75": 0.006433264287124096,
+        "p95": 0.024577849726027282,
+        "p99": 0.04254645547561831,
+        "skew": 1.860721886273423,
+        "kurtosis": 14.097379470588303,
+        "zero_ratio": 0.0,
+        "positive_ratio": 0.418234156631801,
+        "negative_ratio": 0.581765843368199,
+        "unique_count": 45508,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 1,
+        "missing_ratio": 2.1973675536707026e-05,
+        "nan_count": 1,
+        "nan_ratio": 2.1973675536707026e-05,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45508,
+        "valid_ratio": 0.9999780263244633
+      },
+      "outliers": {
+        "zscore_outlier_count": 202,
+        "iqr_outlier_count": 186,
+        "iqr_low": -0.05675163647259751,
+        "iqr_high": 0.0538219398569153,
+        "extreme_quantile_count": 912,
+        "extreme_low": -0.01833245378894501,
+        "extreme_high": 0.04254645547561831,
+        "explosion_value_count": 0,
+        "explosion_threshold": 7.692461221424168,
+        "cliff_jump_count": 45,
+        "cliff_threshold": 0.02833119003798057,
+        "examples": [
+          {
+            "time": "2021-02-01T03:00:00+00:00",
+            "value": 0.30520949916461015,
+            "zscore": 23.219093901835546,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-02-01T02:00:00+00:00",
+            "value": 0.27672859941470995,
+            "zscore": 21.052360708503926,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-01T04:00:00+00:00",
+            "value": 0.1373584741532119,
+            "zscore": 10.44953989825436,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2026-01-30T08:00:00+00:00",
+            "value": 0.11188782959316013,
+            "zscore": 8.511817020520871,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-06-29T13:00:00+00:00",
+            "value": 0.10809057829576862,
+            "zscore": 8.222934629103143,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-29T14:00:00+00:00",
+            "value": 0.10316227656720933,
+            "zscore": 7.848005640349533,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-29T12:00:00+00:00",
+            "value": 0.10298080561020662,
+            "zscore": 7.834199926709296,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2026-01-05T19:00:00+00:00",
+            "value": 0.10283723492041474,
+            "zscore": 7.823277540763161,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-05-18T18:00:00+00:00",
+            "value": 0.09504977738345022,
+            "zscore": 7.230833380460232,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-05-18T17:00:00+00:00",
+            "value": 0.09039808655749038,
+            "zscore": 6.8769480395394735,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-05T20:00:00+00:00",
+            "value": 0.08923072478351513,
+            "zscore": 6.7881389946529085,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-05T18:00:00+00:00",
+            "value": 0.08810398336139591,
+            "zscore": 6.702420212555235,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-04-21T04:00:00+00:00",
+            "value": 0.08674829697789566,
+            "zscore": 6.599284050682821,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-09-01T10:00:00+00:00",
+            "value": 0.08575069872164809,
+            "zscore": 6.523390055956446,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-29T15:00:00+00:00",
+            "value": 0.08494790897324278,
+            "zscore": 6.46231645187755,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-04-21T03:00:00+00:00",
+            "value": 0.08419821154907914,
+            "zscore": 6.405281937232476,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-05-18T19:00:00+00:00",
+            "value": 0.08260225481399397,
+            "zscore": 6.283866797142236,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-09-01T11:00:00+00:00",
+            "value": 0.08085021255923208,
+            "zscore": 6.150577184003331,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-26T17:00:00+00:00",
+            "value": 0.08007075642042749,
+            "zscore": 6.091278724210118,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-30T07:00:00+00:00",
+            "value": 0.08006417971730029,
+            "zscore": 6.0907783902637345,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2026-01-30T09:00:00+00:00",
+            "value": 0.07951263411321452,
+            "zscore": 6.048818614466519,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-12-29T16:00:00+00:00",
+            "value": 0.07845153988418141,
+            "zscore": 5.968094054937577,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2023-09-25T18:00:00+00:00",
+            "value": 0.07838806925006492,
+            "zscore": 5.963265417817625,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-04-21T05:00:00+00:00",
+            "value": 0.07644150328924515,
+            "zscore": 5.815177080814422,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-05-07T02:00:00+00:00",
+            "value": 0.07555346301773902,
+            "zscore": 5.747617897284965,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-29T17:00:00+00:00",
+            "value": 0.07426394926976343,
+            "zscore": 5.649515931914087,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-09-26T18:00:00+00:00",
+            "value": 0.07358634747150439,
+            "zscore": 5.597966215400858,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-05T21:00:00+00:00",
+            "value": 0.07348870224287718,
+            "zscore": 5.590537687513926,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-09-01T09:00:00+00:00",
+            "value": 0.073341852601708,
+            "zscore": 5.579365849729862,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-02-01T05:00:00+00:00",
+            "value": 0.07326461116793714,
+            "zscore": 5.573489575457577,
+            "reason": "zscore,iqr,tail,cliff"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 1,
+        "max_zero_run": 0,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "Gaussian dynamics are expected to use one-sided smoothing and backward differences."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": -0.004808618104502748,
+        "corr_return_1bar": 0.004681790913807936,
+        "corr_future_return_1bar": 0.0004162917793753314,
+        "corr_future_return_3bar": 0.00021328146425962218,
+        "corr_future_return_6bar": 0.0012185607237305744
+      }
+    },
+    "fsl_acceleration_gaussian": {
+      "feature_name": "fsl_acceleration_gaussian",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `fsl_acceleration_gaussian` 衡量空头清算速度本身的变化，即 short squeeze 动量是在继续增强，还是开始失速。\n- 与多头侧加速度相同，它更容易受噪声与单次尖峰影响，因此在模型中的优先级应低于 level、spike 与 velocity。",
+      "calculation": "$$\nfsl\\_acceleration\\_gaussian_t = \\frac{fsl\\_velocity\\_gaussian_t - fsl\\_velocity\\_gaussian_{t-1}}{\\Delta t_{hour}}\n$$\n## 4.7 Price-action trend + volatility context\nPrice 提供价格水平背景，Trend 提供近期方向性，而 Volatility 提供风险与市场扰动背景。它们用于补充清算侧特征，使模型能够同时观察清算压力、价格方向与风险状态。\n它们可用于 HPEM 识别：在 HPEM 中，价格通常快速移动，趋势强且与主导清算方向一致。\n它们也可用于 RC 识别：RC 往往表现为趋势不清晰，而背景波动较高或仍在扰动中。",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "cliff_jumps",
+          "message": "Large one-bar jumps detected."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45507,
+        "mean": -6.3191566957418074e-06,
+        "std": 0.0044543196389965544,
+        "min": -0.16785102501139826,
+        "max": 0.08236717668662918,
+        "median": -0.00032405327819473584,
+        "p01": -0.01039711563382855,
+        "p05": -0.006119928623665283,
+        "p25": -0.002031619363944581,
+        "p75": 0.0015249762512672405,
+        "p95": 0.007356881252742756,
+        "p99": 0.014672378281371237,
+        "skew": 0.11434010570171824,
+        "kurtosis": 55.71851006527176,
+        "zero_ratio": 0.0,
+        "positive_ratio": 0.4316918276309139,
+        "negative_ratio": 0.568308172369086,
+        "unique_count": 45507,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 2,
+        "missing_ratio": 4.394735107341405e-05,
+        "nan_count": 2,
+        "nan_ratio": 4.394735107341405e-05,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45507,
+        "valid_ratio": 0.9999560526489266
+      },
+      "outliers": {
+        "zscore_outlier_count": 284,
+        "iqr_outlier_count": 926,
+        "iqr_low": -0.012701406209580046,
+        "iqr_high": 0.012194763096902705,
+        "extreme_quantile_count": 912,
+        "extreme_low": -0.01039711563382855,
+        "extreme_high": 0.014672378281371237,
+        "explosion_value_count": 0,
+        "explosion_threshold": 1.7736204640412647,
+        "cliff_jump_count": 54,
+        "cliff_threshold": 0.024184574813212123,
+        "examples": [
+          {
+            "time": "2021-02-01T04:00:00+00:00",
+            "value": -0.16785102501139826,
+            "zscore": -37.68133395395793,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2026-01-30T07:00:00+00:00",
+            "value": 0.08236717668662918,
+            "zscore": 18.49294673919755,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-02-01T05:00:00+00:00",
+            "value": -0.06409386298527475,
+            "zscore": -14.38772899625504,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-06-29T11:00:00+00:00",
+            "value": 0.058216691517777974,
+            "zscore": 13.071134402826532,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2026-02-24T02:00:00+00:00",
+            "value": 0.053163990172592324,
+            "zscore": 11.936797005718699,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-12-29T15:00:00+00:00",
+            "value": 0.0491884529176293,
+            "zscore": 11.044284214279553,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-07-06T14:00:00+00:00",
+            "value": 0.04717715897358965,
+            "zscore": 10.5927463573123,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2022-12-27T02:00:00+00:00",
+            "value": 0.043915922830166654,
+            "zscore": 9.860595005875458,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-30T09:00:00+00:00",
+            "value": 0.041005129128707685,
+            "zscore": 9.207118394997417,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-05-18T15:00:00+00:00",
+            "value": 0.0406120661328494,
+            "zscore": 9.118875289941123,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-04-21T01:00:00+00:00",
+            "value": 0.038987898599889936,
+            "zscore": 8.754247767762372,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2023-09-25T17:00:00+00:00",
+            "value": 0.038637178449201004,
+            "zscore": 8.675510681268072,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-09-01T09:00:00+00:00",
+            "value": 0.038171874534191685,
+            "zscore": 8.571049404862201,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-15T03:00:00+00:00",
+            "value": 0.037679157698267685,
+            "zscore": 8.460433895456369,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-01-06T16:00:00+00:00",
+            "value": 0.037081081516840086,
+            "zscore": 8.32616508901698,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-08-22T16:00:00+00:00",
+            "value": 0.037038714714298315,
+            "zscore": 8.31665369199669,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-09-01T08:00:00+00:00",
+            "value": 0.036040140268710275,
+            "zscore": 8.092472554018682,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-10-26T13:00:00+00:00",
+            "value": 0.034937410664802604,
+            "zscore": 7.844908460446787,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-29T12:00:00+00:00",
+            "value": 0.0346212039976872,
+            "zscore": 7.773919691624028,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-12-02T03:00:00+00:00",
+            "value": 0.03417173405936835,
+            "zscore": 7.673013161615755,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2024-05-13T09:00:00+00:00",
+            "value": 0.03355862510049046,
+            "zscore": 7.535369478950894,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-09-28T17:00:00+00:00",
+            "value": 0.03291840620153608,
+            "zscore": 7.391639582840743,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-11T17:00:00+00:00",
+            "value": 0.03279855644086538,
+            "zscore": 7.364733170552446,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2026-01-30T09:00:00+00:00",
+            "value": -0.03237519547994561,
+            "zscore": -7.26685082046374,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2022-11-21T04:00:00+00:00",
+            "value": 0.03213796166437577,
+            "zscore": 7.216428865960954,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-13T06:00:00+00:00",
+            "value": 0.03213401530442073,
+            "zscore": 7.215542903507678,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-12-29T16:00:00+00:00",
+            "value": 0.0318793708795333,
+            "zscore": 7.158374930500515,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-01-30T08:00:00+00:00",
+            "value": 0.03182364987585984,
+            "zscore": 7.14586549961333,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2025-10-11T01:00:00+00:00",
+            "value": 0.03162027272838408,
+            "zscore": 7.100207090707235,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2026-02-03T05:00:00+00:00",
+            "value": 0.03147565095657523,
+            "zscore": 7.067739332771159,
+            "reason": "zscore,iqr,tail"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 2,
+        "max_zero_run": 0,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "Gaussian dynamics are expected to use one-sided smoothing and backward differences."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": 0.0010362670206058857,
+        "corr_return_1bar": 0.011297000229909622,
+        "corr_future_return_1bar": 0.00034052354800255476,
+        "corr_future_return_3bar": 0.0017250633271594638,
+        "corr_future_return_6bar": -0.0018839850235258884
+      }
+    },
+    "trend_pressure": {
+      "feature_name": "trend_pressure",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `trend_pressure` 用于衡量近期方向性位移相对于背景波动的强弱，是一个无量纲的波动率标准化趋势强度指标。\n- 它回答的问题是：市场最近是否在做一个相对于当前噪声水平而言足够显著的方向性运动。\n- 该特征本质上是趋势位移的标准化版本，而不是简单动量。",
+      "calculation": "设 `logp_t = \\log(price_t)`，`r_t = logp_t - logp_{t-1}`。\n生产实现定义为：\n$$\ntrend\\_pressure_t = \\frac{logp_t - logp_{t-k_{mom}}}{\\sqrt{k_{mom}}\\cdot \\hat{\\sigma}_t^{(k_{vol})} + \\varepsilon}\n$$\n其中：\n- `k_mom` 为趋势窗口，对应 `trend_pressure_mom_window_min`\n- `\\hat{\\sigma}_t^{(k_vol)}` 为背景 realized volatility，对应 `trend_pressure_vol_window_min`\n该定义更接近将最近 `k` 个 bar 的方向性位移按背景波动换算成若干 sigma 的趋势运动。",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45505,
+        "mean": 0.010574827226158262,
+        "std": 1.011082097626982,
+        "min": -5.4359968023821175,
+        "max": 3.931824781398398,
+        "median": 0.014584397859510004,
+        "p01": -2.503889483772902,
+        "p05": -1.7062730825820842,
+        "p25": -0.5980257970285959,
+        "p75": 0.6175989905588283,
+        "p95": 1.7214450035499442,
+        "p99": 2.5288613552620602,
+        "skew": -0.014722282440933428,
+        "kurtosis": 0.42512439981036865,
+        "zero_ratio": 2.197560707614548e-05,
+        "positive_ratio": 0.5060762553565542,
+        "negative_ratio": 0.4939017690363696,
+        "unique_count": 45505,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 4,
+        "missing_ratio": 8.78947021468281e-05,
+        "nan_count": 4,
+        "nan_ratio": 8.78947021468281e-05,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45505,
+        "valid_ratio": 0.9999121052978531
+      },
+      "outliers": {
+        "zscore_outlier_count": 2,
+        "iqr_outlier_count": 2,
+        "iqr_low": -4.244900159790869,
+        "iqr_high": 4.264473353321101,
+        "extreme_quantile_count": 912,
+        "extreme_low": -2.503889483772902,
+        "extreme_high": 2.5288613552620602,
+        "explosion_value_count": 0,
+        "explosion_threshold": 608.256638819197,
+        "cliff_jump_count": 0,
+        "cliff_threshold": 7.072267446159857,
+        "examples": [
+          {
+            "time": "2025-06-17T16:00:00+00:00",
+            "value": -5.4359968023821175,
+            "zscore": -5.386873768600417,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2025-06-17T15:00:00+00:00",
+            "value": -4.7310579094059335,
+            "zscore": -4.689661450599059,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2022-05-04T08:00:00+00:00",
+            "value": 3.931824781398398,
+            "zscore": 3.878270580970077,
+            "reason": "tail"
+          },
+          {
+            "time": "2025-10-14T07:00:00+00:00",
+            "value": -3.6634232897226675,
+            "zscore": -3.633728779860438,
+            "reason": "tail"
+          },
+          {
+            "time": "2022-03-22T04:00:00+00:00",
+            "value": 3.679206306369648,
+            "zscore": 3.62842096379097,
+            "reason": "tail"
+          },
+          {
+            "time": "2022-04-01T15:00:00+00:00",
+            "value": 3.6731751651436766,
+            "zscore": 3.6224559276775556,
+            "reason": "tail"
+          },
+          {
+            "time": "2021-12-23T19:00:00+00:00",
+            "value": 3.6640671762479875,
+            "zscore": 3.6134477680859005,
+            "reason": "tail"
+          },
+          {
+            "time": "2022-09-09T05:00:00+00:00",
+            "value": 3.6509068731658245,
+            "zscore": 3.6004317102276415,
+            "reason": "tail"
+          },
+          {
+            "time": "2025-12-15T16:00:00+00:00",
+            "value": -3.621964948565578,
+            "zscore": -3.592724848276254,
+            "reason": "tail"
+          },
+          {
+            "time": "2026-01-31T18:00:00+00:00",
+            "value": -3.612252049787688,
+            "zscore": -3.5831184089963126,
+            "reason": "tail"
+          },
+          {
+            "time": "2023-12-11T19:00:00+00:00",
+            "value": -3.59171731030122,
+            "zscore": -3.562808743208872,
+            "reason": "tail"
+          },
+          {
+            "time": "2022-01-20T15:00:00+00:00",
+            "value": 3.6063400785477504,
+            "zscore": 3.556353395793361,
+            "reason": "tail"
+          },
+          {
+            "time": "2022-04-26T15:00:00+00:00",
+            "value": -3.575222884511015,
+            "zscore": -3.546495106730769,
+            "reason": "tail"
+          },
+          {
+            "time": "2023-11-26T14:00:00+00:00",
+            "value": -3.5643752234956896,
+            "zscore": -3.5357663429233734,
+            "reason": "tail"
+          },
+          {
+            "time": "2023-03-09T20:00:00+00:00",
+            "value": -3.563946237451154,
+            "zscore": -3.5353420588365103,
+            "reason": "tail"
+          },
+          {
+            "time": "2024-01-27T21:00:00+00:00",
+            "value": 3.5757244273198934,
+            "zscore": 3.526073311416719,
+            "reason": "tail"
+          },
+          {
+            "time": "2022-11-16T15:00:00+00:00",
+            "value": -3.5529249850210225,
+            "zscore": -3.5244416062857247,
+            "reason": "tail"
+          },
+          {
+            "time": "2025-11-20T17:00:00+00:00",
+            "value": -3.5476185728882217,
+            "zscore": -3.519193355777428,
+            "reason": "tail"
+          },
+          {
+            "time": "2023-04-26T10:00:00+00:00",
+            "value": 3.5647385962313414,
+            "zscore": 3.515207891967264,
+            "reason": "tail"
+          },
+          {
+            "time": "2025-03-02T17:00:00+00:00",
+            "value": 3.562572740415279,
+            "zscore": 3.513065775297267,
+            "reason": "tail"
+          },
+          {
+            "time": "2022-04-26T16:00:00+00:00",
+            "value": -3.5156193653945844,
+            "zscore": -3.4875448797844895,
+            "reason": "tail"
+          },
+          {
+            "time": "2024-07-05T04:00:00+00:00",
+            "value": -3.5118208737373178,
+            "zscore": -3.483788021992049,
+            "reason": "tail"
+          },
+          {
+            "time": "2025-04-12T14:00:00+00:00",
+            "value": 3.53279560272893,
+            "zscore": 3.4836150138247453,
+            "reason": "tail"
+          },
+          {
+            "time": "2025-06-06T15:00:00+00:00",
+            "value": 3.5316734180304596,
+            "zscore": 3.4825051289784956,
+            "reason": "tail"
+          },
+          {
+            "time": "2022-06-01T16:00:00+00:00",
+            "value": -3.469104858711011,
+            "zscore": -3.4415402014376535,
+            "reason": "tail"
+          },
+          {
+            "time": "2021-07-26T01:00:00+00:00",
+            "value": 3.4879825244728986,
+            "zscore": 3.4392931151765462,
+            "reason": "tail"
+          },
+          {
+            "time": "2025-04-06T18:00:00+00:00",
+            "value": -3.462857003493782,
+            "zscore": -3.4353608266550393,
+            "reason": "tail"
+          },
+          {
+            "time": "2023-05-06T14:00:00+00:00",
+            "value": -3.457859254673645,
+            "zscore": -3.4304178563147802,
+            "reason": "tail"
+          },
+          {
+            "time": "2026-01-20T06:00:00+00:00",
+            "value": -3.439157232445326,
+            "zscore": -3.4119208200481776,
+            "reason": "tail"
+          },
+          {
+            "time": "2024-09-30T02:00:00+00:00",
+            "value": -3.4269366227268008,
+            "zscore": -3.399834155921489,
+            "reason": "tail"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 4,
+        "max_zero_run": 1,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "Rolling windows are expected to be trailing windows; confirm no centered rolling upstream."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": 0.011420889279189429,
+        "corr_return_1bar": 0.4919080328020148,
+        "corr_future_return_1bar": 0.011183380065301436,
+        "corr_future_return_3bar": 0.003270445171602449,
+        "corr_future_return_6bar": 0.0052400427746046845
+      }
+    },
+    "kalman_slope": {
+      "feature_name": "kalman_slope",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `kalman_slope` 是对近期价格潜在漂移的平滑估计，用于描述当前价格变化趋势。\n- 与固定窗口动量相比，它更平滑、更鲁棒，对单个噪声 bar 不那么敏感。\n- 它不是原始价格斜率，而是 log-price 空间下的局部线性趋势斜率，因此天然具有尺度可比性。",
+      "calculation": "对 `logp_t = \\log(price_t)` 建立一侧 local linear trend Kalman 模型：\n$$\n\\begin{bmatrix}\n\\ell_t \\\\\n\\beta_t\n\\end{bmatrix}\n=\n\\begin{bmatrix}\n1 & 1 \\\\\n0 & 1\n\\end{bmatrix}\n\\begin{bmatrix}\n\\ell_{t-1} \\\\\n\\beta_{t-1}\n\\end{bmatrix}\n+\n\\eta_t,\n\\qquad\nlogp_t = \\ell_t + \\epsilon_t\n$$\n其中 `\\beta_t` 即局部趋势斜率。最终定义：\n$$\nkalman\\_slope_t = \\hat{\\beta}_t\n$$\n生产实现再按 bar 长度统一换算为每小时尺度，使不同决策周期下数值更可比。",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "cliff_jumps",
+          "message": "Large one-bar jumps detected."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45509,
+        "mean": 1.9868410812427652e-05,
+        "std": 0.0014744415308867883,
+        "min": -0.010805866268600266,
+        "max": 0.009282347922843524,
+        "median": 2.232308337340045e-05,
+        "p01": -0.004467029773227848,
+        "p05": -0.002315350689588949,
+        "p25": -0.0006147304182661286,
+        "p75": 0.0006735475232447762,
+        "p95": 0.00233533573742099,
+        "p99": 0.004209094195768728,
+        "skew": -0.26149154958932574,
+        "kurtosis": 4.911817716817916,
+        "zero_ratio": 2.1973675536707026e-05,
+        "positive_ratio": 0.5120525610318838,
+        "negative_ratio": 0.48792546529257946,
+        "unique_count": 45509,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 0,
+        "missing_ratio": 0.0,
+        "nan_count": 0,
+        "nan_ratio": 0.0,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45509,
+        "valid_ratio": 1.0
+      },
+      "outliers": {
+        "zscore_outlier_count": 263,
+        "iqr_outlier_count": 794,
+        "iqr_low": -0.004479564242798843,
+        "iqr_high": 0.004538381347777491,
+        "extreme_quantile_count": 912,
+        "extreme_low": -0.004467029773227848,
+        "extreme_high": 0.004209094195768728,
+        "explosion_value_count": 0,
+        "explosion_threshold": 0.644025838214362,
+        "cliff_jump_count": 36,
+        "cliff_threshold": 0.0016770072713340248,
+        "examples": [
+          {
+            "time": "2021-12-04T09:00:00+00:00",
+            "value": -0.010805866268600266,
+            "zscore": -7.342261088441848,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T08:00:00+00:00",
+            "value": -0.010723908928879757,
+            "zscore": -7.286675744429449,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T11:00:00+00:00",
+            "value": -0.010660774792033624,
+            "zscore": -7.2438567275179,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T13:00:00+00:00",
+            "value": -0.010651591316081815,
+            "zscore": -7.237628283894038,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T10:00:00+00:00",
+            "value": -0.010636096948715566,
+            "zscore": -7.227119649240394,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T07:00:00+00:00",
+            "value": -0.010428791056235264,
+            "zscore": -7.086520047196073,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T14:00:00+00:00",
+            "value": -0.010414053157253206,
+            "zscore": -7.076524466718091,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T12:00:00+00:00",
+            "value": -0.010011642095970597,
+            "zscore": -6.803600072733758,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T12:00:00+00:00",
+            "value": -0.00983451292242644,
+            "zscore": -6.683467012294511,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-05-19T15:00:00+00:00",
+            "value": -0.009610111574090073,
+            "zscore": -6.531272880729727,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-23T11:00:00+00:00",
+            "value": -0.009491725249286499,
+            "zscore": -6.450980565080986,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-09T00:00:00+00:00",
+            "value": 0.009282347922843524,
+            "zscore": 6.28202564699888,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T13:00:00+00:00",
+            "value": -0.009203890178960953,
+            "zscore": -6.255764231102364,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T06:00:00+00:00",
+            "value": -0.009192326102670779,
+            "zscore": -6.247921209830968,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-08-05T06:00:00+00:00",
+            "value": -0.009143117135485618,
+            "zscore": -6.2145465617663795,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2022-06-13T14:00:00+00:00",
+            "value": -0.009108021987964225,
+            "zscore": -6.190744229299329,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-21T20:00:00+00:00",
+            "value": -0.009025479367570912,
+            "zscore": -6.1347619345360584,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-09T01:00:00+00:00",
+            "value": 0.009026738936121005,
+            "zscore": 6.108665780657632,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-08-05T07:00:00+00:00",
+            "value": -0.008984170824225294,
+            "zscore": -6.106745534780434,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2022-06-13T11:00:00+00:00",
+            "value": -0.00893299728556445,
+            "zscore": -6.072038469366952,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2022-06-13T15:00:00+00:00",
+            "value": -0.008861354797337514,
+            "zscore": -6.023448893770931,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-23T18:00:00+00:00",
+            "value": -0.008839849519805787,
+            "zscore": -6.008863522237892,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-23T16:00:00+00:00",
+            "value": -0.008827555937093478,
+            "zscore": -6.000525733010729,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-23T17:00:00+00:00",
+            "value": -0.008799360935799123,
+            "zscore": -5.981403237676921,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2022-06-13T12:00:00+00:00",
+            "value": -0.008781486484351172,
+            "zscore": -5.969280375512831,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-08-05T08:00:00+00:00",
+            "value": -0.008697802357353082,
+            "zscore": -5.9125238848381825,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2024-08-05T12:00:00+00:00",
+            "value": -0.008683596589771032,
+            "zscore": -5.90288920805754,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-07-26T06:00:00+00:00",
+            "value": 0.008721232413172372,
+            "zscore": 5.901464262965106,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-21T21:00:00+00:00",
+            "value": -0.00864409607556871,
+            "zscore": -5.876099055057329,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2022-11-09T23:00:00+00:00",
+            "value": -0.008635806181588237,
+            "zscore": -5.870476659182813,
+            "reason": "zscore,iqr,tail"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 0,
+        "max_zero_run": 1,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "Kalman slope is expected to use forward filtering only, not smoothing."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": 0.020164228896271497,
+        "corr_return_1bar": 0.11515330296680922,
+        "corr_future_return_1bar": 0.0012733384619942366,
+        "corr_future_return_3bar": 0.002666271712849156,
+        "corr_future_return_6bar": 0.006727835828214777
+      }
+    },
+    "vol_adaptive": {
+      "feature_name": "vol_adaptive",
+      "category": "4.2 Side-specific liquidation bursts (cascade texture)",
+      "description": "- `vol_adaptive` 是一个严格因果、能根据当前市场状态在短窗与长窗之间自动调节的自适应 realized volatility。\n- 它回答的问题是：市场当前到底有多 turbulent，而且这种 turbulent 是短期爆发还是长期背景风险的一部分。\n- 与单一窗口 volatility 相比，它更适合 BTC 这种具有强波动聚集与 regime switching 特征的市场。",
+      "calculation": "1. 计算 log return：\n$$\nr_t = \\log\\left(\\frac{P_t}{P_{t-1}}\\right)\n$$\n2. 计算两个严格因果 realized volatility：\n- `short_vol_t`：短窗 realized volatility，对应 `price_vol_adaptive_short_window_min`\n- `long_vol_t`：长窗 realized volatility，对应 `price_vol_adaptive_long_window_min`\n3. 计算短长波动比的对数形式：\n$$\nu_t = \\log\\left(\\frac{short\\_vol_t + \\varepsilon}{long\\_vol_t + \\varepsilon}\\right)\n$$\n4. 使用 sigmoid 将其映射为自适应权重：\n$$\nw_t = w_{min} + (1 - w_{min})\\cdot \\sigma(\\gamma \\nu_t)\n$$\n其中 `\\sigma(\\cdot)` 为 sigmoid 函数，`w_min` 与 `\\gamma` 分别对应 `price_vol_adaptive_min_weight` 与 `price_vol_adaptive_sigmoid_gamma`。\n5. 形成最终自适应波动：\n$$\nvol\\_adaptive_t = w_t \\cdot short\\_vol_t + (1 - w_t) \\cdot long\\_vol_t\n$$\n当短窗波动显著高于长窗波动时，权重向短窗移动；当市场较平稳时，权重更多保留在长窗。\n## 5. 输出特征检验与可视化报告\n完整 pipeline 会对本文档列出的全部 9 个最终输出特征生成自动化诊断报告。报告只用于研究校验和问题定位，不改变特征计算结果。\n默认报告目录：\n```text\nbtc_liqprice_features_artifact/reports/feature_diagnostics/\n```\n报告包含：\n- `index.html`：总览页，展示样本区间、特征数量、缺失特征数量、PASS/WARN/FAIL 统计、可搜索排序的特征汇总表、相关性热力图和高相关特征对。\n- `features/<feature_name>.html`：单特征详情页，展示特征说明、类别、检验状态、异常摘要、统计表、全历史交互式时间序列、分布图、箱线图、rolling 统计、缺失值分布和价格/收益关系图。\n- `summary.json`：机器可读的检验结果。\n检验范围：\n- 基础完整性：字段是否存在、dtype、全空、NaN/inf、有效样本数、重复时间戳、时间单调性、时间间隔异常。\n- 数值分布：count、mean、std、min、max、median、1/5/25/75/95/99 分位数、skew、kurtosis、zero/positive/negative ratio、unique count、constant flag。\n- 异常值：z-score、IQR、分位数尾部、爆炸值、断崖跳变和对应时间点。\n- 时间序列合理性：rolling mean/std/min/max/quantile、长时间全 0、长时间缺失、长时间近似常数。\n- 特征关系：若价格上下文存在，报告会计算特征与价格、当前收益、未来收益的相关性，并生成特征相关性矩阵。相关性仅用于诊断，不代表确定预测能力。\n- 未来函数风险：报告会对 rolling、KAMA、Gaussian、Kalman 等特征给出自动可见的人工确认提示。无法从输出数据完全证明的项会标记为需要人工确认。\n状态规则：\n- `FAIL`：特征缺失、数据为空、全 NaN、非数值、inf 达到阈值、有效样本不足或缺失率超过失败阈值。\n- `WARN`：缺失率超过警告阈值、近似常数列、异常点、爆炸值、断崖跳变、长时间全 0/缺失/常数或时间索引异常。\n- `PASS`：未触发 FAIL 或 WARN。\n执行入口：\n```bash\npython -m btc_liqprice_features_artifact.feature_liqprice\n```\n单独重建报告：\n```bash\npython -m btc_liqprice_features_artifact.feature_diagnostics \\\n--config btc_liqprice_features_artifact/configs/feature_liqprice.json\n```",
+      "exists": true,
+      "dtype": "float64",
+      "dtype_reasonable": true,
+      "status": "WARN",
+      "issues": [
+        {
+          "severity": "WARN",
+          "code": "outliers_detected",
+          "message": "Outliers were detected by z-score or IQR diagnostics."
+        },
+        {
+          "severity": "WARN",
+          "code": "cliff_jumps",
+          "message": "Large one-bar jumps detected."
+        },
+        {
+          "severity": "WARN",
+          "code": "time_gap_anomaly",
+          "message": "Abnormal time interval jumps were detected."
+        }
+      ],
+      "stats": {
+        "count": 45501,
+        "mean": 0.0053094138998097465,
+        "std": 0.003537792029774906,
+        "min": 0.0003954726740885248,
+        "max": 0.07236568222875656,
+        "median": 0.0044604300085434225,
+        "p01": 0.0010763495648442695,
+        "p05": 0.001681925498031943,
+        "p25": 0.00311323756552527,
+        "p75": 0.006481577192875806,
+        "p95": 0.011544177627812433,
+        "p99": 0.018283237010009595,
+        "skew": 3.178088032148742,
+        "kurtosis": 24.5023902397027,
+        "zero_ratio": 0.0,
+        "positive_ratio": 1.0,
+        "negative_ratio": 0.0,
+        "unique_count": 45501,
+        "constant_flag": false
+      },
+      "missing": {
+        "total_count": 45509,
+        "missing_count": 8,
+        "missing_ratio": 0.0001757894042936562,
+        "nan_count": 8,
+        "nan_ratio": 0.0001757894042936562,
+        "pos_inf_count": 0,
+        "neg_inf_count": 0,
+        "inf_count": 0,
+        "inf_ratio": 0.0,
+        "valid_count": 45501,
+        "valid_ratio": 0.9998242105957064
+      },
+      "outliers": {
+        "zscore_outlier_count": 370,
+        "iqr_outlier_count": 649,
+        "iqr_low": -0.006991781316526339,
+        "iqr_high": 0.016586596074927414,
+        "extreme_quantile_count": 910,
+        "extreme_low": 0.0010763495648442695,
+        "extreme_high": 0.018283237010009595,
+        "explosion_value_count": 0,
+        "explosion_threshold": 1.5996627249880828,
+        "cliff_jump_count": 1146,
+        "cliff_threshold": 0.003052165208120579,
+        "examples": [
+          {
+            "time": "2021-05-19T16:00:00+00:00",
+            "value": 0.07236568222875656,
+            "zscore": 18.954270845935877,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-05-19T17:00:00+00:00",
+            "value": 0.07221852573522329,
+            "zscore": 18.91267527098552,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T15:00:00+00:00",
+            "value": 0.06868050101188039,
+            "zscore": 17.91260949731482,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T14:00:00+00:00",
+            "value": 0.06778103460659578,
+            "zscore": 17.658364364272938,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T13:00:00+00:00",
+            "value": 0.06667499457254916,
+            "zscore": 17.345728679433943,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-05-19T12:00:00+00:00",
+            "value": 0.05717452439207896,
+            "zscore": 14.660305087399147,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-02-23T16:00:00+00:00",
+            "value": 0.04409795855920808,
+            "zscore": 10.964054509972502,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-23T15:00:00+00:00",
+            "value": 0.04309469236424282,
+            "zscore": 10.680469102316673,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-02-23T17:00:00+00:00",
+            "value": 0.04259049744280529,
+            "zscore": 10.537952267750338,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-06-22T16:00:00+00:00",
+            "value": 0.040796607559947275,
+            "zscore": 10.030887446596294,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-06-22T17:00:00+00:00",
+            "value": 0.04015986726081605,
+            "zscore": 9.850905046903982,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-06-22T15:00:00+00:00",
+            "value": 0.039975331966134946,
+            "zscore": 9.798743898614877,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-05-20T04:00:00+00:00",
+            "value": 0.03893485193632028,
+            "zscore": 9.504639547353484,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-20T02:00:00+00:00",
+            "value": 0.03875420340247733,
+            "zscore": 9.453577039347767,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-20T03:00:00+00:00",
+            "value": 0.03842799791961538,
+            "zscore": 9.361371087127702,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T18:00:00+00:00",
+            "value": 0.03783811544299721,
+            "zscore": 9.194633621597342,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-05-20T01:00:00+00:00",
+            "value": 0.037575578249238156,
+            "zscore": 9.12042428663659,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T23:00:00+00:00",
+            "value": 0.03701476658274728,
+            "zscore": 8.961904039609362,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-05-20T00:00:00+00:00",
+            "value": 0.03700195241789998,
+            "zscore": 8.958281959865992,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-04-18T08:00:00+00:00",
+            "value": 0.03687191582967121,
+            "zscore": 8.921525534633998,
+            "reason": "zscore,iqr,tail,cliff"
+          },
+          {
+            "time": "2021-02-23T19:00:00+00:00",
+            "value": 0.036103516905274816,
+            "zscore": 8.704328221188389,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T21:00:00+00:00",
+            "value": 0.036038329953073614,
+            "zscore": 8.685902335310256,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T10:00:00+00:00",
+            "value": 0.03590060454875961,
+            "zscore": 8.646972572578338,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-05-19T20:00:00+00:00",
+            "value": 0.035838600530481976,
+            "zscore": 8.629446381735068,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2022-11-08T21:00:00+00:00",
+            "value": 0.035489470244636105,
+            "zscore": 8.530760454776246,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-23T14:00:00+00:00",
+            "value": 0.03548893819080367,
+            "zscore": 8.530610063281225,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T09:00:00+00:00",
+            "value": 0.03542796465830236,
+            "zscore": 8.51337515179176,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-03-18T18:00:00+00:00",
+            "value": 0.035164244345922385,
+            "zscore": 8.43883139394493,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-12-04T08:00:00+00:00",
+            "value": 0.03506730918235349,
+            "zscore": 8.411431489498016,
+            "reason": "zscore,iqr,tail"
+          },
+          {
+            "time": "2021-02-23T18:00:00+00:00",
+            "value": 0.03491965156701981,
+            "zscore": 8.369694266368176,
+            "reason": "zscore,iqr,tail,cliff"
+          }
+        ]
+      },
+      "time_series": {
+        "max_missing_run": 8,
+        "max_zero_run": 0,
+        "max_near_constant_run": 0
+      },
+      "time_index": {
+        "time_col": "time",
+        "has_time_col": true,
+        "start_time": "2021-02-01T01:00:00+00:00",
+        "end_time": "2026-05-12T02:00:00+00:00",
+        "duplicate_timestamp_count": 0,
+        "is_monotonic_increasing": true,
+        "median_interval_minutes": 60.0,
+        "time_gap_anomaly_count": 25,
+        "time_gap_examples": [
+          {
+            "time": "2022-10-15T07:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-10-22T09:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2022-12-10T07:00:00+00:00",
+            "gap_minutes": 420.0
+          },
+          {
+            "time": "2022-12-10T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-10T21:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T03:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2022-12-11T15:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-15T08:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T03:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2022-12-24T16:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T08:00:00+00:00",
+            "gap_minutes": 480.0
+          },
+          {
+            "time": "2022-12-25T14:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-01-01T12:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-01-01T16:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-05T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-01-07T21:00:00+00:00",
+            "gap_minutes": 360.0
+          },
+          {
+            "time": "2023-05-20T05:00:00+00:00",
+            "gap_minutes": 300.0
+          },
+          {
+            "time": "2023-06-04T13:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-07-29T08:00:00+00:00",
+            "gap_minutes": 240.0
+          },
+          {
+            "time": "2023-08-15T12:00:00+00:00",
+            "gap_minutes": 240.0
+          }
+        ]
+      },
+      "leakage": {
+        "status": "NEEDS_MANUAL_CONFIRM",
+        "note": "Rolling windows are expected to be trailing windows; confirm no centered rolling upstream."
+      },
+      "relationships": {
+        "price_available": true,
+        "corr_price": -0.1250580699550299,
+        "corr_return_1bar": 0.008310402659902967,
+        "corr_future_return_1bar": 0.016437979144899653,
+        "corr_future_return_3bar": 0.018289298772638,
+        "corr_future_return_6bar": 0.019431472744113942
+      }
+    }
+  },
+  "correlation_matrix": {
+    "fll_spike_kama": {
+      "fll_spike_kama": 1.0,
+      "fsl_spike_kama": 0.24831530880402997,
+      "fll_velocity_gaussian": 0.7424989952986258,
+      "fll_acceleration_gaussian": -0.1776285508412051,
+      "fsl_velocity_gaussian": 0.19495884647877337,
+      "fsl_acceleration_gaussian": -0.01879496100367782,
+      "trend_pressure": -0.06693986238533467,
+      "kalman_slope": -0.26997608410191076,
+      "vol_adaptive": 0.15711750944610192,
+      "price": 0.012090784008490979,
+      "return_1bar": -0.0069840673938886015,
+      "future_return_1bar": -0.004164940943490866,
+      "future_return_3bar": -0.004225956732591764,
+      "future_return_6bar": -0.0004605822668028193
+    },
+    "fsl_spike_kama": {
+      "fll_spike_kama": 0.24831530880402997,
+      "fsl_spike_kama": 1.0,
+      "fll_velocity_gaussian": 0.19083379500852624,
+      "fll_acceleration_gaussian": -0.03276315659459042,
+      "fsl_velocity_gaussian": 0.7010599281172125,
+      "fsl_acceleration_gaussian": -0.17193236731742864,
+      "trend_pressure": 0.048456689379087925,
+      "kalman_slope": 0.1378514561723534,
+      "vol_adaptive": 0.17172161170108383,
+      "price": 0.00030994673055777954,
+      "return_1bar": 0.0036935496255587315,
+      "future_return_1bar": 0.0029641040478375737,
+      "future_return_3bar": 0.006817230175378572,
+      "future_return_6bar": 0.014135011231407002
+    },
+    "fll_velocity_gaussian": {
+      "fll_spike_kama": 0.7424989952986258,
+      "fsl_spike_kama": 0.19083379500852624,
+      "fll_velocity_gaussian": 1.0,
+      "fll_acceleration_gaussian": 0.16926137996594973,
+      "fsl_velocity_gaussian": 0.24108707150092326,
+      "fsl_acceleration_gaussian": 0.02178507276917122,
+      "trend_pressure": -0.14865543966041414,
+      "kalman_slope": -0.24966034703672485,
+      "vol_adaptive": 0.2458651181476995,
+      "price": -0.002339179851242222,
+      "return_1bar": -0.01051306572113874,
+      "future_return_1bar": -0.006764571519264325,
+      "future_return_3bar": -0.010431737476028673,
+      "future_return_6bar": -0.010831828723616101
+    },
+    "fll_acceleration_gaussian": {
+      "fll_spike_kama": -0.1776285508412051,
+      "fsl_spike_kama": -0.03276315659459042,
+      "fll_velocity_gaussian": 0.16926137996594973,
+      "fll_acceleration_gaussian": 1.0,
+      "fsl_velocity_gaussian": -0.009699648470433066,
+      "fsl_acceleration_gaussian": 0.052168716663109106,
+      "trend_pressure": -0.26937030697149716,
+      "kalman_slope": 0.028734317719748544,
+      "vol_adaptive": 0.05243712844031554,
+      "price": 0.00041905427191266445,
+      "return_1bar": -0.011291194769543858,
+      "future_return_1bar": -0.002060373701229185,
+      "future_return_3bar": -0.004347019883728126,
+      "future_return_6bar": -0.004926372714544698
+    },
+    "fsl_velocity_gaussian": {
+      "fll_spike_kama": 0.19495884647877337,
+      "fsl_spike_kama": 0.7010599281172125,
+      "fll_velocity_gaussian": 0.24108707150092326,
+      "fll_acceleration_gaussian": -0.009699648470433066,
+      "fsl_velocity_gaussian": 1.0,
+      "fsl_acceleration_gaussian": 0.15584537460613473,
+      "trend_pressure": 0.1317579577338722,
+      "kalman_slope": 0.12533241112454954,
+      "vol_adaptive": 0.2785903230008271,
+      "price": -0.004808618104502748,
+      "return_1bar": 0.004681790913807936,
+      "future_return_1bar": 0.0004162917793753314,
+      "future_return_3bar": 0.00021328146425962218,
+      "future_return_6bar": 0.0012185607237305744
+    },
+    "fsl_acceleration_gaussian": {
+      "fll_spike_kama": -0.01879496100367782,
+      "fsl_spike_kama": -0.17193236731742864,
+      "fll_velocity_gaussian": 0.02178507276917122,
+      "fll_acceleration_gaussian": 0.052168716663109106,
+      "fsl_velocity_gaussian": 0.15584537460613473,
+      "fsl_acceleration_gaussian": 1.0,
+      "trend_pressure": 0.25289586622287386,
+      "kalman_slope": -0.04527526612376915,
+      "vol_adaptive": 0.06001048761011838,
+      "price": 0.0010362670206058857,
+      "return_1bar": 0.011297000229909622,
+      "future_return_1bar": 0.00034052354800255476,
+      "future_return_3bar": 0.0017250633271594638,
+      "future_return_6bar": -0.0018839850235258884
+    },
+    "trend_pressure": {
+      "fll_spike_kama": -0.06693986238533467,
+      "fsl_spike_kama": 0.048456689379087925,
+      "fll_velocity_gaussian": -0.14865543966041414,
+      "fll_acceleration_gaussian": -0.26937030697149716,
+      "fsl_velocity_gaussian": 0.1317579577338722,
+      "fsl_acceleration_gaussian": 0.25289586622287386,
+      "trend_pressure": 1.0,
+      "kalman_slope": 0.27987433674277584,
+      "vol_adaptive": -0.0049960555976287,
+      "price": 0.011420889279189429,
+      "return_1bar": 0.4919080328020148,
+      "future_return_1bar": 0.011183380065301436,
+      "future_return_3bar": 0.003270445171602449,
+      "future_return_6bar": 0.0052400427746046845
+    },
+    "kalman_slope": {
+      "fll_spike_kama": -0.26997608410191076,
+      "fsl_spike_kama": 0.1378514561723534,
+      "fll_velocity_gaussian": -0.24966034703672485,
+      "fll_acceleration_gaussian": 0.028734317719748544,
+      "fsl_velocity_gaussian": 0.12533241112454954,
+      "fsl_acceleration_gaussian": -0.04527526612376915,
+      "trend_pressure": 0.27987433674277584,
+      "kalman_slope": 1.0,
+      "vol_adaptive": -0.09634304761912162,
+      "price": 0.020164228896271497,
+      "return_1bar": 0.11515330296680922,
+      "future_return_1bar": 0.0012733384619942366,
+      "future_return_3bar": 0.002666271712849156,
+      "future_return_6bar": 0.006727835828214777
+    },
+    "vol_adaptive": {
+      "fll_spike_kama": 0.15711750944610192,
+      "fsl_spike_kama": 0.17172161170108383,
+      "fll_velocity_gaussian": 0.2458651181476995,
+      "fll_acceleration_gaussian": 0.05243712844031554,
+      "fsl_velocity_gaussian": 0.2785903230008271,
+      "fsl_acceleration_gaussian": 0.06001048761011838,
+      "trend_pressure": -0.0049960555976287,
+      "kalman_slope": -0.09634304761912162,
+      "vol_adaptive": 1.0,
+      "price": -0.1250580699550299,
+      "return_1bar": 0.008310402659902967,
+      "future_return_1bar": 0.016437979144899653,
+      "future_return_3bar": 0.018289298772638,
+      "future_return_6bar": 0.019431472744113942
+    },
+    "price": {
+      "fll_spike_kama": 0.012090784008490979,
+      "fsl_spike_kama": 0.00030994673055777954,
+      "fll_velocity_gaussian": -0.002339179851242222,
+      "fll_acceleration_gaussian": 0.00041905427191266445,
+      "fsl_velocity_gaussian": -0.004808618104502748,
+      "fsl_acceleration_gaussian": 0.0010362670206058857,
+      "trend_pressure": 0.011420889279189429,
+      "kalman_slope": 0.020164228896271497,
+      "vol_adaptive": -0.1250580699550299,
+      "price": 1.0,
+      "return_1bar": 0.004942630994152044,
+      "future_return_1bar": -0.005567807509461322,
+      "future_return_3bar": -0.009637362605927397,
+      "future_return_6bar": -0.013536927476146758
+    },
+    "return_1bar": {
+      "fll_spike_kama": -0.0069840673938886015,
+      "fsl_spike_kama": 0.0036935496255587315,
+      "fll_velocity_gaussian": -0.01051306572113874,
+      "fll_acceleration_gaussian": -0.011291194769543858,
+      "fsl_velocity_gaussian": 0.004681790913807936,
+      "fsl_acceleration_gaussian": 0.011297000229909622,
+      "trend_pressure": 0.4919080328020148,
+      "kalman_slope": 0.11515330296680922,
+      "vol_adaptive": 0.008310402659902967,
+      "price": 0.004942630994152044,
+      "return_1bar": 1.0,
+      "future_return_1bar": 0.022609242257852668,
+      "future_return_3bar": 0.00429545867652417,
+      "future_return_6bar": -0.0008219282761604081
+    },
+    "future_return_1bar": {
+      "fll_spike_kama": -0.004164940943490866,
+      "fsl_spike_kama": 0.0029641040478375737,
+      "fll_velocity_gaussian": -0.006764571519264325,
+      "fll_acceleration_gaussian": -0.002060373701229185,
+      "fsl_velocity_gaussian": 0.0004162917793753314,
+      "fsl_acceleration_gaussian": 0.00034052354800255476,
+      "trend_pressure": 0.011183380065301436,
+      "kalman_slope": 0.0012733384619942366,
+      "vol_adaptive": 0.016437979144899653,
+      "price": -0.005567807509461322,
+      "return_1bar": 0.022609242257852668,
+      "future_return_1bar": 1.0,
+      "future_return_3bar": 0.5767333805964437,
+      "future_return_6bar": 0.40072258028340735
+    },
+    "future_return_3bar": {
+      "fll_spike_kama": -0.004225956732591764,
+      "fsl_spike_kama": 0.006817230175378572,
+      "fll_velocity_gaussian": -0.010431737476028673,
+      "fll_acceleration_gaussian": -0.004347019883728126,
+      "fsl_velocity_gaussian": 0.00021328146425962218,
+      "fsl_acceleration_gaussian": 0.0017250633271594638,
+      "trend_pressure": 0.003270445171602449,
+      "kalman_slope": 0.002666271712849156,
+      "vol_adaptive": 0.018289298772638,
+      "price": -0.009637362605927397,
+      "return_1bar": 0.00429545867652417,
+      "future_return_1bar": 0.5767333805964437,
+      "future_return_3bar": 1.0,
+      "future_return_6bar": 0.7016878070325915
+    },
+    "future_return_6bar": {
+      "fll_spike_kama": -0.0004605822668028193,
+      "fsl_spike_kama": 0.014135011231407002,
+      "fll_velocity_gaussian": -0.010831828723616101,
+      "fll_acceleration_gaussian": -0.004926372714544698,
+      "fsl_velocity_gaussian": 0.0012185607237305744,
+      "fsl_acceleration_gaussian": -0.0018839850235258884,
+      "trend_pressure": 0.0052400427746046845,
+      "kalman_slope": 0.006727835828214777,
+      "vol_adaptive": 0.019431472744113942,
+      "price": -0.013536927476146758,
+      "return_1bar": -0.0008219282761604081,
+      "future_return_1bar": 0.40072258028340735,
+      "future_return_3bar": 0.7016878070325915,
+      "future_return_6bar": 1.0
+    }
+  },
+  "high_correlation_pairs": []
+}

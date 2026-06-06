@@ -1,0 +1,22 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+liq_data_download/glassnode.yaml
+
+# Large generated artifacts and datasets.
+input.zip
+model_input.zip
+liq_pressure_hmm/input/BTC_price_lld_10m.csv
+liq_pressure_hmm/output/hmm_state.csv
+model_input/path_absorption_multiscale.csv
+model_input/plie_predictions_source.csv
+model_input/price_context_features.csv
+plie_pic_project/outputs/predictions/latest_plie_predictions_source.csv
+plie_pic_project/outputs/predictions/plie_predictions_source.csv
+plie_pic_project/reports/html/feature_statistics.html
+price_context/output/price_context_features.csv
+price_context/output/price_context_features.csv.zip
+qd_mar_project/output/features/path_absorption_multiscale.csv

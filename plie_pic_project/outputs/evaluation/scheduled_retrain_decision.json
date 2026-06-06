@@ -1,0 +1,10 @@
+{
+  "decision": {
+    "due": false,
+    "reason": "not due: monthly cadence and drift triggers are within tolerance",
+    "days_since_model_update": 0.0017853555439814814,
+    "monitor_status": "ok",
+    "model_path": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/plie_pic_project/models/plie_pic_model.joblib"
+  },
+  "trained": false
+}

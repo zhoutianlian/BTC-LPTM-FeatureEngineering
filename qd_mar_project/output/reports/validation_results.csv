@@ -1,0 +1,7 @@
+name,passed,details
+timestamp_monotonicity,True,"rows=40508, missing=0, duplicates=0"
+source_clock_alignment,True,max_age_min=0.0
+split_order,True,"{'train': 27905, 'test': 6623, 'validation': 5980}"
+agent_inputs_no_future_columns,True,bad=[]
+available_time,True,rows=121521
+memory_asof,True,memory_rows=40508

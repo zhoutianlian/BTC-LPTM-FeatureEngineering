@@ -1,0 +1,77 @@
+project:
+  name: "BTC Glassnode Raw Data Download"
+  description: "Download raw BTC market/liquidation datasets from Glassnode into CSV files."
+
+credentials:
+  env_var: "GLASSNODE_API_KEY"
+  config_filename: "glassnode.yaml"
+  base_url: "https://api.glassnode.com/v1"
+  requests_per_minute: 10
+
+output:
+  raw_root: "data/raw"
+  manifests_root: "data/manifests"
+  logs_root: "logs"
+  latest_log_filename: "latest.log"
+  run_history_filename: "run_history.csv"
+  catalog_csv_filename: "download_catalog.csv"
+  catalog_md_filename: "download_catalog.md"
+  catalog_json_filename: "download_catalog.json"
+
+validation:
+  enabled: true
+  raise_on_error: true
+  max_missing_ratio_pct: 5.0
+  max_stale_hours_price_10m: 3.5
+  max_stale_hours_hourly: 6.0
+
+datasets:
+  hourly_liquidation_bundle:
+    enabled: true
+    asset: "BTC"
+    interval: "1h"
+    start_time: "2021-02-01T00:00:00Z"
+    output_csv: "data/raw/hourly/BTC_price_lld.csv"
+    description: "Hourly BTC USD close price plus long/short futures liquidation volumes."
+    join: "inner"
+    metrics:
+      - endpoint: "metrics/market/price_usd_close"
+        value_name: "price"
+        description: "BTC composite USD close price."
+      - endpoint: "metrics/derivatives/futures_liquidated_volume_long_sum"
+        value_name: "futures_long_liquidations"
+        description: "Total long-futures liquidation volume."
+      - endpoint: "metrics/derivatives/futures_liquidated_volume_short_sum"
+        value_name: "futures_short_liquidations"
+        description: "Total short-futures liquidation volume."
+
+  btc_price_10m:
+    enabled: true
+    asset: "BTC"
+    interval: "10m"
+    start_time: "2021-02-01T00:00:00Z"
+    output_csv: "data/raw/intraday/BTC_price_10m.csv"
+    description: "10-minute BTC USD close price."
+    join: "inner"
+    metrics:
+      - endpoint: "metrics/market/price_usd_close"
+        value_name: "price"
+        description: "BTC composite USD close price at 10-minute resolution."
+
+  btc_ohlc_10m:
+    enabled: true
+    asset: "BTC"
+    interval: "10m"
+    start_time: "2021-02-01T00:00:00Z"
+    output_csv: "data/raw/intraday/ohlc.csv"
+    description: "10-minute BTC USD OHLC candles."
+    join: "inner"
+    metrics:
+      - endpoint: "metrics/market/price_usd_ohlc"
+        value_name: "ohlc"
+        description: "BTC composite USD OHLC candles at 10-minute resolution."
+        value_fields:
+          o: "open"
+          h: "high"
+          l: "low"
+          c: "close"

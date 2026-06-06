@@ -1,0 +1,10 @@
+{
+  "run_id": "20260429T091207Z",
+  "root_dir": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download",
+  "dry_run": false,
+  "status": "FAILED",
+  "error_message": "DataDownloadError(\"Glassnode request failed endpoint=metrics/derivatives/futures_liquidated_volume_short_sum error=SSLError: HTTPSConnectionPool(host='api.glassnode.com', port=443): Max retries exceeded with url: /v1/metrics/derivatives/futures_liquidated_volume_short_sum?a=BTC&i=1h&u=1777453927&timestamp_format=unix&s=1612137600&api_key=*** (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1006)'))) url=https://api.glassnode.com/v1/metrics/derivatives/futures_liquidated_volume_short_sum?a=BTC&i=1h&u=1777453927&timestamp_format=unix&s=1612137600&api_key=***\")",
+  "log_file": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/logs/runs/20260429T091207Z/pipeline.log",
+  "catalog_csv": "/Users/zhoutianlian/Documents/MyGitHub/WTRCodeHub/BTC-LPTM-FeatureEngineering/liq_data_download/data/manifests/download_catalog.csv",
+  "datasets": 0
+}

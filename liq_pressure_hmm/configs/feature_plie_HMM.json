@@ -1,0 +1,78 @@
+{
+  "paths": {
+    "features_rpn": "liq_dataflow/data/features/features_liq_dataflow.csv",
+    "price_10m": "liq_data_download/data/raw/intraday/BTC_price_10m.csv",
+    "merged_output": "liq_pressure_hmm/input/BTC_price_lld_10m.csv",
+    "bundle_output": "liq_pressure_hmm/model/liq_hmm_bundle.joblib",
+    "states_output": "liq_pressure_hmm/output/hmm_state.csv",
+    "vis_output": "liq_pressure_hmm/output/hmm_price_states.html"
+  },
+  "alignment_config": {
+    "time_col": "time",
+    "price_col": "price",
+    "feature_timestamp_offset": "50min",
+    "merge_tolerance": "70min",
+    "source_time_col": "liq_feature_time",
+    "source_age_col": "liq_feature_age_min",
+    "keep_raw_source_time": true,
+    "raw_source_time_col": "liq_feature_time_raw"
+  },
+  "feature_config": {
+    "timestamp_col": "time",
+    "col_L": "fll_cwt_kf",
+    "col_S": "fsl_cwt_kf",
+    "col_rpn": "risk_priority_number",
+    "col_diff": "diff_ls_cwt_kf",
+    "source_time_col": "liq_feature_time",
+    "use_source_clock": true,
+    "output_bar_minutes": 10,
+    "lookback": "365D",
+    "min_obs": 5000,
+    "clip": 0.0001,
+    "progress_every": 5000
+  },
+  "hmm_config": {
+    "n_states": 5,
+    "covariance_type": "diag",
+    "n_iter": 300,
+    "tol": 0.001,
+    "p_stay": 0.985,
+    "transmat_diag_conc": 25.0,
+    "transmat_offdiag_conc": 1.0,
+    "n_restarts": 10,
+    "random_state_base": 0,
+    "verbose_em": false,
+    "min_covar": 1e-06
+  },
+  "inference_config": {
+    "mode": "filtered",
+    "allow_future": false,
+    "decision": "debounce",
+    "confirm_bars": 2,
+    "switch_prob": 0.6,
+    "min_duration_bars": 0,
+    "one_based_states": true
+  },
+  "train": {
+    "val_fraction": 0.2,
+    "relabel_neutral_eps": 0.5
+  },
+  "stability": {
+    "enabled": true,
+    "preserve_existing_output": true,
+    "history_reference": "input.zip::input/hmm_state.csv",
+    "report_output": "liq_pressure_hmm/output/stability_overlay_report.json"
+  },
+  "visualization": {
+    "tail_days": null,
+    "diagnostic_dir": "liq_pressure_hmm/output/diagnostics",
+    "event_quantile": 0.99,
+    "price_plot_max_points": 60000,
+    "dashboard_max_points": 30000,
+    "state_boxplot_max_points_per_state": 6000,
+    "max_shape_segments": 1200,
+    "write_index": true,
+    "state_background_max_points": 8000,
+    "state_background_opacity": 0.2
+  }
+}
